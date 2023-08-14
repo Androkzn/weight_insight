@@ -1,0 +1,814 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		51E24915E4479C95767DDB80 /* Pods_WeightInsight_WeightInsightUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 680F4A8ED97E34225168B298 /* Pods_WeightInsight_WeightInsightUITests.framework */; };
+		9D80431AFE7C6A653FDB0FB8 /* Pods_WeightInsightTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8684081670281B59F2F8B47B /* Pods_WeightInsightTests.framework */; };
+		C84F22792A89407300DA46A8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84F22782A89407300DA46A8 /* ContentView.swift */; };
+		C84F227B2A89407400DA46A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C84F227A2A89407400DA46A8 /* Assets.xcassets */; };
+		C84F227E2A89407400DA46A8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C84F227D2A89407400DA46A8 /* Preview Assets.xcassets */; };
+		C84F22882A89407400DA46A8 /* WeightInsightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84F22872A89407400DA46A8 /* WeightInsightTests.swift */; };
+		C84F22922A89407400DA46A8 /* WeightInsightUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84F22912A89407400DA46A8 /* WeightInsightUITests.swift */; };
+		C84F22942A89407400DA46A8 /* WeightInsightUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84F22932A89407400DA46A8 /* WeightInsightUITestsLaunchTests.swift */; };
+		C8FFA98E2A8944E200745035 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9862A8944E200745035 /* Date+Extensions.swift */; };
+		C8FFA98F2A8944E200745035 /* StatisticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9882A8944E200745035 /* StatisticData.swift */; };
+		C8FFA9922A8945D200745035 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA98B2A8944E200745035 /* ViewModel.swift */; };
+		C8FFA9942A89C01800745035 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9932A89C01800745035 /* RealmManager.swift */; };
+		C8FFA9962A89E55800745035 /* NumberFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9952A89E55800745035 /* NumberFormatter+Extensions.swift */; };
+		F95E30C3DC4F5FE9D61A100C /* Pods_WeightInsight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 246CF8FAC4D853FBBB0A1530 /* Pods_WeightInsight.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C84F22842A89407400DA46A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C84F226B2A89407300DA46A8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C84F22722A89407300DA46A8;
+			remoteInfo = WeightInsight;
+		};
+		C84F228E2A89407400DA46A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C84F226B2A89407300DA46A8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C84F22722A89407300DA46A8;
+			remoteInfo = WeightInsight;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01E5852A275E77DB470D797D /* Pods-WeightInsight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeightInsight.debug.xcconfig"; path = "Target Support Files/Pods-WeightInsight/Pods-WeightInsight.debug.xcconfig"; sourceTree = "<group>"; };
+		246CF8FAC4D853FBBB0A1530 /* Pods_WeightInsight.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeightInsight.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CD8991B255EB6281E96B6BD /* Pods-WeightInsight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeightInsight.release.xcconfig"; path = "Target Support Files/Pods-WeightInsight/Pods-WeightInsight.release.xcconfig"; sourceTree = "<group>"; };
+		680F4A8ED97E34225168B298 /* Pods_WeightInsight_WeightInsightUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeightInsight_WeightInsightUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8684081670281B59F2F8B47B /* Pods_WeightInsightTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeightInsightTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEBA68036C35D3BB6F4A009A /* Pods-WeightInsightTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeightInsightTests.release.xcconfig"; path = "Target Support Files/Pods-WeightInsightTests/Pods-WeightInsightTests.release.xcconfig"; sourceTree = "<group>"; };
+		C84F22732A89407300DA46A8 /* WeightInsight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeightInsight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C84F22782A89407300DA46A8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C84F227A2A89407400DA46A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C84F227D2A89407400DA46A8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C84F22832A89407400DA46A8 /* WeightInsightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeightInsightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C84F22872A89407400DA46A8 /* WeightInsightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightInsightTests.swift; sourceTree = "<group>"; };
+		C84F228D2A89407400DA46A8 /* WeightInsightUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeightInsightUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C84F22912A89407400DA46A8 /* WeightInsightUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightInsightUITests.swift; sourceTree = "<group>"; };
+		C84F22932A89407400DA46A8 /* WeightInsightUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightInsightUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C8FFA9862A8944E200745035 /* Date+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		C8FFA9882A8944E200745035 /* StatisticData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticData.swift; sourceTree = "<group>"; };
+		C8FFA98B2A8944E200745035 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		C8FFA9932A89C01800745035 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		C8FFA9952A89E55800745035 /* NumberFormatter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Extensions.swift"; sourceTree = "<group>"; };
+		CD15E28CD547FB36803BF380 /* Pods-WeightInsight-WeightInsightUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeightInsight-WeightInsightUITests.release.xcconfig"; path = "Target Support Files/Pods-WeightInsight-WeightInsightUITests/Pods-WeightInsight-WeightInsightUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D2BF03B7ECC44A7F0CB21478 /* Pods-WeightInsightTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeightInsightTests.debug.xcconfig"; path = "Target Support Files/Pods-WeightInsightTests/Pods-WeightInsightTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E90EA90DD946F4D312E7E09F /* Pods-WeightInsight-WeightInsightUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeightInsight-WeightInsightUITests.debug.xcconfig"; path = "Target Support Files/Pods-WeightInsight-WeightInsightUITests/Pods-WeightInsight-WeightInsightUITests.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C84F22702A89407300DA46A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F95E30C3DC4F5FE9D61A100C /* Pods_WeightInsight.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C84F22802A89407400DA46A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D80431AFE7C6A653FDB0FB8 /* Pods_WeightInsightTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C84F228A2A89407400DA46A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				51E24915E4479C95767DDB80 /* Pods_WeightInsight_WeightInsightUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0390E6D7157B5F4321F3D00A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				01E5852A275E77DB470D797D /* Pods-WeightInsight.debug.xcconfig */,
+				3CD8991B255EB6281E96B6BD /* Pods-WeightInsight.release.xcconfig */,
+				E90EA90DD946F4D312E7E09F /* Pods-WeightInsight-WeightInsightUITests.debug.xcconfig */,
+				CD15E28CD547FB36803BF380 /* Pods-WeightInsight-WeightInsightUITests.release.xcconfig */,
+				D2BF03B7ECC44A7F0CB21478 /* Pods-WeightInsightTests.debug.xcconfig */,
+				AEBA68036C35D3BB6F4A009A /* Pods-WeightInsightTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		4B5942B872C822AC955385E7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				246CF8FAC4D853FBBB0A1530 /* Pods_WeightInsight.framework */,
+				680F4A8ED97E34225168B298 /* Pods_WeightInsight_WeightInsightUITests.framework */,
+				8684081670281B59F2F8B47B /* Pods_WeightInsightTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C84F226A2A89407300DA46A8 = {
+			isa = PBXGroup;
+			children = (
+				C84F22752A89407300DA46A8 /* WeightInsight */,
+				C84F22862A89407400DA46A8 /* WeightInsightTests */,
+				C84F22902A89407400DA46A8 /* WeightInsightUITests */,
+				C84F22742A89407300DA46A8 /* Products */,
+				0390E6D7157B5F4321F3D00A /* Pods */,
+				4B5942B872C822AC955385E7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C84F22742A89407300DA46A8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C84F22732A89407300DA46A8 /* WeightInsight.app */,
+				C84F22832A89407400DA46A8 /* WeightInsightTests.xctest */,
+				C84F228D2A89407400DA46A8 /* WeightInsightUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C84F22752A89407300DA46A8 /* WeightInsight */ = {
+			isa = PBXGroup;
+			children = (
+				C8FFA9872A8944E200745035 /* Models */,
+				C8FFA9832A8944E100745035 /* Resources */,
+				C8FFA9842A8944E100745035 /* Services */,
+				C8FFA9892A8944E200745035 /* UI */,
+				C8FFA9852A8944E200745035 /* Utilities */,
+				C84F227A2A89407400DA46A8 /* Assets.xcassets */,
+				C84F227C2A89407400DA46A8 /* Preview Content */,
+			);
+			path = WeightInsight;
+			sourceTree = "<group>";
+		};
+		C84F227C2A89407400DA46A8 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C84F227D2A89407400DA46A8 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C84F22862A89407400DA46A8 /* WeightInsightTests */ = {
+			isa = PBXGroup;
+			children = (
+				C84F22872A89407400DA46A8 /* WeightInsightTests.swift */,
+			);
+			path = WeightInsightTests;
+			sourceTree = "<group>";
+		};
+		C84F22902A89407400DA46A8 /* WeightInsightUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C84F22912A89407400DA46A8 /* WeightInsightUITests.swift */,
+				C84F22932A89407400DA46A8 /* WeightInsightUITestsLaunchTests.swift */,
+			);
+			path = WeightInsightUITests;
+			sourceTree = "<group>";
+		};
+		C8FFA9832A8944E100745035 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C8FFA9842A8944E100745035 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C8FFA9932A89C01800745035 /* RealmManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C8FFA9852A8944E200745035 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C8FFA9862A8944E200745035 /* Date+Extensions.swift */,
+				C8FFA9952A89E55800745035 /* NumberFormatter+Extensions.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		C8FFA9872A8944E200745035 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C8FFA9882A8944E200745035 /* StatisticData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C8FFA9892A8944E200745035 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				C84F22782A89407300DA46A8 /* ContentView.swift */,
+				C8FFA98A2A8944E200745035 /* Screens */,
+				C8FFA98C2A8944E200745035 /* Components */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		C8FFA98A2A8944E200745035 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				C8FFA98B2A8944E200745035 /* ViewModel.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		C8FFA98C2A8944E200745035 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C84F22722A89407300DA46A8 /* WeightInsight */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C84F22972A89407400DA46A8 /* Build configuration list for PBXNativeTarget "WeightInsight" */;
+			buildPhases = (
+				F79E6017FD0B88AEAA6CB74A /* [CP] Check Pods Manifest.lock */,
+				C84F226F2A89407300DA46A8 /* Sources */,
+				C84F22702A89407300DA46A8 /* Frameworks */,
+				C84F22712A89407300DA46A8 /* Resources */,
+				1C362698BAC4DB4757F32EA6 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WeightInsight;
+			productName = WeightInsight;
+			productReference = C84F22732A89407300DA46A8 /* WeightInsight.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C84F22822A89407400DA46A8 /* WeightInsightTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C84F229A2A89407400DA46A8 /* Build configuration list for PBXNativeTarget "WeightInsightTests" */;
+			buildPhases = (
+				FE5011638D67409C49EF576C /* [CP] Check Pods Manifest.lock */,
+				C84F227F2A89407400DA46A8 /* Sources */,
+				C84F22802A89407400DA46A8 /* Frameworks */,
+				C84F22812A89407400DA46A8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C84F22852A89407400DA46A8 /* PBXTargetDependency */,
+			);
+			name = WeightInsightTests;
+			productName = WeightInsightTests;
+			productReference = C84F22832A89407400DA46A8 /* WeightInsightTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C84F228C2A89407400DA46A8 /* WeightInsightUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C84F229D2A89407400DA46A8 /* Build configuration list for PBXNativeTarget "WeightInsightUITests" */;
+			buildPhases = (
+				44EA2E8F3C857B1E5BDA6BF7 /* [CP] Check Pods Manifest.lock */,
+				C84F22892A89407400DA46A8 /* Sources */,
+				C84F228A2A89407400DA46A8 /* Frameworks */,
+				C84F228B2A89407400DA46A8 /* Resources */,
+				BB4009F3AA2AE7ABB76AA425 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C84F228F2A89407400DA46A8 /* PBXTargetDependency */,
+			);
+			name = WeightInsightUITests;
+			productName = WeightInsightUITests;
+			productReference = C84F228D2A89407400DA46A8 /* WeightInsightUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C84F226B2A89407300DA46A8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					C84F22722A89407300DA46A8 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					C84F22822A89407400DA46A8 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = C84F22722A89407300DA46A8;
+					};
+					C84F228C2A89407400DA46A8 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = C84F22722A89407300DA46A8;
+					};
+				};
+			};
+			buildConfigurationList = C84F226E2A89407300DA46A8 /* Build configuration list for PBXProject "WeightInsight" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C84F226A2A89407300DA46A8;
+			productRefGroup = C84F22742A89407300DA46A8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C84F22722A89407300DA46A8 /* WeightInsight */,
+				C84F22822A89407400DA46A8 /* WeightInsightTests */,
+				C84F228C2A89407400DA46A8 /* WeightInsightUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C84F22712A89407300DA46A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C84F227E2A89407400DA46A8 /* Preview Assets.xcassets in Resources */,
+				C84F227B2A89407400DA46A8 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C84F22812A89407400DA46A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C84F228B2A89407400DA46A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1C362698BAC4DB4757F32EA6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WeightInsight/Pods-WeightInsight-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WeightInsight/Pods-WeightInsight-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WeightInsight/Pods-WeightInsight-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		44EA2E8F3C857B1E5BDA6BF7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WeightInsight-WeightInsightUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BB4009F3AA2AE7ABB76AA425 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WeightInsight-WeightInsightUITests/Pods-WeightInsight-WeightInsightUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WeightInsight-WeightInsightUITests/Pods-WeightInsight-WeightInsightUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WeightInsight-WeightInsightUITests/Pods-WeightInsight-WeightInsightUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F79E6017FD0B88AEAA6CB74A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WeightInsight-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE5011638D67409C49EF576C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WeightInsightTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C84F226F2A89407300DA46A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8FFA98F2A8944E200745035 /* StatisticData.swift in Sources */,
+				C8FFA98E2A8944E200745035 /* Date+Extensions.swift in Sources */,
+				C8FFA9962A89E55800745035 /* NumberFormatter+Extensions.swift in Sources */,
+				C8FFA9942A89C01800745035 /* RealmManager.swift in Sources */,
+				C8FFA9922A8945D200745035 /* ViewModel.swift in Sources */,
+				C84F22792A89407300DA46A8 /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C84F227F2A89407400DA46A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C84F22882A89407400DA46A8 /* WeightInsightTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C84F22892A89407400DA46A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C84F22922A89407400DA46A8 /* WeightInsightUITests.swift in Sources */,
+				C84F22942A89407400DA46A8 /* WeightInsightUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C84F22852A89407400DA46A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C84F22722A89407300DA46A8 /* WeightInsight */;
+			targetProxy = C84F22842A89407400DA46A8 /* PBXContainerItemProxy */;
+		};
+		C84F228F2A89407400DA46A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C84F22722A89407300DA46A8 /* WeightInsight */;
+			targetProxy = C84F228E2A89407400DA46A8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C84F22952A89407400DA46A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C84F22962A89407400DA46A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C84F22982A89407400DA46A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01E5852A275E77DB470D797D /* Pods-WeightInsight.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"WeightInsight/Preview Content\"";
+				DEVELOPMENT_TEAM = DN8Q4R4Z8M;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = androkzn.com.WeightInsight;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C84F22992A89407400DA46A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3CD8991B255EB6281E96B6BD /* Pods-WeightInsight.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"WeightInsight/Preview Content\"";
+				DEVELOPMENT_TEAM = DN8Q4R4Z8M;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = androkzn.com.WeightInsight;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C84F229B2A89407400DA46A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2BF03B7ECC44A7F0CB21478 /* Pods-WeightInsightTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DN8Q4R4Z8M;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = androkzn.com.WeightInsightTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeightInsight.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WeightInsight";
+			};
+			name = Debug;
+		};
+		C84F229C2A89407400DA46A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AEBA68036C35D3BB6F4A009A /* Pods-WeightInsightTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DN8Q4R4Z8M;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = androkzn.com.WeightInsightTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeightInsight.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WeightInsight";
+			};
+			name = Release;
+		};
+		C84F229E2A89407400DA46A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E90EA90DD946F4D312E7E09F /* Pods-WeightInsight-WeightInsightUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DN8Q4R4Z8M;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = androkzn.com.WeightInsightUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WeightInsight;
+			};
+			name = Debug;
+		};
+		C84F229F2A89407400DA46A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD15E28CD547FB36803BF380 /* Pods-WeightInsight-WeightInsightUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DN8Q4R4Z8M;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = androkzn.com.WeightInsightUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WeightInsight;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C84F226E2A89407300DA46A8 /* Build configuration list for PBXProject "WeightInsight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C84F22952A89407400DA46A8 /* Debug */,
+				C84F22962A89407400DA46A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C84F22972A89407400DA46A8 /* Build configuration list for PBXNativeTarget "WeightInsight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C84F22982A89407400DA46A8 /* Debug */,
+				C84F22992A89407400DA46A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C84F229A2A89407400DA46A8 /* Build configuration list for PBXNativeTarget "WeightInsightTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C84F229B2A89407400DA46A8 /* Debug */,
+				C84F229C2A89407400DA46A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C84F229D2A89407400DA46A8 /* Build configuration list for PBXNativeTarget "WeightInsightUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C84F229E2A89407400DA46A8 /* Debug */,
+				C84F229F2A89407400DA46A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C84F226B2A89407300DA46A8 /* Project object */;
+}
