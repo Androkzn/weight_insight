@@ -20,6 +20,13 @@ struct WheelPickerView: View {
             }
         }
         .pickerStyle(WheelPickerStyle())
+        .overlay(
+            RoundedRectangle(cornerRadius: 5)
+                .frame(height: 30)
+                .opacity(0.1)
+                .background(Color.blue.opacity(0.3))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+        )
         .onChange(of: selectedItem) { _ in
             withAnimation {
                 isPickerExpanded.toggle()

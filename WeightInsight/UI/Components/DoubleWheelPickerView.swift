@@ -23,6 +23,13 @@ struct DoubleWheelPickerView: View {
                 }
             }
             .pickerStyle(WheelPickerStyle())
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .frame(height: 30)
+                    .opacity(0.1)
+                    .background(Color.blue.opacity(0.3))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            )
             .frame(width: 100)
             .onAppear() {
                 if selectedWeight == 0 {
@@ -41,6 +48,13 @@ struct DoubleWheelPickerView: View {
                 }
             }
             .pickerStyle(WheelPickerStyle())
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .frame(height: 30)
+                    .opacity(0.1)
+                    .background(Color.blue.opacity(0.3))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            )
             .frame(width: 100)
         }
         .padding()

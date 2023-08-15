@@ -17,13 +17,16 @@ struct StatisticBoxView: View {
         VStack {
             Text(title)
                 .font(.headline)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
             Text(value)
                 .font(.subheadline)
-            Spacer(minLength: 10)
+            Spacer()
             Text("Goal: \(goalValue)")
                 .font(.subheadline)
+                .padding(EdgeInsets(top: 10, leading: 0, bottom: 20, trailing: 0))
         }
-        .padding(10)
+        .frame(width: 110, height: 100) // Set a fixed width and height for each box
+        .background(Color.blue.opacity(0.7))
+        .cornerRadius(10)
     }
 }

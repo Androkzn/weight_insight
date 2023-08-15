@@ -65,9 +65,10 @@ struct  TodayStatisticBoxView: View {
                 onButtonTapped()
             }) {
                 Text(isEditing ? "Save" : "Add")
+                    .fixedSize()
                     .padding()
                     .foregroundColor(.white)
-                    .background(isEditing ? Color.green : Color.gray)
+                    .background(isEditing ? Color.green : Color.blue.opacity(0.8))
             }
             .disabled(isEditingTodayStatistic && !isEditing) // This disables the button if any box is editing and the current box is not.
             .cornerRadius(10)
@@ -76,7 +77,7 @@ struct  TodayStatisticBoxView: View {
         }
         .frame(width: 80, height: 120)
         .padding()
-        .background(Color.orange)
+        .background(Color.orange.opacity(0.8))
         .cornerRadius(10)
     }
 }

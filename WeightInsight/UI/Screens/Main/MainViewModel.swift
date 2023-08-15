@@ -12,7 +12,7 @@ import Combine
 extension MainView {
     class ViewModel: ObservableObject {
         func getStatisticFor(filter: StatisticFilter) -> StatisticData {
-            return RealmService.shared.getStatistic(filter: filter)
+            return RealmService.shared.getAverageStatistic(filter: filter)
         }
         
         func getTodayStatistic() -> StatisticData {
@@ -91,7 +91,7 @@ enum StatisticFilter: String, CaseIterable {
         case .lastMonth:
             return "Previous Month"
         case .all:
-            return "All"
+            return "All available"
         }
     }
 }

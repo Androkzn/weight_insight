@@ -23,7 +23,7 @@ struct StatisticsView: View {
                         ForEach(viewModel.groupedByMonth()[monthYear]!, id: \.date) { entry in
                             HStack {
                                 // Date
-                                Text(entry.date.formattedString(format: "dd-MMM-yyyy"))
+                                Text(entry.date.formattedString(format: "dd MMM yyyy"))
                                     .font(.headline)
                                     .bold()
                                 Spacer()
@@ -32,6 +32,7 @@ struct StatisticsView: View {
                                     statisticEntryRow(imageName: "figure.walk", color: Color.green, value: "\(Int(entry.steps))")
                                     statisticEntryRow(imageName: "flame", color: Color.orange, value: "\(Int(entry.calories))")
                                 }
+                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
                             }
                             .swipeActions(edge: .trailing) {
                                 Button(action: {

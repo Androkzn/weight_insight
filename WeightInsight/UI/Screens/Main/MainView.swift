@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import Charts
 
 struct MainView: View {
     @EnvironmentObject var viewModel: ViewModel
@@ -21,45 +22,46 @@ struct MainView: View {
 
     var body: some View {
         VStack {
+            HStack() {
+                Text("Average statistic for the period: ")
+                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                    .font(.headline)
+                Spacer()
+                Button(action: {
+                    withAnimation {
+                        isStatisticPickerExpanded.toggle()
+                    }
+                }) {
+                    Text(selectedFilter.title)
+                        .padding()
+                        .background(Color.orange.opacity(0.8))
+                        .cornerRadius(10)
+                        .tint(.black)
+                }
+                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+    
+            }
+            .background(Color.blue.opacity(0.7))
+            .cornerRadius(10)
+            .frame(height: 100)
+            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        
             HStack(spacing: 10) {
                 StatisticBoxView(
                     title: Statistic.weight.title,
                     value: viewModel.getStatisticFor(filter: selectedFilter).weight,
                     goalValue: "\(viewModel.loadSettingValue(for: .weight))"
                 )
-                    .frame(width: 110, height: 100) // Set a fixed width and height for each box
-                    .background(Color.blue)
-                    .cornerRadius(10)
-                
                 StatisticBoxView(
                     title: Statistic.steps.title,
                     value: viewModel.getStatisticFor(filter: selectedFilter).steps,
                     goalValue: "\(viewModel.loadSettingValue(for: .steps))"
                 )
-                    .frame(width: 110, height: 100) // Set a fixed width and height for each box
-                    .background(Color.blue)
-                    .cornerRadius(10)
-                
                 StatisticBoxView(
                     title: Statistic.calories.title,
                     value: viewModel.getStatisticFor(filter: selectedFilter).calories,
                     goalValue: "\(viewModel.loadSettingValue(for: .calories))"
                 )
-                    .frame(width: 110, height: 100) // Set a fixed width and height for each box
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            }
-            .padding()
-            
-            Button(action: {
-                withAnimation {
-                    isStatisticPickerExpanded.toggle()
-                }
-            }) {
-                Text(selectedFilter.title)
-                    .padding()
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(10)
             }
             
             if isStatisticPickerExpanded {
@@ -95,6 +97,8 @@ struct MainView: View {
                     .transition(.move(edge: .bottom))
             }
             
+            Spacer()
+            
         }.onAppear {
             // Fill with saved statistic data
             let statisticData = viewModel.getTodayStatistic()
@@ -104,6 +108,15 @@ struct MainView: View {
         }
     }
 }
+
+
+ 
+
+
+
+
+
+
 
 
 

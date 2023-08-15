@@ -187,7 +187,7 @@ class RealmService {
         }
     }
     
-    func getStatistic(filter: StatisticFilter) -> StatisticData {
+    func getAverageStatistic(filter: StatisticFilter) -> StatisticData {
         let allData = Array(RealmService.realm.objects(StatisticDataObject.self))
         var filteredData: [StatisticDataObject] = []
         switch filter {
@@ -215,6 +215,23 @@ class RealmService {
         let averageCalories = count > 0 ? Int(Double(totalCalories) / count) : 0
         
         return StatisticData(weight: String(averageWeight), steps: String(averageSteps), calories: String(averageCalories))
+    }
+    
+    func getStatistic(filter: StatisticFilter) -> [StatisticDataObject] {
+        let allData = Array(RealmService.realm.objects(StatisticDataObject.self))
+        
+        switch filter {
+        case .thisWeek:
+            return allData.filter { $0.date.isInThisWeek }
+        case .previousWeek:
+            return allData.filter { $0.date.isInPreviousWeek }
+        case .thisMonth:
+            return allData.filter { $0.date.isInThisMonth }
+        case .lastMonth:
+            return  allData.filter { $0.date.isInLastMonth }
+        case .all:
+            return allData
+        }
     }
 
     // Get entity
