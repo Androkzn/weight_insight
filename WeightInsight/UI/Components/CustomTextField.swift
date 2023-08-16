@@ -44,6 +44,7 @@ struct CustomTextField: UIViewRepresentable {
 
         func textFieldDidEndEditing(_ textField: UITextField) {
             parent.text = textField.text ?? ""
+            parent.onDone(textField.text ?? "")
         }
     }
 }

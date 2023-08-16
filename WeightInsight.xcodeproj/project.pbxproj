@@ -24,10 +24,9 @@
 		C8FFA99D2A8A65AC00745035 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA99C2A8A65AC00745035 /* MainView.swift */; };
 		C8FFA99F2A8A65B900745035 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA99E2A8A65B900745035 /* StatisticsView.swift */; };
 		C8FFA9A12A8A65C300745035 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A02A8A65C300745035 /* SettingsView.swift */; };
-		C8FFA9A32A8A77D200745035 /* TodayStatisticBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A22A8A77D200745035 /* TodayStatisticBoxView.swift */; };
+		C8FFA9A32A8A77D200745035 /* SingleStatisticBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A22A8A77D200745035 /* SingleStatisticBoxView.swift */; };
 		C8FFA9A52A8A77EB00745035 /* DoubleWheelPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A42A8A77EB00745035 /* DoubleWheelPickerView.swift */; };
-		C8FFA9A72A8A780900745035 /* WheelPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A62A8A780900745035 /* WheelPickerView.swift */; };
-		C8FFA9A92A8A781A00745035 /* StatisticBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A82A8A781A00745035 /* StatisticBoxView.swift */; };
+		C8FFA9A92A8A781A00745035 /* AverageStatisticBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A82A8A781A00745035 /* AverageStatisticBoxView.swift */; };
 		C8FFA9AB2A8A795100745035 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9AA2A8A795100745035 /* MainViewModel.swift */; };
 		C8FFA9AD2A8A796000745035 /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9AC2A8A796000745035 /* StatisticsViewModel.swift */; };
 		C8FFA9AF2A8A796C00745035 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9AE2A8A796C00745035 /* SettingsViewModel.swift */; };
@@ -79,10 +78,9 @@
 		C8FFA99C2A8A65AC00745035 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C8FFA99E2A8A65B900745035 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		C8FFA9A02A8A65C300745035 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		C8FFA9A22A8A77D200745035 /* TodayStatisticBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayStatisticBoxView.swift; sourceTree = "<group>"; };
+		C8FFA9A22A8A77D200745035 /* SingleStatisticBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleStatisticBoxView.swift; sourceTree = "<group>"; };
 		C8FFA9A42A8A77EB00745035 /* DoubleWheelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleWheelPickerView.swift; sourceTree = "<group>"; };
-		C8FFA9A62A8A780900745035 /* WheelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPickerView.swift; sourceTree = "<group>"; };
-		C8FFA9A82A8A781A00745035 /* StatisticBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticBoxView.swift; sourceTree = "<group>"; };
+		C8FFA9A82A8A781A00745035 /* AverageStatisticBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageStatisticBoxView.swift; sourceTree = "<group>"; };
 		C8FFA9AA2A8A795100745035 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		C8FFA9AC2A8A796000745035 /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
 		C8FFA9AE2A8A796C00745035 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -254,10 +252,9 @@
 		C8FFA98C2A8944E200745035 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				C8FFA9A22A8A77D200745035 /* TodayStatisticBoxView.swift */,
+				C8FFA9A22A8A77D200745035 /* SingleStatisticBoxView.swift */,
 				C8FFA9A42A8A77EB00745035 /* DoubleWheelPickerView.swift */,
-				C8FFA9A62A8A780900745035 /* WheelPickerView.swift */,
-				C8FFA9A82A8A781A00745035 /* StatisticBoxView.swift */,
+				C8FFA9A82A8A781A00745035 /* AverageStatisticBoxView.swift */,
 				C8FFA9B02A8ABAFD00745035 /* KeyboardToolBar.swift */,
 				C8FFA9B62A8ABB9800745035 /* CustomTextField.swift */,
 				C87F79212A8AE2A100E1B105 /* WebView.swift */,
@@ -534,7 +531,6 @@
 				C87F79242A8B429200E1B105 /* EditStatisticPopupView.swift in Sources */,
 				C8FFA98F2A8944E200745035 /* StatisticDataObject.swift in Sources */,
 				C8FFA99F2A8A65B900745035 /* StatisticsView.swift in Sources */,
-				C8FFA9A72A8A780900745035 /* WheelPickerView.swift in Sources */,
 				C8FFA9B32A8ABB4400745035 /* UITextField+Extensions.swift in Sources */,
 				C8FFA9B72A8ABB9800745035 /* CustomTextField.swift in Sources */,
 				C8FFA99D2A8A65AC00745035 /* MainView.swift in Sources */,
@@ -543,13 +539,13 @@
 				C8FFA9A12A8A65C300745035 /* SettingsView.swift in Sources */,
 				C8FFA98E2A8944E200745035 /* Date+Extensions.swift in Sources */,
 				C8FFA9AB2A8A795100745035 /* MainViewModel.swift in Sources */,
-				C8FFA9A92A8A781A00745035 /* StatisticBoxView.swift in Sources */,
+				C8FFA9A92A8A781A00745035 /* AverageStatisticBoxView.swift in Sources */,
 				C8FFA9AD2A8A796000745035 /* StatisticsViewModel.swift in Sources */,
 				C87F79222A8AE2A100E1B105 /* WebView.swift in Sources */,
 				C8FFA9962A89E55800745035 /* NumberFormatter+Extensions.swift in Sources */,
 				C8FFA9942A89C01800745035 /* RealmService.swift in Sources */,
 				C84F22792A89407300DA46A8 /* ContentView.swift in Sources */,
-				C8FFA9A32A8A77D200745035 /* TodayStatisticBoxView.swift in Sources */,
+				C8FFA9A32A8A77D200745035 /* SingleStatisticBoxView.swift in Sources */,
 				C8FFA9AF2A8A796C00745035 /* SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

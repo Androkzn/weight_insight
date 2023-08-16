@@ -24,6 +24,7 @@ extension StatisticsView {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMMM yyyy"
             
+            
             return Dictionary(grouping: statisticData, by: { entry in
                 return dateFormatter.string(from: entry.date)
             })

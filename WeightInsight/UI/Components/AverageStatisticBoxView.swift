@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-struct StatisticBoxView: View {
+struct AverageStatisticBoxView: View {
     var title: String
     var value: String
     var goalValue: String
@@ -17,16 +17,19 @@ struct StatisticBoxView: View {
         VStack {
             Text(title)
                 .font(.headline)
-                .padding(EdgeInsets(top: 20, leading: 0, bottom: 10, trailing: 0))
             Text(value)
                 .font(.subheadline)
-            Spacer()
+                .padding(EdgeInsets(top: 1, leading: 25, bottom: 1, trailing: 25))
+                .bold()
+                .background(Color.blue.opacity(0.2))
+                .cornerRadius(10)
             Text("Goal: \(goalValue)")
                 .font(.subheadline)
-                .padding(EdgeInsets(top: 10, leading: 0, bottom: 20, trailing: 0))
+               
         }
-        .frame(width: 110, height: 100) // Set a fixed width and height for each box
-        .background(Color.blue.opacity(0.7))
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+        .frame(width: 110)
         .cornerRadius(10)
     }
+ 
 }

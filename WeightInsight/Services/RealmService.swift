@@ -97,7 +97,8 @@ class RealmService {
         let realmConfigured = try Realm(configuration: configuration, queue:  RealmService.shared.databaseQueue)
         realm = realmConfigured
         print(Realm.Configuration.defaultConfiguration.fileURL!)
-        // RealmService.shared.saveTestDataStatistic()
+        // TODO: Remove test data
+        RealmService.shared.saveTestDataStatistic()
     }
     
     class func isDBAvailable() -> Bool {
@@ -109,15 +110,16 @@ class RealmService {
         return Array(RealmService.realm.objects(StatisticDataObject.self).sorted(by: { $0.date > $1.date}))
     }
     
-    func getTodayStatistic() -> StatisticDataObject? {
-        let currentDate = Date().formattedString(format: "yyyy-MM-dd")
+    func getStatisticForDate(date: Date) -> StatisticDataObject? {
+        let currentDate = date.formattedString()
         let realm = RealmService.realm
         let result = realm.objects(StatisticDataObject.self).filter("id = %@", currentDate).first
        return result
     }
     
-    func saveStatistic(type: Statistic, value: Double) {
-        if let existingData = RealmService.shared.getTodayStatistic() {
+    func saveStatistic(type: Statistic, value: Double, date: Date = Date()) {
+        
+        if let existingData = RealmService.shared.getStatisticForDate(date:date) {
             try? RealmService.realm.write {
                 switch type {
                 case .weight: existingData.weight = value
@@ -127,7 +129,7 @@ class RealmService {
             }
         } else {
             let newData = StatisticDataObject()
-            newData.id = Date().formattedString(format: "yyyy-MM-dd")
+            newData.id = date.formattedString()
             switch type {
             case .weight: newData.weight = value
             case .steps: newData.steps = Int(value)
@@ -142,7 +144,7 @@ class RealmService {
     func saveStatisticData(data: StatisticData) {
         guard let date = data.date else { return }
         
-        let id = date.formattedString(format: "yyyy-MM-dd")
+        let id = date.formattedString()
         if let existingData = RealmService.shared.getEntityById(id, StatisticDataObject.self) {
             try? RealmService.realm.write {
                 existingData.weight = Double(data.weight) ?? 0
@@ -163,20 +165,19 @@ class RealmService {
     }
     
     func saveTestDataStatistic() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        let startDate = dateFormatter.date(from: "2023-06-01")!
-        let endDate = dateFormatter.date(from: "2023-08-14")!
+        let startDate =  Date.date(from: "2023-04-01")
+        let endDate =  Date.date(from: "2023-08-15")
         var currentDate = startDate
         
         while currentDate <= endDate {
             let newData = StatisticDataObject()
-            newData.id = dateFormatter.string(from: currentDate)
+            newData.id = currentDate.formattedString()
             newData.weight = Double.random(in: 79...85)  // Random weight between 79 and 85
             newData.steps = Int.random(in: 5000...15000) // Random steps between 5000 and 15000
             newData.calories = Int(Double.random(in: 1200...2000))  // Random calories between 1200 and 2000
             newData.date = currentDate
+            // Add only once per installation
+            guard  RealmService.shared.getEntityById(newData.id, StatisticDataObject.self) == nil else {return}
             
             try? RealmService.realm.write {
                 RealmService.realm.add(newData)
@@ -187,8 +188,42 @@ class RealmService {
         }
     }
     
+//    func getTestDataStatistic(filter: StatisticFilter) -> [StatisticDataObject] {
+//        let startDate =  Date.date(from: "2023-06-01")
+//        let endDate =  Date.date(from: "2023-08-15")
+//        var currentDate = startDate
+//
+//        var data: [StatisticDataObject] = []
+//        while currentDate <= endDate {
+//            let newData = StatisticDataObject()
+//            newData.id = currentDate.formattedString()
+//            newData.weight = Double.random(in: 79...85)  // Random weight between 79 and 85
+//            newData.steps = Int.random(in: 5000...15000) // Random steps between 5000 and 15000
+//            newData.calories = Int(Double.random(in: 1200...2000))  // Random calories between 1200 and 2000
+//            newData.date = currentDate
+//
+//            data.append(newData)
+//
+//            // Move to the next day
+//            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
+//        }
+//
+//        switch filter {
+//        case .thisWeek:
+//            return data.filter { $0.date.isInThisWeek }
+//        case .previousWeek:
+//            return data.filter { $0.date.isInPreviousWeek }
+//        case .thisMonth:
+//            return data.filter { $0.date.isInThisMonth }
+//        case .lastMonth:
+//            return  data.filter { $0.date.isInLastMonth }
+//        case .all:
+//            return data
+//        }
+//    }
+    
     func getAverageStatistic(filter: StatisticFilter) -> StatisticData {
-        let allData = Array(RealmService.realm.objects(StatisticDataObject.self))
+        let allData =  RealmService.shared.getAllStatistic()
         var filteredData: [StatisticDataObject] = []
         switch filter {
         case .thisWeek:

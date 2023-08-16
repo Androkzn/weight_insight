@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import UIKit
 
 
 extension MainView {
@@ -15,8 +16,8 @@ extension MainView {
             return RealmService.shared.getAverageStatistic(filter: filter)
         }
         
-        func getTodayStatistic() -> StatisticData {
-            if let statisticObject  = RealmService.shared.getTodayStatistic() {
+        func getStatisticForDate(date: Date) -> StatisticData {
+            if let statisticObject  = RealmService.shared.getStatisticForDate(date: date) {
                 let statisticData = StatisticData(
                     weight: String(statisticObject.weight),
                     steps: String(statisticObject.steps),
@@ -28,12 +29,16 @@ extension MainView {
             return StatisticData(weight: "0",steps: "0",calories: "0")
         }
         
-        func saveStatisticData(statistic: Statistic, value: Double) {
-            RealmService.shared.saveStatistic(type: statistic, value: value)
+        func saveStatisticData(statistic: Statistic, value: Double, date: Date = Date()) {
+            RealmService.shared.saveStatistic(type: statistic, value: value, date: date)
         }
         
         func loadSettingValue(for settingType: SettingsType) -> String {
             UserDefaults.standard.string(forKey: settingType.rawValue) ?? "0"
+        }
+        
+        func getStatisticObjects(filter: StatisticFilter) -> [StatisticDataObject] {
+            return RealmService.shared.getStatistic(filter: filter)
         }
     }
 }
@@ -95,4 +100,3 @@ enum StatisticFilter: String, CaseIterable {
         }
     }
 }
-

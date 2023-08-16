@@ -27,6 +27,7 @@ struct ContentView: View {
                     Image(systemName: "house")
                     Text("Main")
                 }
+      
             StatisticsView()
                 .environmentObject(StatisticsView.ViewModel())
                 .tabItem {
@@ -39,7 +40,13 @@ struct ContentView: View {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
-        }
+        }.accentColor(.blue.opacity(0.6))
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
 

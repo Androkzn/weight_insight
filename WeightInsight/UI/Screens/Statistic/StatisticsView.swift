@@ -53,7 +53,6 @@ struct StatisticsView: View {
                  
             }
             .padding(10)
-            .navigationBarItems(trailing: EditButton())
             .environment(\.editMode, $editMode)
             .overlay(
                 Group {
@@ -81,4 +80,9 @@ struct StatisticsView: View {
 
 
 
-
+struct StatisticsView_Previews: PreviewProvider {
+    static var previews: some View {
+        StatisticsView()
+            .environmentObject(StatisticsView.ViewModel())
+    }
+}

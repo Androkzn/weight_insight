@@ -27,7 +27,7 @@ struct SettingsView: View {
                 HStack {
                     Text("Weight:")
                         .padding(10)
-                    CustomTextField(text: $weightGoal, placeholder: "Enter weight", keyboardType: .numberPad, onDone: { value in
+                    CustomTextField(text: $weightGoal, placeholder: "Enter weight", keyboardType: .decimalPad, onDone: { value in
                         viewModel.saveSettingValue(value, for: .weight)
                     })
                 }
@@ -77,5 +77,12 @@ struct SettingsView: View {
                 myFitnessPal = viewModel.loadSettingValue(for: .myFitnessPal)
             }
         }
+    }
+}
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView()
+            .environmentObject(SettingsView.ViewModel())
     }
 }
