@@ -1,6 +1,7 @@
 {
   "colors" : [
     {
+      "filename" : "app_color.png",
       "idiom" : "universal"
     }
   ],
