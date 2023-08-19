@@ -16,9 +16,11 @@ struct StatisticsView: View {
     @State private var editingEntry: StatisticData = StatisticData(weight: "",steps: "", calories: "")
     
     var body: some View {
+        let data =  viewModel.sortedKeys()
+        
         NavigationView {
             List {
-                ForEach(viewModel.groupedByMonth().keys.sorted(by: >), id: \.self) { monthYear in
+                ForEach(data, id: \.self) { monthYear in
                     Section(header: Text(monthYear).font(.headline).padding()) {
                         ForEach(viewModel.groupedByMonth()[monthYear]!, id: \.date) { entry in
                             HStack {

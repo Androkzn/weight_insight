@@ -14,14 +14,12 @@ struct ChartView: View {
     @Binding var selectedChartStatistic: [Statistic]
     @Binding var statisticData: [StatisticDataObject]
     @Binding var isEditingTodayStatistic: Bool
-    @State private var isDataNormalized: Bool = false
+    @State var isDataNormalized: Bool = false
     
-    var yValuesRange: (min: Double, max: Double) {
+    func yValuesRange(isDataNormalized: Bool) -> (min: Double, max: Double) {
         if isDataNormalized {
             return (min: 0, max: 100) // Normalized range
-        } else if selectedChartStatistic.count > 1 {
-            return combinedRangeFor(selectedStatistics: selectedChartStatistic)
-        } else if let firstStatistic = selectedChartStatistic.first {
+        } else if selectedChartStatistic.count == 1 , let firstStatistic = selectedChartStatistic.first {
             return rangeFor(statistic: firstStatistic)
         } else {
             return (min: 0, max: 100) // Default range
@@ -33,37 +31,18 @@ struct ChartView: View {
         var leverage: Double = 0
         switch statistic {
         case .weight:
-            values = statisticData.map { $0.weight }
+            values = statisticData.map { $0.weight }.filter { $0 != 0 }
             leverage = 1
         case .steps:
-            values = statisticData.map { Double($0.steps) }
+            values = statisticData.map { Double($0.steps) }.filter { $0 != 0 }
             leverage = 500
         case .calories:
-            values = statisticData.map { Double($0.calories) }
+            values = statisticData.map { Double($0.calories) }.filter { $0 != 0 }
             leverage = 200
         }
- 
+
         let minValue = (values.min() ?? 0) - leverage
         let maxValue = (values.max() ?? 0) + leverage
-        return (min: minValue, max: maxValue)
-    }
-
-    func combinedRangeFor(selectedStatistics: [Statistic]) -> (min: Double, max: Double) {
-        var allValues: [Double] = []
-
-        for statistic in selectedStatistics {
-            switch statistic {
-            case .weight:
-                allValues.append(contentsOf: statisticData.map { $0.weight })
-            case .steps:
-                allValues.append(contentsOf: statisticData.map { Double($0.steps) })
-            case .calories:
-                allValues.append(contentsOf: statisticData.map { Double($0.calories) })
-            }
-        }
-
-        let minValue = (allValues.min() ?? 0) - 50
-        let maxValue = (allValues.max() ?? 0) + 50
         return (min: minValue, max: maxValue)
     }
     
@@ -80,7 +59,10 @@ struct ChartView: View {
     }
 
     var body: some View {
-        Chart(getSeries(statisticData: statisticData, selectedChartStatistic: selectedChartStatistic)) { series in
+        let (seriesData, wasDataNormalized) = getSeries(statisticData: statisticData, selectedChartStatistic: selectedChartStatistic)
+        let range = yValuesRange(isDataNormalized: wasDataNormalized)
+        
+        return Chart(seriesData) { series in
             ForEach(series.data, id: \.self) { data in
                 LineMark(
                     x: .value("Day", data.date, unit: .day),
@@ -102,7 +84,8 @@ struct ChartView: View {
                 values: .stride(by: .day, count: 1)
             ) { value in
                 if let date = value.as(Date.self) {
-                    AxisTick()
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.1))
+                    AxisTick(stroke: StrokeStyle(lineWidth: 1))
                     AxisValueLabel {
                         VStack() {
                             if statisticData.count <= 7 {
@@ -128,58 +111,70 @@ struct ChartView: View {
             }
         }
         .chartYAxis {
-            AxisMarks(position: .leading, values: .automatic())
+            AxisMarks(position: .leading, values: .automatic()) { value in
+                if !wasDataNormalized, let labelValue = value.as(Int.self) {
+                    // Only show label when data is not normalized
+                    AxisValueLabel {
+                        VStack() {
+                            Text("\(labelValue)")
+                        }
+                    }
+                }
+                
+                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.1))
+                AxisTick(stroke: StrokeStyle(lineWidth: 1))
+            }
         }
-        .chartYScale(domain: [yValuesRange.min, yValuesRange.max])
-        .chartLegend(.hidden)
+        .chartYScale(domain: [range.min, range.max])
+        .chartLegend(.visible)
         .opacity(isEditingTodayStatistic ? 0 : 1)
         .animation(SwiftUI.Animation.default, value: 0.5)
         .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
     }
     
-    func getSeries(statisticData: [StatisticDataObject], selectedChartStatistic: [Statistic]) -> [StatisticSeries] {
+    func getSeries(statisticData: [StatisticDataObject], selectedChartStatistic: [Statistic]) -> ([StatisticSeries], Bool) {
         var dataMappings: [Statistic: [DataSeries]] = [
             .weight: [],
             .steps: [],
             .calories: []
         ]
-        
+        var isDataNormalized = false
+
         for data in statisticData {
             let date = data.date
-            
+
             let normalizedWeight = normalize(value: data.weight, fromOldRange: (40, 150), toNewRange: (0, 100))
             let normalizedSteps = normalize(value: Double(data.steps), fromOldRange: (0, 20000), toNewRange: (0, 100))
             let normalizedCalories = normalize(value: Double(data.calories), fromOldRange: (0, 3000), toNewRange: (0, 100))
-            
-            if selectedChartStatistic.contains(.weight) {
+
+            if selectedChartStatistic.contains(.weight), data.weight != 0 {
                 let value = selectedChartStatistic.count > 1 ? normalizedWeight : data.weight
                 dataMappings[.weight]?.append(DataSeries(value: value, date: date))
             }
-            
-            if selectedChartStatistic.contains(.steps) {
+
+            if selectedChartStatistic.contains(.steps), data.steps != 0 {
                 let value = selectedChartStatistic.count > 1 ? normalizedSteps : Double(data.steps)
                 dataMappings[.steps]?.append(DataSeries(value: value, date: date))
             }
-            
-            if selectedChartStatistic.contains(.calories) {
+
+            if selectedChartStatistic.contains(.calories), data.calories != 0 {
                 let value = selectedChartStatistic.count > 1 ? normalizedCalories : Double(data.calories)
                 dataMappings[.calories]?.append(DataSeries(value: value, date: date))
             }
-            
+
             if selectedChartStatistic.count > 1 {
                 isDataNormalized = true
-            } else {
-                isDataNormalized = false
             }
         }
-        
+
         let seriesData = selectedChartStatistic.compactMap { statistic -> StatisticSeries? in
             guard let dataSeries = dataMappings[statistic] else { return nil }
             return StatisticSeries(name: statistic.rawValue.capitalized, data: dataSeries)
         }
-        
-        return seriesData
+
+        return (seriesData, isDataNormalized)
     }
+
 
 }
 
