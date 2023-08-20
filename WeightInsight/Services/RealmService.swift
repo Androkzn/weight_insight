@@ -61,9 +61,8 @@ class RealmService {
             }
         )
         do {
-            // If companyId not provided, we use defauld realm file
-            let filePath = RLMRealmPathForFile("default.realm")
-            config.fileURL = URL(fileURLWithPath: filePath)
+            // If companyId not provided, we use default realm file
+            config.fileURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.weight_insight")?.appendingPathComponent("default.realm")
             
             // Tell Realm to use this new configuration object for the default Realm
             Realm.Configuration.defaultConfiguration = config
@@ -164,6 +163,14 @@ class RealmService {
         }
     }
     
+    func deleteStatisticData(id: String) {
+        if let deletingData = RealmService.shared.getEntityById(id, StatisticDataObject.self) {
+//            try? RealmService.realm.write {
+//                RealmService.realm.delete(deletingData)
+//            }
+        }
+    }
+    
     func saveTestDataStatistic() {
         let startDate =  Date.date(from: "2023-04-01")
         let endDate =  Date.date(from: "2023-08-15")
@@ -187,40 +194,6 @@ class RealmService {
             currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
         }
     }
-    
-//    func getTestDataStatistic(filter: StatisticFilter) -> [StatisticDataObject] {
-//        let startDate =  Date.date(from: "2023-06-01")
-//        let endDate =  Date.date(from: "2023-08-15")
-//        var currentDate = startDate
-//
-//        var data: [StatisticDataObject] = []
-//        while currentDate <= endDate {
-//            let newData = StatisticDataObject()
-//            newData.id = currentDate.formattedString()
-//            newData.weight = Double.random(in: 79...85)  // Random weight between 79 and 85
-//            newData.steps = Int.random(in: 5000...15000) // Random steps between 5000 and 15000
-//            newData.calories = Int(Double.random(in: 1200...2000))  // Random calories between 1200 and 2000
-//            newData.date = currentDate
-//
-//            data.append(newData)
-//
-//            // Move to the next day
-//            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
-//        }
-//
-//        switch filter {
-//        case .thisWeek:
-//            return data.filter { $0.date.isInThisWeek }
-//        case .previousWeek:
-//            return data.filter { $0.date.isInPreviousWeek }
-//        case .thisMonth:
-//            return data.filter { $0.date.isInThisMonth }
-//        case .lastMonth:
-//            return  data.filter { $0.date.isInLastMonth }
-//        case .all:
-//            return data
-//        }
-//    }
     
     func getAverageStatistic(filter: StatisticFilter) -> StatisticData {
         let allData =  RealmService.shared.getAllStatistic()

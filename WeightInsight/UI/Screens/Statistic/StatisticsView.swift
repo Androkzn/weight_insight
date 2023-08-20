@@ -12,11 +12,13 @@ struct StatisticsView: View {
     @EnvironmentObject var viewModel: ViewModel
 
     @State private var editMode: EditMode = .inactive
-    @State private var showPopup: Bool = false
+    @State private var showEditPopup: Bool = false
+    @State private var showDeletePopup: Bool = false
     @State private var editingEntry: StatisticData = StatisticData(weight: "",steps: "", calories: "")
-    
+ 
     var body: some View {
-        let data =  viewModel.sortedKeys()
+        var data =  viewModel.sortedKeys()
+        
         
         NavigationView {
             List {
@@ -39,7 +41,7 @@ struct StatisticsView: View {
                             .swipeActions(edge: .trailing) {
                                 Button(action: {
                                     editingEntry = StatisticData(weight: String(format: "%.2f", entry.weight),steps: String(entry.steps), calories: String(entry.calories), date: entry.date)
-                                    showPopup = true
+                                    showEditPopup = true
                                 }) {
                                     Label("Edit", systemImage: "pencil")
                                         .foregroundColor(.white)
@@ -48,6 +50,17 @@ struct StatisticsView: View {
                                         .cornerRadius(8)
                                 }
                                 .tint(.orange)
+                                Button(action: {
+                                    editingEntry = StatisticData(weight: String(format: "%.2f", entry.weight),steps: String(entry.steps), calories: String(entry.calories), date: entry.date)
+                                    showDeletePopup = true
+                                }) {
+                                    Label("Delete", systemImage: "trash")
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(Color.red)
+                                        .cornerRadius(8)
+                                }
+                                .tint(.red)
                             }
                         }
                     }
@@ -58,11 +71,20 @@ struct StatisticsView: View {
             .environment(\.editMode, $editMode)
             .overlay(
                 Group {
-                    if showPopup {
+                    if showEditPopup {
                         EditStatisticPopupView(entry: $editingEntry) { statisticData in
                             // Save action for the popup
                             viewModel.editStatisticData(data: statisticData)
-                            showPopup = false
+                            showEditPopup = false
+                        }
+                    } else if showDeletePopup, let id = editingEntry.date?.formattedString() {
+                        DeleteStatisticPopupView(entryId: id) { entryId in
+                            // On Delete Action
+                            viewModel.deleteStatisticData(id: entryId)
+                            showDeletePopup = false
+                        } onCancel: {
+                            // On Cancel Action
+                            showDeletePopup = false
                         }
                     }
                 }

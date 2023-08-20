@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 @main
 struct WeightInsightApp: App {
     var body: some Scene {
