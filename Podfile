@@ -28,5 +28,5 @@ target 'WeightInsightWidgetExtension' do
   use_frameworks!
   
   # Pods for WeightInsightWidgetExtension
-  shared_pods
+ 
 end

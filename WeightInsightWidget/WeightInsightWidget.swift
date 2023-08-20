@@ -8,105 +8,92 @@
 import WidgetKit
 import SwiftUI
 import Intents
-import RealmSwift
+ 
 
-struct Provider: IntentTimelineProvider {
+import WidgetKit
+import SwiftUI
+
+struct Provider: TimelineProvider {
+
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), datesWithData: [], configuration: ConfigurationIntent())
+        return SimpleEntry(date: Date())
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), datesWithData: [], configuration: configuration)
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
+        let entry = SimpleEntry(date: Date())
         completion(entry)
     }
-    
-    func getRealm() -> Realm? {
-           let config = Realm.Configuration(
-               fileURL: FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.weight_insight")?.appendingPathComponent("default.realm")
-           )
-           return try? Realm(configuration: config)
-       }
 
-       func datesWithData() -> [Date] {
-           let allData = getAllStatistic()
-           return allData.map { $0.date }
-       }
-
-       func getAllStatistic() -> [StatisticDataObject] {
-           guard let realm = getRealm() else { return [] }
-           return Array(realm.objects(StatisticDataObject.self).sorted(by: { $0.date > $1.date }))
-       }
-
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-        let currentDate = Date()
-        let allDatesWithData = datesWithData()
-
-        let entry = SimpleEntry(date: currentDate, datesWithData: allDatesWithData, configuration: configuration)
-        entries.append(entry)
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
+        let entry = SimpleEntry(date: Date())
+        let timeline = Timeline(entries: [entry], policy: .atEnd)
         completion(timeline)
     }
 }
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let datesWithData: [Date]
-    let configuration: ConfigurationIntent
 }
 
 struct WeightInsightWidgetEntryView : View {
-    var entry: Provider.Entry
-
     var body: some View {
-        CalendarView(entry: entry)
+        AverageStatisticWidgetView()
     }
 }
 
-struct CalendarView: View {
-    var entry: Provider.Entry
-    var currentMonth: Date {
-        return Date() // assuming current month
-    }
-
+struct AverageStatisticWidgetView: View {
     var body: some View {
-        VStack {
-            // Display month and year, e.g., "July 2023"
-            Text("\(currentMonth, formatter: monthYearFormatter)")
+        HStack {
+            Spacer()
+            VStack {
+                Text(Date().formattedString(format: "dd MMM yyyy"))
+                    .font(.headline)
+                    .bold()
+                    .padding(EdgeInsets(top: 2, leading: 7, bottom: 2, trailing: 7))
+                    .background(Color.blue.opacity(0.2))
+                    .cornerRadius(10)
             
-            // Display days
-            ForEach(1..<32) { day in
-                let date = getDate(for: day)
-                if entry.datesWithData.contains(date) {
-                    Text("\(day)")
-                        .background(Color.blue) // Highlighted
-                } else {
-                    Text("\(day)")
-                }
+                Spacer()
+                statisticEntryRowWidget(imageName: "scalemass", color: Color.blue, value: String(format: "%.2f", 58.8))
+                statisticEntryRowWidget(imageName: "figure.walk", color: Color.green, value: "\(Int(11547))")
+                statisticEntryRowWidget(imageName: "flame", color: Color.orange, value: "\(Int(1258))")
             }
+            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+            Spacer()
         }
-    }
-
-    func getDate(for day: Int) -> Date {
-        // Convert day into Date for the current month
-        // Add your logic here
-    }
-
-    var monthYearFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM yyyy"
-        return formatter
+        .background(Color.blue.opacity(0.1))
+        .cornerRadius(10)
     }
 }
 
+func statisticEntryRowWidget(imageName: String, color: Color, value: String) -> some View {
+    return HStack {
+        Image(systemName: imageName)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .padding(6)
+            .frame(width: 30, height: 30)
+            .foregroundColor(color)
+            .background(Color.white)
+            .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .stroke(color, lineWidth: 2)
+            )
+        Text(value)
+        Image(systemName: 1 >= 0 ? "arrow.up" : "arrow.down")
+                    .foregroundColor(1 >= 0 ? Color.green : Color.red)
+        Spacer()
+    }
+    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+}
 
 struct WeightInsightWidget: Widget {
     let kind: String = "WeightInsightWidget"
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
-            WeightInsightWidgetEntryView(entry: entry)
+        StaticConfiguration(kind: kind, provider: Provider()) { _ in
+            WeightInsightWidgetEntryView()
         }
         .configurationDisplayName("My Widget")
         .description("This is an example widget.")
@@ -115,7 +102,7 @@ struct WeightInsightWidget: Widget {
 
 struct WeightInsightWidget_Previews: PreviewProvider {
     static var previews: some View {
-        WeightInsightWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
+        WeightInsightWidgetEntryView()
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
