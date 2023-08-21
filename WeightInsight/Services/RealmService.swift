@@ -173,7 +173,7 @@ class RealmService {
     
     func saveTestDataStatistic() {
         let startDate =  Date.date(from: "2023-04-01")
-        let endDate =  Date.date(from: "2023-08-15")
+        let endDate =  Date.date(from: "2023-08-20")
         var currentDate = startDate
         
         while currentDate <= endDate {

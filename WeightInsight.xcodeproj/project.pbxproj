@@ -20,6 +20,8 @@
 		C851FB872A92BD46006444B3 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BE339C2A8C7DA80047A9FD /* Color+Extensions.swift */; };
 		C851FB882A92BD4A006444B3 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9B22A8ABB4300745035 /* UITextField+Extensions.swift */; };
 		C851FB892A92BD4C006444B3 /* NumberFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9952A89E55800745035 /* NumberFormatter+Extensions.swift */; };
+		C851FB8B2A92DF54006444B3 /* SharedStatisticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FB8A2A92DF54006444B3 /* SharedStatisticData.swift */; };
+		C851FB8C2A92DF7D006444B3 /* SharedStatisticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FB8A2A92DF54006444B3 /* SharedStatisticData.swift */; };
 		C87F79222A8AE2A100E1B105 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F79212A8AE2A100E1B105 /* WebView.swift */; };
 		C87F79242A8B429200E1B105 /* EditStatisticPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F79232A8B429200E1B105 /* EditStatisticPopupView.swift */; };
 		C88AE0442A91B4700083C781 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C88AE0432A91B4700083C781 /* WidgetKit.framework */; };
@@ -116,6 +118,7 @@
 		C84F228D2A89407400DA46A8 /* WeightInsightUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeightInsightUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C84F22912A89407400DA46A8 /* WeightInsightUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightInsightUITests.swift; sourceTree = "<group>"; };
 		C84F22932A89407400DA46A8 /* WeightInsightUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightInsightUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C851FB8A2A92DF54006444B3 /* SharedStatisticData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStatisticData.swift; sourceTree = "<group>"; };
 		C87F79212A8AE2A100E1B105 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		C87F79232A8B429200E1B105 /* EditStatisticPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStatisticPopupView.swift; sourceTree = "<group>"; };
 		C88AE0422A91B4700083C781 /* WeightInsightWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WeightInsightWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -331,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				C8FFA9882A8944E200745035 /* StatisticDataObject.swift */,
+				C851FB8A2A92DF54006444B3 /* SharedStatisticData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -703,6 +707,7 @@
 				C8FFA99D2A8A65AC00745035 /* MainView.swift in Sources */,
 				C8FFA9B12A8ABAFD00745035 /* KeyboardToolBar.swift in Sources */,
 				C88AE05F2A91BA0C0083C781 /* RealmServiceWidget.swift in Sources */,
+				C851FB8B2A92DF54006444B3 /* SharedStatisticData.swift in Sources */,
 				C8FFA9A52A8A77EB00745035 /* DoubleWheelPickerView.swift in Sources */,
 				C8BE339D2A8C7DA80047A9FD /* Color+Extensions.swift in Sources */,
 				C88AE0532A91B4710083C781 /* WeightInsightWidget.intentdefinition in Sources */,
@@ -744,6 +749,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C88AE0492A91B4700083C781 /* WeightInsightWidgetBundle.swift in Sources */,
+				C851FB8C2A92DF7D006444B3 /* SharedStatisticData.swift in Sources */,
 				C851FB882A92BD4A006444B3 /* UITextField+Extensions.swift in Sources */,
 				C88AE04B2A91B4700083C781 /* WeightInsightWidgetLiveActivity.swift in Sources */,
 				C88AE04D2A91B4700083C781 /* WeightInsightWidget.swift in Sources */,
@@ -911,7 +917,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -919,9 +925,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = androkzn.com.weightInsight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -947,7 +956,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -955,9 +964,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = androkzn.com.weightInsight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1055,6 +1067,7 @@
 				INFOPLIST_FILE = WeightInsightWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WeightInsightWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1066,7 +1079,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1084,6 +1097,7 @@
 				INFOPLIST_FILE = WeightInsightWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WeightInsightWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1095,7 +1109,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 import UIKit
-
+import WidgetKit
 
 extension MainView {
     class ViewModel: ObservableObject {
@@ -39,6 +39,34 @@ extension MainView {
         
         func getStatisticObjects(filter: StatisticFilter) -> [StatisticDataObject] {
             return RealmService.shared.getStatistic(filter: filter)
+        }
+        
+        func saveSharedData(filter: StatisticFilter)  {
+            let todayStat = getStatisticForDate(date: Date())
+            let avgStat = getStatisticFor(filter: filter)
+            
+            // Populate with new data
+            // Today stat
+            var sharedData = SharedData.defaultInstance()
+            sharedData.todayWeight = Double(todayStat.weight) ?? 0
+            sharedData.todaySteps = Double(todayStat.steps) ?? 0
+            sharedData.todayCalories = Double(todayStat.calories) ?? 0
+            // Average stat
+            sharedData.avgWeight = Double(avgStat.weight) ?? 0
+            sharedData.avgSteps = Double(avgStat.steps) ?? 0
+            sharedData.avgCalories = Double(avgStat.calories) ?? 0
+            // Target stat
+            sharedData.targetWeight = Double(loadSettingValue(for: .weight)) ?? 0
+            sharedData.targetSteps = Double(loadSettingValue(for: .steps)) ?? 0
+            sharedData.targetCalories = Double(loadSettingValue(for: .calories)) ?? 0
+            // Period
+            sharedData.selectedPeriod = filter.title
+            
+            // Save data
+            sharedData.save()
+            
+            // Refresh widget
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
 }

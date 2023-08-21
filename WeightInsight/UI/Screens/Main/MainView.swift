@@ -21,20 +21,23 @@ struct MainView: View {
     @State private var isEditingTodayStatistic: Bool = false
     @State private var statisticData: [StatisticDataObject] = []
     @State private var statisticCurrent: StatisticData = StatisticData(weight: "0", steps: "0", calories: "0")
+    @State private var statisticAverage: StatisticData = StatisticData(weight: "0", steps: "0", calories: "0")
     
     var body: some View {
         VStack {
             //Average Statistic View 
             AverageStatisticView(
                 selectedFilter: $selectedFilter,
-                avgWeight: viewModel.getStatisticFor(filter: selectedFilter).weight,
-                avgSteps: viewModel.getStatisticFor(filter: selectedFilter).steps,
-                avgCalories: viewModel.getStatisticFor(filter: selectedFilter).calories,
+                avgWeight: $statisticAverage.weight,
+                avgSteps: $statisticAverage.steps,
+                avgCalories: $statisticAverage.calories,
                 goalWeight: viewModel.loadSettingValue(for: .weight),
                 goalSteps: viewModel.loadSettingValue(for: .steps),
                 goalCalories: viewModel.loadSettingValue(for: .calories)
             ) {
                 self.statisticData = viewModel.getStatisticObjects(filter: selectedFilter)
+                self.statisticAverage = viewModel.getStatisticFor(filter: selectedFilter)
+                viewModel.saveSharedData(filter: selectedFilter)
             }
             
             //MultiLineChartView
@@ -83,7 +86,8 @@ struct MainView: View {
                 DatePicker("", selection: $selectedDate,  in: ...Date(), displayedComponents: .date)
                     .onChange(of: selectedDate) { newDate in
                         self.selectedDate = newDate
-                        updateStatisticForSelectedDate(date: newDate)
+                        self.updateStatisticForSelectedDate(date: newDate)
+                        viewModel.saveSharedData(filter: selectedFilter)
                     }
                     .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
                 
@@ -94,19 +98,16 @@ struct MainView: View {
             
             HStack(spacing: 10) {
                 SingleStatisticBoxView(value: $selectedWeight, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate, statisticType: Statistic.weight) {
-                    isEditingTodayStatistic.toggle()
-                    self.statisticData = viewModel.getStatisticObjects(filter: selectedFilter)
+                    updateAllStatistic()
                     
                 }
                 
                 SingleStatisticBoxView(value: $selectedSteps, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate, statisticType: Statistic.steps) {
-                    isEditingTodayStatistic.toggle()
-                    self.statisticData = viewModel.getStatisticObjects(filter: selectedFilter)
+                    updateAllStatistic()
                 }
                 
                 SingleStatisticBoxView(value: $selectedCalories, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate, statisticType: Statistic.calories) {
-                    isEditingTodayStatistic.toggle()
-                    self.statisticData = viewModel.getStatisticObjects(filter: selectedFilter)
+                    updateAllStatistic()
                 }
             }
             .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
@@ -116,9 +117,21 @@ struct MainView: View {
         }.onAppear {
             // Update statistic data for chart based on current filter
             self.statisticData = viewModel.getStatisticObjects(filter: selectedFilter)
+            // Update average statistic data based on current filter
+            self.statisticAverage = viewModel.getStatisticFor(filter: selectedFilter)
             // Fill with saved statistic data
             updateStatisticForSelectedDate(date: selectedDate)
+            // Update shared data statistic
+            viewModel.saveSharedData(filter: selectedFilter)
         }
+    }
+    
+    func updateAllStatistic() {
+        self.updateStatisticForSelectedDate(date: selectedDate)
+        self.statisticData = viewModel.getStatisticObjects(filter: selectedFilter)
+        self.statisticAverage = viewModel.getStatisticFor(filter: selectedFilter)
+        isEditingTodayStatistic.toggle()
+        viewModel.saveSharedData(filter: selectedFilter)
     }
     
     func updateStatisticForSelectedDate(date: Date) {
@@ -143,9 +156,9 @@ func getColorForStatistic(_ statistic: Statistic) -> Color {
 
 struct AverageStatisticView: View {
     @Binding  var selectedFilter: StatisticFilter
-    @State var avgWeight: String
-    @State var avgSteps: String
-    @State var avgCalories: String
+    @Binding var avgWeight: String
+    @Binding var avgSteps: String
+    @Binding var avgCalories: String
     @State var goalWeight: String
     @State var goalSteps: String
     @State var goalCalories: String
