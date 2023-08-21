@@ -20,39 +20,34 @@ struct BarChartView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             ForEach(dataPoints, id: \.color) { data in
-                if data.value == 0 {
-                    RightRoundedRectangle(cornerRadius: 8)
-                        .fill(Color.white)
-                        .frame(width: maxBarHeight, height: 15)
-                        .overlay(
-                            RightRoundedRectangle(cornerRadius: 8)
-                                .stroke(data.color.opacity(2), lineWidth: 1)
-                        )
-                        .overlay(
-                            Text(String(format: data.value == 0 ? "%.0f" : format, data.value))
-                            .foregroundColor(.black)
-                            .font(.system(size: 10))
-                            .bold()
-                            .padding(.leading, 10)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        )
-                } else {
-                    RightRoundedRectangle(cornerRadius: 8)
-                        .fill(data.color)
-                        .frame(width: self.barWidth(for: data.value), height: 15)
-                        .overlay(
-                            Text(String(format: data.value == 0 ? "%.0f" : format, data.value))
-                            .foregroundColor(.black)
-                            .font(.system(size: 10))
-                            .bold()
-                            .padding(.leading, 10)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        )
+                ZStack(alignment: .leading) {
+                    if data.value == 0 {
+                        RightRoundedRectangle(cornerRadius: 8)
+                            .fill(Color.white)
+                            .frame(width: maxBarHeight, height: 15)
+                            .overlay(
+                                RightRoundedRectangle(cornerRadius: 8)
+                                    .stroke(data.color.opacity(2), lineWidth: 1)
+                            )
+                    } else {
+                        RightRoundedRectangle(cornerRadius: 8)
+                            .fill(data.color)
+                            .frame(width: self.barWidth(for: data.value), height: 15)
+                    }
+                    
+                    Text(String(format: data.value == 0 ? "%.0f" : format, data.value))
+                        .foregroundColor(.black)
+                        .font(.system(size: 10))
+                        .bold()
+                        .padding(.leading, 10)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .zIndex(1)
                 }
             }
         }
         .animation(SwiftUI.Animation.default, value: 0.5)
     }
+
 
 
     func barWidth(for value: CGFloat) -> CGFloat {
