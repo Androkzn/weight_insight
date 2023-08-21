@@ -68,42 +68,48 @@ struct ChartView: View {
                     x: .value("Day", data.date, unit: .day),
                     y: .value("Value", data.value)
                 )
-                .foregroundStyle(by: .value("City", series.name))
-                .interpolationMethod(.linear)
+                .foregroundStyle(by: .value("", series.name))
+                .interpolationMethod(.catmullRom)
                 
                 PointMark (
                     x: .value("Day", data.date, unit: .day),
                     y: .value("Value", data.value)
                 )
-                .foregroundStyle(by: .value("City", series.name))
+                .foregroundStyle(by: .value("", series.name))
                 .interpolationMethod(.linear)
             }
         }
-        .chartXAxis {
+        .chartXAxis() {
             AxisMarks(
                 values: .stride(by: .day, count: 1)
             ) { value in
                 if let date = value.as(Date.self) {
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.1))
-                    AxisTick(stroke: StrokeStyle(lineWidth: 1))
+                    AxisTick(stroke: StrokeStyle(lineWidth: 0))
                     AxisValueLabel {
-                        VStack() {
-                            if statisticData.count <= 7 {
-                                Text(date, format: .dateTime.day(.defaultDigits).month(.abbreviated)
-                                )
-                                .multilineTextAlignment(.center)
-                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                                .frame(width: 110)
-                            } else if statisticData.count <= 31 {
-                                Text(date, format: .dateTime.day(.defaultDigits)
-                                )
-                                .multilineTextAlignment(.center)
-                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                                .frame(width: 110)
-//                                .rotationEffect(.degrees(90))
-//                                .layoutPriority(1)
+                        if statisticData.count <= 7 {
+                            Text(date, format: .dateTime.day(.defaultDigits).month(.abbreviated)
+                            )
+                            .multilineTextAlignment(.center)
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .frame(width: (UIScreen.main.bounds.width / CGFloat(statisticData.count)))
+                        } else if statisticData.count > 15 && statisticData.count <= 31 {
+                            if statisticData.count <= 31 && Calendar.current.component(.day, from: date) == 1 ||
+                                Calendar.current.component(.day, from: date) == statisticData.count ||
+                                (statisticData.count > 16 && Calendar.current.component(.day, from: date) % 3 == 1) {
+                                Text(date, format: .dateTime.day(.defaultDigits))
+                                    .multilineTextAlignment(.center)
+                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                    .frame(width: 50)
                             } else {
-                                Text(date, format: .dateTime.month(.abbreviated))
+                                Text("")
+                            }
+                        } else if statisticData.count > 31 {
+                            // Show months names only
+                            if date.isFirstDayOfMonth {
+                                Text(date, format: .dateTime.month(.abbreviated)
+                                )
+                                .frame(width: 100)
                             }
                         }
                     }
@@ -121,12 +127,13 @@ struct ChartView: View {
                     }
                 }
                 
-                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.1))
-                AxisTick(stroke: StrokeStyle(lineWidth: 1))
+                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
+                AxisTick(stroke: StrokeStyle(lineWidth: 0))
             }
         }
         .chartYScale(domain: [range.min, range.max])
         .chartLegend(.visible)
+        .chartLegend(position: .automatic, alignment: .center, spacing: 10)
         .opacity(isEditingTodayStatistic ? 0 : 1)
         .animation(SwiftUI.Animation.default, value: 0.5)
         .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))

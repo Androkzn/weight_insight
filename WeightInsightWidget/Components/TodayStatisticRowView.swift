@@ -11,6 +11,7 @@ struct TodayStatisticRowView: View {
     var imageName: String
     var color: Color
     var value: String
+    var units: String
     
     var body: some View {
         HStack {
@@ -27,6 +28,7 @@ struct TodayStatisticRowView: View {
                         .stroke(color, lineWidth: 2)
                 )
             Text(value)
+            Text(units)
             Spacer()
         }
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))

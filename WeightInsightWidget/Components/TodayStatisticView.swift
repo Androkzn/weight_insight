@@ -21,9 +21,9 @@ struct TodayStatisticView: View {
                     .cornerRadius(10)
             
                 Spacer()
-                TodayStatisticRowView(imageName: "scalemass", color: Color.blue, value: String(format: data.todayWeight == 0 ? "%.0f" : "%.2f", data.todayWeight))
-                TodayStatisticRowView(imageName: "figure.walk", color: Color.green, value: String(format: "%.0f", data.todaySteps))
-                TodayStatisticRowView(imageName: "flame", color: Color.orange, value:  String(format: "%.0f", data.todayCalories))
+                TodayStatisticRowView(imageName: "scalemass", color: Color.blue, value: String(format: data.todayWeight == 0 ? "%.0f" : "%.2f", data.todayWeight), units: "kg")
+                TodayStatisticRowView(imageName: "figure.walk", color: Color.green, value: NumberFormatter.localizedString(from: NSNumber(value: data.todaySteps), number: .decimal),units: "st.")
+                TodayStatisticRowView(imageName: "flame", color: Color.orange, value:  String(format: "%.0f", data.todayCalories), units: "kcal")
             }
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
             Spacer()

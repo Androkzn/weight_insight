@@ -141,16 +141,13 @@ struct MainView: View {
         self.selectedCalories = Double(self.statisticCurrent.calories) ?? 0
     }
 }
+ 
 
 // Get color based on Statistic
 func getColorForStatistic(_ statistic: Statistic) -> Color {
     switch statistic {
-    case .weight:
+    case .weight, .steps, .calories:
         return Color.blue.opacity(0.5)
-    case .steps:
-        return Color.green.opacity(0.5)
-    case .calories:
-        return Color.orange.opacity(0.5)
     }
 }
 
