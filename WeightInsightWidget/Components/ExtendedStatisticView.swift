@@ -44,15 +44,13 @@ struct ExtendedStatisticView: View {
                     format: "%.0f"
                 )
             }
-            .padding(.top, 10)
-            .padding(.horizontal, 10)
-            .padding(.bottom, 2)
+            .padding(EdgeInsets(top:0, leading: 0, bottom: 3, trailing: 0))
             
             BarChartLegendView(period: data.selectedPeriod)
+            
             Spacer()
         }
-        .padding([.top, .horizontal], 10)
-        .padding(.bottom, 20)
+        .padding(EdgeInsets(top: 20, leading: 10, bottom: 10, trailing: 10))
         .background(Color.blue.opacity(0.2))
     }
     

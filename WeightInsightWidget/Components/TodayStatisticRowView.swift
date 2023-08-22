@@ -19,15 +19,16 @@ struct TodayStatisticRowView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding(6)
-                .frame(width: 25, height: 25)
+                .frame(width: 26, height: 26)
                 .foregroundColor(color)
                 .background(Color.white)
                 .clipShape(Circle())
                 .overlay(
                     Circle()
-                        .stroke(color, lineWidth: 2)
+                        .stroke(color, lineWidth: 1.5)
                 )
             Text(value)
+                .bold()
             Text(units)
             Spacer()
         }

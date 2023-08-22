@@ -32,7 +32,7 @@ struct BarChartView: View {
                     } else {
                         RightRoundedRectangle(cornerRadius: 8)
                             .fill(data.color)
-                            .frame(width: self.barWidth(for: data.value), height: 15)
+                            .frame(width: self.barWidth(for: data.value), height: 20)
                     }
                     
                     Text(String(format: data.value == 0 ? "%.0f" : format, data.value))
