@@ -12,9 +12,12 @@ struct  SingleStatisticBoxView: View {
     @EnvironmentObject var viewModel:   MainView.ViewModel
     @Binding var value: Double
     @Binding var isEditingTodayStatistic: Bool
-    @State private var isEditing: Bool = false
-    @FocusState private var isTextFieldFocused: Bool
     @Binding var selectedDate: Date
+    @Binding var selectedStatisticType: Statistic
+    
+    @State private var isEditing: Bool = false
+    
+    @FocusState private var isTextFieldFocused: Bool
     
     var statisticType: Statistic
     var onButtonTapped: () -> Void
@@ -32,7 +35,15 @@ struct  SingleStatisticBoxView: View {
                 .focused($isTextFieldFocused)
                 .multilineTextAlignment(.center)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
-            
+                .onChange(of: isTextFieldFocused) { focused in
+                    // Respond to focus changes
+                    if focused {
+                        isEditing = true
+                        isEditingTodayStatistic = true
+                        selectedStatisticType = statisticType
+                    }
+                }
+                .disabled(isEditingTodayStatistic && !isTextFieldFocused && selectedStatisticType != statisticType )
             Button(action: {
                 // Save new data to Realm when the Save button pressed
                 if isEditing {
@@ -40,7 +51,8 @@ struct  SingleStatisticBoxView: View {
                 }
 
                 isEditingTodayStatistic = isEditing
-
+                selectedStatisticType = statisticType
+                
                 isEditing.toggle()
                 if isEditing {
                     isTextFieldFocused = true
@@ -50,9 +62,9 @@ struct  SingleStatisticBoxView: View {
     
                 onButtonTapped()
             }) {
-                Image(systemName: isEditing ? "checkmark" : "plus")
+                Image(systemName: isEditing ? "checkmark" : (value == 0 ? "plus" : "pencil"))
                     .foregroundColor(.white)
-                    .padding(10)
+                    .padding(15)
                     .background(isEditing ? Color.green : Color.blue.opacity(0.6))
                     .clipShape(Circle())  // This makes the button round
             }

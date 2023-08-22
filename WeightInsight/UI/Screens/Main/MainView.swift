@@ -22,6 +22,7 @@ struct MainView: View {
     @State private var statisticData: [StatisticDataObject] = []
     @State private var statisticCurrent: StatisticData = StatisticData(weight: "0", steps: "0", calories: "0")
     @State private var statisticAverage: StatisticData = StatisticData(weight: "0", steps: "0", calories: "0")
+    @State private var selectedStatisticType: Statistic = .steps
     
     var body: some View {
         VStack {
@@ -97,16 +98,20 @@ struct MainView: View {
             .padding(EdgeInsets(top:10, leading: 10, bottom:0, trailing: 10))
             
             HStack(spacing: 10) {
-                SingleStatisticBoxView(value: $selectedWeight, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate, statisticType: Statistic.weight) {
+                SingleStatisticBoxView(value: $selectedWeight, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate, selectedStatisticType: $selectedStatisticType, statisticType: Statistic.weight) {
                     updateAllStatistic()
                     
                 }
                 
-                SingleStatisticBoxView(value: $selectedSteps, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate, statisticType: Statistic.steps) {
+                SingleStatisticBoxView(value: $selectedSteps, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate,
+                    selectedStatisticType: $selectedStatisticType,
+                    statisticType: Statistic.steps) {
                     updateAllStatistic()
                 }
                 
-                SingleStatisticBoxView(value: $selectedCalories, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate, statisticType: Statistic.calories) {
+                SingleStatisticBoxView(value: $selectedCalories, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate,
+                    selectedStatisticType: $selectedStatisticType,
+                    statisticType: Statistic.calories) {
                     updateAllStatistic()
                 }
             }
