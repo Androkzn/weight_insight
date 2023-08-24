@@ -10,7 +10,7 @@ import SwiftUI
 struct DateStatisticView: View {
     @Binding var selectedStatistic: StatisticDataObject
     @Binding var isEditingTodayStatistic: Bool
-    @Binding var selectedDate: Date
+    @State var selectedDate = Date()
     @Binding var selectedStatisticType: Statistic?
 
     var onDateSelected: (Date) -> Void

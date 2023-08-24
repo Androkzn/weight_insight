@@ -47,7 +47,7 @@ struct MainView: View {
             DateStatisticView(
                 selectedStatistic: $selectedStatistic,
                 isEditingTodayStatistic: $isEditingTodayStatistic,
-                selectedDate: $viewModel.selectedDate,
+                selectedDate: viewModel.selectedDate,
                 selectedStatisticType: $selectedStatisticType
             ) { selectedDate in
                 // Date selected action

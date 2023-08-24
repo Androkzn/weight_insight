@@ -58,7 +58,7 @@ extension MainView {
             var sharedData = SharedData.defaultInstance()
             sharedData.todayWeight = Double(todayStat.weight)
             sharedData.todaySteps = Double(todayStat.steps)
-            sharedData.todayCalories = Double(todayStat.calories) 
+            sharedData.todayCalories = Double(todayStat.calories)
             // Average stat
             sharedData.avgWeight = Double(averageStatistic.weight) ?? 0
             sharedData.avgSteps = Double(averageStatistic.steps) ?? 0
