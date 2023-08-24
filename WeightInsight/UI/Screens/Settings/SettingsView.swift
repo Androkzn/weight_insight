@@ -67,22 +67,24 @@ struct SettingsView: View {
                         }
                     }
                     .cornerRadius(10)
+                    .disabled(true)
                 }
             }
             .onAppear() {
                 // Load saved settings
-                weightGoal = viewModel.loadSettingValue(for: .weight)
-                stepsGoal = viewModel.loadSettingValue(for: .steps)
-                caloriesGoal = viewModel.loadSettingValue(for: .calories)
-                myFitnessPal = viewModel.loadSettingValue(for: .myFitnessPal)
+                weightGoal = viewModel.loadSettingValue(for: .weight, hideZeroValue: true)
+                stepsGoal = viewModel.loadSettingValue(for: .steps, hideZeroValue: true)
+                caloriesGoal = viewModel.loadSettingValue(for: .calories, hideZeroValue: true)
+                myFitnessPal = viewModel.loadSettingValue(for: .myFitnessPal, hideZeroValue: true)
             }
         }
     }
 }
-
+#if DEBUG
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
             .environmentObject(SettingsView.ViewModel())
     }
 }
+#endif

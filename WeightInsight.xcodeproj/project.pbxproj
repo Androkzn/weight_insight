@@ -20,8 +20,8 @@
 		C851FB872A92BD46006444B3 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BE339C2A8C7DA80047A9FD /* Color+Extensions.swift */; };
 		C851FB882A92BD4A006444B3 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9B22A8ABB4300745035 /* UITextField+Extensions.swift */; };
 		C851FB892A92BD4C006444B3 /* NumberFormatter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9952A89E55800745035 /* NumberFormatter+Extensions.swift */; };
-		C851FB8B2A92DF54006444B3 /* SharedStatisticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FB8A2A92DF54006444B3 /* SharedStatisticData.swift */; };
-		C851FB8C2A92DF7D006444B3 /* SharedStatisticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FB8A2A92DF54006444B3 /* SharedStatisticData.swift */; };
+		C851FB8B2A92DF54006444B3 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FB8A2A92DF54006444B3 /* SharedData.swift */; };
+		C851FB8C2A92DF7D006444B3 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C851FB8A2A92DF54006444B3 /* SharedData.swift */; };
 		C87B2F762A93C2AB00EEF61E /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87B2F752A93C2AB00EEF61E /* BarChartView.swift */; };
 		C87B2F782A93C37800EEF61E /* BarChartLegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87B2F772A93C37800EEF61E /* BarChartLegendView.swift */; };
 		C87B2F7A2A93C3C800EEF61E /* ExtendedStatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87B2F792A93C3C800EEF61E /* ExtendedStatisticView.swift */; };
@@ -29,8 +29,14 @@
 		C87B2F7E2A93C59600EEF61E /* TodayStatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87B2F7D2A93C59600EEF61E /* TodayStatisticView.swift */; };
 		C87B2F802A93C5CE00EEF61E /* TodayStatisticRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87B2F7F2A93C5CE00EEF61E /* TodayStatisticRowView.swift */; };
 		C87B2F822A93C6EB00EEF61E /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87B2F812A93C6EB00EEF61E /* Provider.swift */; };
+		C87B2F842A943E9E00EEF61E /* MockedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87B2F832A943E9D00EEF61E /* MockedData.swift */; };
+		C87B2F872A9443BF00EEF61E /* Realm+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87B2F862A9443BF00EEF61E /* Realm+Extension.swift */; };
+		C87B2F892A9448A300EEF61E /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87B2F882A9448A200EEF61E /* ErrorView.swift */; };
 		C87F79222A8AE2A100E1B105 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F79212A8AE2A100E1B105 /* WebView.swift */; };
 		C87F79242A8B429200E1B105 /* EditStatisticPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F79232A8B429200E1B105 /* EditStatisticPopupView.swift */; };
+		C87F7B482A95379B00E14391 /* AverageStatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F7B472A95379B00E14391 /* AverageStatisticView.swift */; };
+		C87F7B4A2A95387900E14391 /* StatisticChartSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F7B492A95387900E14391 /* StatisticChartSelectionView.swift */; };
+		C87F7B4C2A95393B00E14391 /* DateStatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F7B4B2A95393B00E14391 /* DateStatisticView.swift */; };
 		C88AE0442A91B4700083C781 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C88AE0432A91B4700083C781 /* WidgetKit.framework */; };
 		C88AE0462A91B4700083C781 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C88AE0452A91B4700083C781 /* SwiftUI.framework */; };
 		C88AE0492A91B4700083C781 /* WeightInsightWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88AE0482A91B4700083C781 /* WeightInsightWidgetBundle.swift */; };
@@ -40,7 +46,7 @@
 		C88AE0522A91B4710083C781 /* WeightInsightWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = C88AE04E2A91B4700083C781 /* WeightInsightWidget.intentdefinition */; };
 		C88AE0532A91B4710083C781 /* WeightInsightWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = C88AE04E2A91B4700083C781 /* WeightInsightWidget.intentdefinition */; };
 		C88AE0562A91B4710083C781 /* WeightInsightWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C88AE0422A91B4700083C781 /* WeightInsightWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C88AE0612A9287DA0083C781 /* DeleteStatisticPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88AE0602A9287DA0083C781 /* DeleteStatisticPopupView.swift */; };
+		C88AE0612A9287DA0083C781 /* ClearStatisticPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88AE0602A9287DA0083C781 /* ClearStatisticPopupView.swift */; };
 		C8B2970B2A8DA2C3007893D0 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B2970A2A8DA2C3007893D0 /* ChartView.swift */; };
 		C8BE33972A8C76150047A9FD /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BE33962A8C76150047A9FD /* SplashScreenView.swift */; };
 		C8BE339B2A8C7BA60047A9FD /* WeightInsightApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BE339A2A8C7BA60047A9FD /* WeightInsightApp.swift */; };
@@ -53,7 +59,7 @@
 		C8FFA99D2A8A65AC00745035 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA99C2A8A65AC00745035 /* MainView.swift */; };
 		C8FFA99F2A8A65B900745035 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA99E2A8A65B900745035 /* StatisticsView.swift */; };
 		C8FFA9A12A8A65C300745035 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A02A8A65C300745035 /* SettingsView.swift */; };
-		C8FFA9A32A8A77D200745035 /* SingleStatisticBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A22A8A77D200745035 /* SingleStatisticBoxView.swift */; };
+		C8FFA9A32A8A77D200745035 /* DateStatisticBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A22A8A77D200745035 /* DateStatisticBoxView.swift */; };
 		C8FFA9A52A8A77EB00745035 /* DoubleWheelPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A42A8A77EB00745035 /* DoubleWheelPickerView.swift */; };
 		C8FFA9A92A8A781A00745035 /* AverageStatisticBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A82A8A781A00745035 /* AverageStatisticBoxView.swift */; };
 		C8FFA9AB2A8A795100745035 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9AA2A8A795100745035 /* MainViewModel.swift */; };
@@ -124,7 +130,7 @@
 		C84F228D2A89407400DA46A8 /* WeightInsightUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeightInsightUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C84F22912A89407400DA46A8 /* WeightInsightUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightInsightUITests.swift; sourceTree = "<group>"; };
 		C84F22932A89407400DA46A8 /* WeightInsightUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightInsightUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		C851FB8A2A92DF54006444B3 /* SharedStatisticData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStatisticData.swift; sourceTree = "<group>"; };
+		C851FB8A2A92DF54006444B3 /* SharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		C87B2F752A93C2AB00EEF61E /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
 		C87B2F772A93C37800EEF61E /* BarChartLegendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartLegendView.swift; sourceTree = "<group>"; };
 		C87B2F792A93C3C800EEF61E /* ExtendedStatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedStatisticView.swift; sourceTree = "<group>"; };
@@ -132,8 +138,14 @@
 		C87B2F7D2A93C59600EEF61E /* TodayStatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayStatisticView.swift; sourceTree = "<group>"; };
 		C87B2F7F2A93C5CE00EEF61E /* TodayStatisticRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayStatisticRowView.swift; sourceTree = "<group>"; };
 		C87B2F812A93C6EB00EEF61E /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		C87B2F832A943E9D00EEF61E /* MockedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockedData.swift; sourceTree = "<group>"; };
+		C87B2F862A9443BF00EEF61E /* Realm+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Realm+Extension.swift"; sourceTree = "<group>"; };
+		C87B2F882A9448A200EEF61E /* ErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		C87F79212A8AE2A100E1B105 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		C87F79232A8B429200E1B105 /* EditStatisticPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStatisticPopupView.swift; sourceTree = "<group>"; };
+		C87F7B472A95379B00E14391 /* AverageStatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageStatisticView.swift; sourceTree = "<group>"; };
+		C87F7B492A95387900E14391 /* StatisticChartSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticChartSelectionView.swift; sourceTree = "<group>"; };
+		C87F7B4B2A95393B00E14391 /* DateStatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateStatisticView.swift; sourceTree = "<group>"; };
 		C88AE0422A91B4700083C781 /* WeightInsightWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WeightInsightWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88AE0432A91B4700083C781 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		C88AE0452A91B4700083C781 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -145,7 +157,7 @@
 		C88AE0512A91B4710083C781 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C88AE05B2A91B8710083C781 /* WeightInsight.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeightInsight.entitlements; sourceTree = "<group>"; };
 		C88AE05C2A91B8E00083C781 /* WeightInsightWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeightInsightWidgetExtension.entitlements; sourceTree = "<group>"; };
-		C88AE0602A9287DA0083C781 /* DeleteStatisticPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteStatisticPopupView.swift; sourceTree = "<group>"; };
+		C88AE0602A9287DA0083C781 /* ClearStatisticPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearStatisticPopupView.swift; sourceTree = "<group>"; };
 		C8B2970A2A8DA2C3007893D0 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		C8BE33962A8C76150047A9FD /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		C8BE339A2A8C7BA60047A9FD /* WeightInsightApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightInsightApp.swift; sourceTree = "<group>"; };
@@ -158,7 +170,7 @@
 		C8FFA99C2A8A65AC00745035 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		C8FFA99E2A8A65B900745035 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		C8FFA9A02A8A65C300745035 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		C8FFA9A22A8A77D200745035 /* SingleStatisticBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleStatisticBoxView.swift; sourceTree = "<group>"; };
+		C8FFA9A22A8A77D200745035 /* DateStatisticBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateStatisticBoxView.swift; sourceTree = "<group>"; };
 		C8FFA9A42A8A77EB00745035 /* DoubleWheelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleWheelPickerView.swift; sourceTree = "<group>"; };
 		C8FFA9A82A8A781A00745035 /* AverageStatisticBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageStatisticBoxView.swift; sourceTree = "<group>"; };
 		C8FFA9AA2A8A795100745035 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
@@ -241,6 +253,7 @@
 			children = (
 				C88AE05C2A91B8E00083C781 /* WeightInsightWidgetExtension.entitlements */,
 				C84F22752A89407300DA46A8 /* WeightInsight */,
+				C87B2F8A2A9449F000EEF61E /* UnitTests */,
 				C84F22862A89407400DA46A8 /* WeightInsightTests */,
 				C84F22902A89407400DA46A8 /* WeightInsightUITests */,
 				C88AE0472A91B4700083C781 /* WeightInsightWidget */,
@@ -289,6 +302,13 @@
 				C84F22932A89407400DA46A8 /* WeightInsightUITestsLaunchTests.swift */,
 			);
 			path = WeightInsightUITests;
+			sourceTree = "<group>";
+		};
+		C87B2F8A2A9449F000EEF61E /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UnitTests;
 			sourceTree = "<group>";
 		};
 		C88AE0472A91B4700083C781 /* WeightInsightWidget */ = {
@@ -340,6 +360,7 @@
 		C8FFA9852A8944E200745035 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C87B2F862A9443BF00EEF61E /* Realm+Extension.swift */,
 				C8FFA9862A8944E200745035 /* Date+Extensions.swift */,
 				C8FFA9952A89E55800745035 /* NumberFormatter+Extensions.swift */,
 				C8FFA9B22A8ABB4300745035 /* UITextField+Extensions.swift */,
@@ -351,8 +372,9 @@
 		C8FFA9872A8944E200745035 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C87B2F832A943E9D00EEF61E /* MockedData.swift */,
 				C8FFA9882A8944E200745035 /* StatisticDataObject.swift */,
-				C851FB8A2A92DF54006444B3 /* SharedStatisticData.swift */,
+				C851FB8A2A92DF54006444B3 /* SharedData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -381,16 +403,20 @@
 		C8FFA98C2A8944E200745035 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				C8FFA9A22A8A77D200745035 /* SingleStatisticBoxView.swift */,
+				C87B2F882A9448A200EEF61E /* ErrorView.swift */,
+				C8FFA9A22A8A77D200745035 /* DateStatisticBoxView.swift */,
 				C8BE33962A8C76150047A9FD /* SplashScreenView.swift */,
 				C8FFA9A42A8A77EB00745035 /* DoubleWheelPickerView.swift */,
 				C8FFA9A82A8A781A00745035 /* AverageStatisticBoxView.swift */,
 				C8FFA9B02A8ABAFD00745035 /* KeyboardToolBar.swift */,
 				C8FFA9B62A8ABB9800745035 /* CustomTextField.swift */,
 				C87F79212A8AE2A100E1B105 /* WebView.swift */,
+				C87F7B472A95379B00E14391 /* AverageStatisticView.swift */,
 				C87F79232A8B429200E1B105 /* EditStatisticPopupView.swift */,
 				C8B2970A2A8DA2C3007893D0 /* ChartView.swift */,
-				C88AE0602A9287DA0083C781 /* DeleteStatisticPopupView.swift */,
+				C88AE0602A9287DA0083C781 /* ClearStatisticPopupView.swift */,
+				C87F7B492A95387900E14391 /* StatisticChartSelectionView.swift */,
+				C87F7B4B2A95393B00E14391 /* DateStatisticView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -718,18 +744,22 @@
 				C87F79242A8B429200E1B105 /* EditStatisticPopupView.swift in Sources */,
 				C8FFA98F2A8944E200745035 /* StatisticDataObject.swift in Sources */,
 				C8FFA99F2A8A65B900745035 /* StatisticsView.swift in Sources */,
+				C87F7B4C2A95393B00E14391 /* DateStatisticView.swift in Sources */,
 				C8FFA9B32A8ABB4400745035 /* UITextField+Extensions.swift in Sources */,
 				C8BE339B2A8C7BA60047A9FD /* WeightInsightApp.swift in Sources */,
+				C87B2F892A9448A300EEF61E /* ErrorView.swift in Sources */,
+				C87B2F872A9443BF00EEF61E /* Realm+Extension.swift in Sources */,
 				C8FFA9B72A8ABB9800745035 /* CustomTextField.swift in Sources */,
 				C8B2970B2A8DA2C3007893D0 /* ChartView.swift in Sources */,
 				C8FFA99D2A8A65AC00745035 /* MainView.swift in Sources */,
 				C8FFA9B12A8ABAFD00745035 /* KeyboardToolBar.swift in Sources */,
-				C851FB8B2A92DF54006444B3 /* SharedStatisticData.swift in Sources */,
+				C851FB8B2A92DF54006444B3 /* SharedData.swift in Sources */,
 				C8FFA9A52A8A77EB00745035 /* DoubleWheelPickerView.swift in Sources */,
 				C8BE339D2A8C7DA80047A9FD /* Color+Extensions.swift in Sources */,
 				C88AE0532A91B4710083C781 /* WeightInsightWidget.intentdefinition in Sources */,
 				C8FFA9A12A8A65C300745035 /* SettingsView.swift in Sources */,
 				C8FFA98E2A8944E200745035 /* Date+Extensions.swift in Sources */,
+				C87F7B4A2A95387900E14391 /* StatisticChartSelectionView.swift in Sources */,
 				C8FFA9AB2A8A795100745035 /* MainViewModel.swift in Sources */,
 				C8FFA9A92A8A781A00745035 /* AverageStatisticBoxView.swift in Sources */,
 				C8FFA9AD2A8A796000745035 /* StatisticsViewModel.swift in Sources */,
@@ -738,9 +768,11 @@
 				C8FFA9942A89C01800745035 /* RealmService.swift in Sources */,
 				C84F22792A89407300DA46A8 /* ContentView.swift in Sources */,
 				C8BE33972A8C76150047A9FD /* SplashScreenView.swift in Sources */,
-				C88AE0612A9287DA0083C781 /* DeleteStatisticPopupView.swift in Sources */,
-				C8FFA9A32A8A77D200745035 /* SingleStatisticBoxView.swift in Sources */,
+				C87B2F842A943E9E00EEF61E /* MockedData.swift in Sources */,
+				C88AE0612A9287DA0083C781 /* ClearStatisticPopupView.swift in Sources */,
+				C8FFA9A32A8A77D200745035 /* DateStatisticBoxView.swift in Sources */,
 				C8FFA9AF2A8A796C00745035 /* SettingsViewModel.swift in Sources */,
+				C87F7B482A95379B00E14391 /* AverageStatisticView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -766,7 +798,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C88AE0492A91B4700083C781 /* WeightInsightWidgetBundle.swift in Sources */,
-				C851FB8C2A92DF7D006444B3 /* SharedStatisticData.swift in Sources */,
+				C851FB8C2A92DF7D006444B3 /* SharedData.swift in Sources */,
 				C87B2F7A2A93C3C800EEF61E /* ExtendedStatisticView.swift in Sources */,
 				C87B2F802A93C5CE00EEF61E /* TodayStatisticRowView.swift in Sources */,
 				C87B2F822A93C6EB00EEF61E /* Provider.swift in Sources */,
@@ -928,6 +960,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WeightInsight/WeightInsight.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WeightInsight/Resources\"";
@@ -949,6 +982,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "androkzn.com.weight-insight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -967,6 +1001,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WeightInsight/WeightInsight.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WeightInsight/Resources\"";
@@ -988,6 +1023,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "androkzn.com.weight-insight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

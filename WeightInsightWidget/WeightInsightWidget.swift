@@ -43,7 +43,7 @@ struct SimpleEntry: TimelineEntry {
     let data: SharedData
 }
 
-
+#if DEBUG
 struct WeightInsightWidget_Previews: PreviewProvider {
     static var previews: some View {
         WeightInsightWidgetEntryView(data: SharedData.defaultInstance())
@@ -53,3 +53,4 @@ struct WeightInsightWidget_Previews: PreviewProvider {
             .previewContext(WidgetPreviewContext(family: .systemMedium))
     }
 }
+#endif

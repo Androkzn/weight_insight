@@ -11,6 +11,7 @@ import RealmSwift
 
 struct MainView: View {
     @EnvironmentObject var viewModel: ViewModel
+    @EnvironmentObject var settingsViewModel: SettingsView.ViewModel
     
     @State private var selectedFilter: StatisticFilter = .thisWeek
     @State private var selectedDate: Date = Date()
@@ -22,7 +23,7 @@ struct MainView: View {
     @State private var statisticData: [StatisticDataObject] = []
     @State private var statisticCurrent: StatisticData = StatisticData(weight: "0", steps: "0", calories: "0")
     @State private var statisticAverage: StatisticData = StatisticData(weight: "0", steps: "0", calories: "0")
-    @State private var selectedStatisticType: Statistic = .steps
+    @State private var selectedStatisticType: Statistic?  
     
     var body: some View {
         VStack {
@@ -32,93 +33,42 @@ struct MainView: View {
                 avgWeight: $statisticAverage.weight,
                 avgSteps: $statisticAverage.steps,
                 avgCalories: $statisticAverage.calories,
-                goalWeight: viewModel.loadSettingValue(for: .weight),
-                goalSteps: viewModel.loadSettingValue(for: .steps),
-                goalCalories: viewModel.loadSettingValue(for: .calories)
+                goalWeight: $settingsViewModel.weightGoal,
+                goalSteps: $settingsViewModel.stepsGoal,
+                goalCalories: $settingsViewModel.caloriesGoal
             ) {
                 self.statisticData = viewModel.getStatisticObjects(filter: selectedFilter)
                 self.statisticAverage = viewModel.getStatisticFor(filter: selectedFilter)
                 viewModel.saveSharedData(filter: selectedFilter)
+            }.onChange(of: isEditingTodayStatistic) { _ in
+                self.statisticAverage = viewModel.getStatisticFor(filter: selectedFilter)
             }
             
-            //MultiLineChartView
+            // Multi Statistic Chart View
             ChartView(
                 selectedChartStatistic: $selectedChartStatistic,
                 statisticData: $statisticData,
                 isEditingTodayStatistic: $isEditingTodayStatistic
             )
+            // Selection of statistic type for displaying on the chart
+            StatisticChartSelectionView(
+                selectedChartStatistic: $selectedChartStatistic
+            )
             
-            GeometryReader { geometry in
-                HStack(spacing: 10) {
-                    ForEach(Statistic.allCases, id: \.self) { statistic in
-                        Button(action: {
-                            if selectedChartStatistic.contains(statistic) {
-                                // Ensure that at least one item remains selected
-                                if selectedChartStatistic.count > 1 {
-                                    selectedChartStatistic.removeAll { $0 == statistic }
-                                }
-                            } else {
-                                selectedChartStatistic.append(statistic)
-                            }
-                        }) {
-                            Text(statistic.rawValue.capitalized)
-                                .frame(width: (geometry.size.width - 40) / 3, height: 25) // 40 accounts for total leading and trailing padding and spaces between buttons
-                                .background(
-                                    selectedChartStatistic.contains(statistic) ?
-                                    getColorForStatistic(statistic) : Color.gray
-                                )
-                                .foregroundColor(Color.white)
-                                .cornerRadius(8)
-                        }
-                    }
-                }
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-            }.frame(height: 20)
-            
-            
-            
-            HStack() {
-                Text("Your data for")
-                    .font(.headline)
-                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 0))
-                
-                Spacer()
-                
-                DatePicker("", selection: $selectedDate,  in: ...Date(), displayedComponents: .date)
-                    .onChange(of: selectedDate) { newDate in
-                        self.selectedDate = newDate
-                        self.updateStatisticForSelectedDate(date: newDate)
-                        viewModel.saveSharedData(filter: selectedFilter)
-                    }
-                    .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
-                
+            // Specific date statistic view
+            DateStatisticView(
+                selectedWeight: $selectedWeight,
+                selectedSteps: $selectedSteps,
+                selectedCalories: $selectedCalories,
+                isEditingTodayStatistic: $isEditingTodayStatistic,
+                selectedDate: $selectedDate,
+                selectedStatisticType: $selectedStatisticType
+            ) { selectedDate in
+                // Date selected action
+                self.selectedDate = selectedDate
+                self.updateStatisticForSelectedDate(date: selectedDate)
+                viewModel.saveSharedData(filter: selectedFilter)
             }
-            .background(Color.orange.opacity(0.3))
-            .cornerRadius(10)
-            .padding(EdgeInsets(top:10, leading: 10, bottom:0, trailing: 10))
-            
-            HStack(spacing: 10) {
-                SingleStatisticBoxView(value: $selectedWeight, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate, selectedStatisticType: $selectedStatisticType, statisticType: Statistic.weight) {
-                    updateAllStatistic()
-                    
-                }
-                
-                SingleStatisticBoxView(value: $selectedSteps, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate,
-                    selectedStatisticType: $selectedStatisticType,
-                    statisticType: Statistic.steps) {
-                    updateAllStatistic()
-                }
-                
-                SingleStatisticBoxView(value: $selectedCalories, isEditingTodayStatistic: $isEditingTodayStatistic, selectedDate: $selectedDate,
-                    selectedStatisticType: $selectedStatisticType,
-                    statisticType: Statistic.calories) {
-                    updateAllStatistic()
-                }
-            }
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-            
-            Spacer()
-            
         }.onAppear {
             // Update statistic data for chart based on current filter
             self.statisticData = viewModel.getStatisticObjects(filter: selectedFilter)
@@ -131,14 +81,6 @@ struct MainView: View {
         }
     }
     
-    func updateAllStatistic() {
-        self.updateStatisticForSelectedDate(date: selectedDate)
-        self.statisticData = viewModel.getStatisticObjects(filter: selectedFilter)
-        self.statisticAverage = viewModel.getStatisticFor(filter: selectedFilter)
-        isEditingTodayStatistic.toggle()
-        viewModel.saveSharedData(filter: selectedFilter)
-    }
-    
     func updateStatisticForSelectedDate(date: Date) {
         self.statisticCurrent = viewModel.getStatisticForDate(date: date)
         self.selectedWeight = Double(self.statisticCurrent.weight) ?? 0
@@ -147,88 +89,16 @@ struct MainView: View {
     }
 }
  
-
-// Get color based on Statistic
-func getColorForStatistic(_ statistic: Statistic) -> Color {
-    switch statistic {
-    case .weight, .steps, .calories:
-        return Color.blue.opacity(0.5)
-    }
-}
-
-struct AverageStatisticView: View {
-    @Binding  var selectedFilter: StatisticFilter
-    @Binding var avgWeight: String
-    @Binding var avgSteps: String
-    @Binding var avgCalories: String
-    @State var goalWeight: String
-    @State var goalSteps: String
-    @State var goalCalories: String
-    
-    var onFilterTapped: () -> Void
-    
-    var body: some View {
-        // Filter box view
-        HStack() {
-            Text("Average statistic:")
-                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-                .font(.headline)
-            
-            Spacer()
-            
-            Picker("Filter period", selection: $selectedFilter) {
-                ForEach(StatisticFilter.allCases, id: \.self) {
-                    Text($0.title)
-                }
-            }.onChange(of: selectedFilter) { selectedFilter in
-                onFilterTapped()
-            }
-            .pickerStyle(.menu)
-            .tint(.black)
-        }
-        .background(Color.blue.opacity(0.2))
-        .cornerRadius(10)
-        .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
-        
-        // Average statistic boxes view
-        HStack(spacing: 0) {
-            AverageStatisticBoxView(
-                title: Statistic.weight.title,
-                value: avgWeight,
-                goalValue: goalWeight
-            )
-            
-            Spacer()
-            
-            AverageStatisticBoxView(
-                title: Statistic.steps.title,
-                value: avgSteps,
-                goalValue: goalSteps
-            )
-            
-            Spacer()
-            
-            AverageStatisticBoxView(
-                title: Statistic.calories.title,
-                value: avgCalories,
-                goalValue: goalCalories
-            )
-            
-        }
-        .background(Color.blue.opacity(0.1))
-        .cornerRadius(10)
-        .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
-    }
-}
-
+#if DEBUG
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
        MainView()
             .environmentObject(MainView.ViewModel())
+            .environmentObject(SettingsView.ViewModel())
+            .environmentObject(StatisticsView.ViewModel())
     }
 }
-
-
+#endif
 
 
 

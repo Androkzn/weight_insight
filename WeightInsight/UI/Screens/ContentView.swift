@@ -8,23 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var mainViewModel = MainView.ViewModel()
+    @StateObject private var settingsViewModel = SettingsView.ViewModel()
+    @StateObject private var statisticsViewModel = StatisticsView.ViewModel()
+
     var body: some View {
         TabView {
             MainView()
-                .environmentObject(MainView.ViewModel())
+                .environmentObject(mainViewModel)
+                .environmentObject(settingsViewModel)
+                .environmentObject(statisticsViewModel)
                 .tabItem {
                     Image(systemName: "house")
                     Text("Main")
                 }
       
             StatisticsView()
-                .environmentObject(StatisticsView.ViewModel())
+                .environmentObject(statisticsViewModel)
                 .tabItem {
                     Image(systemName: "chart.bar")
                     Text("Statistics")
                 }
             SettingsView()
-                .environmentObject(SettingsView.ViewModel())
+                .environmentObject(settingsViewModel)
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
@@ -33,9 +39,10 @@ struct ContentView: View {
     }
 }
 
+#if DEBUG
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
-
+#endif

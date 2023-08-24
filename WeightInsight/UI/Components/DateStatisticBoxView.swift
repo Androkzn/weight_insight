@@ -8,21 +8,23 @@
 import SwiftUI
 import Combine
 
-struct  SingleStatisticBoxView: View {
+struct  DateStatisticBoxView: View {
     @EnvironmentObject var viewModel:   MainView.ViewModel
     @Binding var value: Double
     @Binding var isEditingTodayStatistic: Bool
     @Binding var selectedDate: Date
-    @Binding var selectedStatisticType: Statistic
+    @Binding var selectedStatisticType: Statistic?
     
     @State private var isEditing: Bool = false
     
     @FocusState private var isTextFieldFocused: Bool
     
     var statisticType: Statistic
-    var onButtonTapped: () -> Void
 
     var body: some View {
+        let isDisabled = selectedStatisticType != nil && selectedStatisticType != statisticType
+
+        
         VStack(spacing: 0) {
             Text(statisticType.title)
                 .font(.headline)
@@ -43,24 +45,24 @@ struct  SingleStatisticBoxView: View {
                         selectedStatisticType = statisticType
                     }
                 }
-                .disabled(isEditingTodayStatistic && !isTextFieldFocused && selectedStatisticType != statisticType )
+                .disabled(isDisabled)
             Button(action: {
                 // Save new data to Realm when the Save button pressed
                 if isEditing {
                     viewModel.saveStatisticData(statistic: statisticType, value: value, date: selectedDate)
                 }
 
-                isEditingTodayStatistic = isEditing
-                selectedStatisticType = statisticType
-                
                 isEditing.toggle()
+                
+                isEditingTodayStatistic = isEditing
+                
                 if isEditing {
                     isTextFieldFocused = true
+                    selectedStatisticType = statisticType
                 } else {
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    selectedStatisticType = nil
                 }
-    
-                onButtonTapped()
             }) {
                 Image(systemName: isEditing ? "checkmark" : (value == 0 ? "plus" : "pencil"))
                     .foregroundColor(.white)
@@ -68,7 +70,9 @@ struct  SingleStatisticBoxView: View {
                     .background(isEditing ? Color.green : Color.blue.opacity(0.6))
                     .clipShape(Circle())  // This makes the button round
             }
-            .disabled(isEditingTodayStatistic && !isEditing) // This disables the button if any box is editing and the current box is not.
+            .disabled(isDisabled)
+             
+            // This disables the button if any box is editing and the current box is not.
         }
         //.frame(width: 80, height: 120)
         .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))

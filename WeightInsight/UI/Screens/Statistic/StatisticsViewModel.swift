@@ -20,8 +20,8 @@ extension StatisticsView {
             RealmService.shared.saveStatisticData(data: data)
         }
         
-        func deleteStatisticData(id: String) {
-            RealmService.shared.deleteStatisticData(id: id)
+        func clearStatisticData(id: String) {
+            RealmService.shared.clearStatisticData(id: id)
         }
         
         func sortedKeys() -> [String] {

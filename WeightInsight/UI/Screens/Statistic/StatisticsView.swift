@@ -17,9 +17,7 @@ struct StatisticsView: View {
     @State private var editingEntry: StatisticData = StatisticData(weight: "",steps: "", calories: "")
  
     var body: some View {
-        var data =  viewModel.sortedKeys()
-        
-        
+        let data =  viewModel.sortedKeys()
         NavigationView {
             List {
                 ForEach(data, id: \.self) { monthYear in
@@ -45,7 +43,7 @@ struct StatisticsView: View {
                                 }) {
                                     Label("Edit", systemImage: "pencil")
                                         .foregroundColor(.white)
-                                        .padding()
+                                        .padding(.top, 5)
                                         .background(Color.orange)
                                         .cornerRadius(8)
                                 }
@@ -54,9 +52,9 @@ struct StatisticsView: View {
                                     editingEntry = StatisticData(weight: String(format: "%.2f", entry.weight),steps: String(entry.steps), calories: String(entry.calories), date: entry.date)
                                     showDeletePopup = true
                                 }) {
-                                    Label("Delete", systemImage: "trash")
+                                    Label("Clear", systemImage: "trash")
                                         .foregroundColor(.white)
-                                        .padding()
+                                        .padding(.top, 5)
                                         .background(Color.red)
                                         .cornerRadius(8)
                                 }
@@ -72,15 +70,15 @@ struct StatisticsView: View {
             .overlay(
                 Group {
                     if showEditPopup {
-                        EditStatisticPopupView(entry: $editingEntry) { statisticData in
+                        EditStatisticPopupView(entry: $editingEntry, showEditPopup: $showEditPopup) { statisticData in
                             // Save action for the popup
                             viewModel.editStatisticData(data: statisticData)
                             showEditPopup = false
                         }
                     } else if showDeletePopup, let id = editingEntry.date?.formattedString() {
-                        DeleteStatisticPopupView(entryId: id) { entryId in
+                        ClearStatisticPopupView(entryId: id) { entryId in
                             // On Delete Action
-                            viewModel.deleteStatisticData(id: entryId)
+                            viewModel.clearStatisticData(id: entryId)
                             showDeletePopup = false
                         } onCancel: {
                             // On Cancel Action
@@ -103,10 +101,11 @@ struct StatisticsView: View {
 }
 
 
-
+#if DEBUG
 struct StatisticsView_Previews: PreviewProvider {
     static var previews: some View {
         StatisticsView()
             .environmentObject(StatisticsView.ViewModel())
     }
 }
+#endif

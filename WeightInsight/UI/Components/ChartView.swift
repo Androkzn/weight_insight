@@ -45,98 +45,106 @@ struct ChartView: View {
         let maxValue = (values.max() ?? 0) + leverage
         return (min: minValue, max: maxValue)
     }
-    
-    // Get color based on Statistic
-    func getColorForStatistic(_ statistic: Statistic) -> Color {
-        switch statistic {
-        case .weight:
-            return Color.blue
-        case .steps:
-            return Color.green
-        case .calories:
-            return Color.orange
-        }
-    }
 
     var body: some View {
         let (seriesData, wasDataNormalized) = getSeries(statisticData: statisticData, selectedChartStatistic: selectedChartStatistic)
         let range = yValuesRange(isDataNormalized: wasDataNormalized)
         
-        return Chart(seriesData) { series in
-            ForEach(series.data, id: \.self) { data in
-                LineMark(
-                    x: .value("Day", data.date, unit: .day),
-                    y: .value("Value", data.value)
-                )
-                .foregroundStyle(by: .value("", series.name))
-                .interpolationMethod(.catmullRom)
-                
-                PointMark (
-                    x: .value("Day", data.date, unit: .day),
-                    y: .value("Value", data.value)
-                )
-                .foregroundStyle(by: .value("", series.name))
-                .interpolationMethod(.linear)
+        ZStack(alignment: .leading) {
+            Chart(seriesData) { series in
+                ForEach(series.data, id: \.self) { data in
+                    LineMark(
+                        x: .value("Day", data.date, unit: .day),
+                        y: .value("Value", data.value)
+                    )
+                    .foregroundStyle(by: .value("", series.name))
+                    .interpolationMethod(.catmullRom)
+                    
+                    PointMark (
+                        x: .value("Day", data.date, unit: .day),
+                        y: .value("Value", data.value)
+                    )
+                    .foregroundStyle(by: .value("", series.name))
+                    .interpolationMethod(.linear)
+                }
             }
-        }
-        .chartXAxis() {
-            AxisMarks(
-                values: .stride(by: .day, count: 1)
-            ) { value in
-                if let date = value.as(Date.self) {
-                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.1))
-                    AxisTick(stroke: StrokeStyle(lineWidth: 0))
-                    AxisValueLabel {
-                        if statisticData.count <= 7 {
-                            Text(date, format: .dateTime.day(.defaultDigits).month(.abbreviated)
-                            )
-                            .multilineTextAlignment(.center)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                            .frame(width: (UIScreen.main.bounds.width / CGFloat(statisticData.count)))
-                        } else if statisticData.count > 15 && statisticData.count <= 31 {
-                            if statisticData.count <= 31 && Calendar.current.component(.day, from: date) == 1 ||
-                                Calendar.current.component(.day, from: date) == statisticData.count ||
-                                (statisticData.count > 16 && Calendar.current.component(.day, from: date) % 3 == 1) {
-                                Text(date, format: .dateTime.day(.defaultDigits))
-                                    .multilineTextAlignment(.center)
-                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                                    .frame(width: 50)
-                            } else {
-                                Text("")
-                            }
-                        } else if statisticData.count > 31 {
-                            // Show months names only
-                            if date.isFirstDayOfMonth {
-                                Text(date, format: .dateTime.month(.abbreviated)
+            .chartXAxis() {
+                AxisMarks(
+                    values: .stride(by: .day, count: 1)
+                ) { value in
+                    if let date = value.as(Date.self) {
+                        AxisGridLine(stroke: StrokeStyle(lineWidth: 0.1))
+                        AxisTick(stroke: StrokeStyle(lineWidth: 0))
+                        AxisValueLabel {
+                            if statisticData.count <= 7 {
+                                Text(date, format: .dateTime.day(.defaultDigits).month(.abbreviated)
                                 )
-                                .frame(width: 100)
+                                .multilineTextAlignment(.center)
+                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                .frame(width: (UIScreen.main.bounds.width / CGFloat(statisticData.count)))
+                            } else if statisticData.count > 15 && statisticData.count <= 31 {
+                                if statisticData.count <= 31 && Calendar.current.component(.day, from: date) == 1 ||
+                                    Calendar.current.component(.day, from: date) == statisticData.count ||
+                                    (statisticData.count > 16 && Calendar.current.component(.day, from: date) % 3 == 1) {
+                                    Text(date, format: .dateTime.day(.defaultDigits))
+                                        .multilineTextAlignment(.center)
+                                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                        .frame(width: 50)
+                                } else {
+                                    Text("")
+                                }
+                            } else if statisticData.count > 31 {
+                                // Show months names only
+                                if date.isFirstDayOfMonth {
+                                    Text(date, format: .dateTime.month(.abbreviated)
+                                    )
+                                    .frame(width: 100)
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        .chartYAxis {
-            AxisMarks(position: .leading, values: .automatic()) { value in
-                if !wasDataNormalized, let labelValue = value.as(Int.self) {
-                    // Only show label when data is not normalized
-                    AxisValueLabel {
-                        VStack() {
-                            Text("\(labelValue)")
+            .chartYAxis() {
+                AxisMarks(position: .leading, values: .automatic()) { value in
+                    // Do not show if there is no data
+                    if !seriesData.isEmpty {
+                        AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
+                        AxisTick(stroke: StrokeStyle(lineWidth: 0))
+                        
+                        if !wasDataNormalized, let labelValue = value.as(Int.self) {
+                            // Only show label when data is not normalized
+                            AxisValueLabel {
+                                VStack() {
+                                    Text("\(labelValue)")
+                                }
+                            }
                         }
                     }
                 }
-                
-                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
-                AxisTick(stroke: StrokeStyle(lineWidth: 0))
+            }
+            .chartYScale(domain: [range.min, range.max])
+            .chartLegend(.visible)
+            .chartLegend(position: .automatic, alignment: .center, spacing: 10)
+            .opacity(isEditingTodayStatistic ? 0 : 1)
+            .animation(SwiftUI.Animation.default, value: 0.5)
+            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+            // Show placeholder if there is no data
+            if seriesData.isEmpty {
+                HStack{
+                    Spacer()
+                    Text("You do not have any data for the selected period")
+                        .foregroundColor(.gray)
+                        .font(.system(size: 20))
+                        .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+                        .multilineTextAlignment(.center)
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .zIndex(1)
+                    Spacer()
+                }
             }
         }
-        .chartYScale(domain: [range.min, range.max])
-        .chartLegend(.visible)
-        .chartLegend(position: .automatic, alignment: .center, spacing: 10)
-        .opacity(isEditingTodayStatistic ? 0 : 1)
-        .animation(SwiftUI.Animation.default, value: 0.5)
-        .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
     }
     
     func getSeries(statisticData: [StatisticDataObject], selectedChartStatistic: [Statistic]) -> ([StatisticSeries], Bool) {
@@ -174,15 +182,16 @@ struct ChartView: View {
             }
         }
 
-        let seriesData = selectedChartStatistic.compactMap { statistic -> StatisticSeries? in
-            guard let dataSeries = dataMappings[statistic] else { return nil }
-            return StatisticSeries(name: statistic.rawValue.capitalized, data: dataSeries)
+        // Add available data to result if data for spe
+        var seriesData: [StatisticSeries] = []
+        for statistic in selectedChartStatistic {
+            if let dataSeries = dataMappings[statistic], !dataSeries.isEmpty {
+                seriesData.append(StatisticSeries(name: statistic.rawValue.capitalized, data: dataSeries))
+            }
         }
 
         return (seriesData, isDataNormalized)
     }
-
-
 }
 
 

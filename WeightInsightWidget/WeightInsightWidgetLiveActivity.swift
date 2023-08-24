@@ -56,6 +56,7 @@ struct WeightInsightWidgetLiveActivity: Widget {
     }
 }
 
+#if DEBUG
 struct WeightInsightWidgetLiveActivity_Previews: PreviewProvider {
     static let attributes = WeightInsightWidgetAttributes(name: "Me")
     static let contentState = WeightInsightWidgetAttributes.ContentState(value: 3)
@@ -75,3 +76,4 @@ struct WeightInsightWidgetLiveActivity_Previews: PreviewProvider {
             .previewDisplayName("Notification")
     }
 }
+#endif

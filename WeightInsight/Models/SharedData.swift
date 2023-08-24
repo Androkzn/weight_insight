@@ -45,12 +45,5 @@ extension SharedData {
         } catch {
             print("Error saving shared data: \(error)")
         }
-        
-        if let data = try? Data(contentsOf: sharedContainerURL) {
-            let decoder = JSONDecoder()
-            if let decodedData = try? decoder.decode(SharedData.self, from: data) {
-                 decodedData
-            }
-        }
     }
 }

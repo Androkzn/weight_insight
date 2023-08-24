@@ -8,15 +8,15 @@
 import Foundation
 import SwiftUI
 
-struct DeleteStatisticPopupView: View {
+struct ClearStatisticPopupView: View {
     let entryId: String
     
-    var onDelete: (String) -> Void
+    var onClear: (String) -> Void
     var onCancel: () -> Void
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("All data will be deleted for \(entryId)")
+            Text("All data will be reset for \(entryId)")
                 .font(.headline)
                 .padding()
                 .multilineTextAlignment(.center)
@@ -32,8 +32,8 @@ struct DeleteStatisticPopupView: View {
                 .cornerRadius(10)
   
 
-                Button("OK") {
-                    onDelete(entryId)
+                Button("Clear") {
+                    onClear(entryId)
                 }
                 .frame(width: 70, height: 20)
                 .padding(10)
