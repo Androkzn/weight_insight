@@ -13,7 +13,7 @@ struct ErrorView: View {
     
     var body: some View {
         VStack {
-            Text("An Error Occured")
+            Text("An Error Occurred")
                 .font(.title)
             Text(error.localizedDescription)
                 .font(.callout)

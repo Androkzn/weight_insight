@@ -8,13 +8,9 @@
 import SwiftUI
 
 struct AverageStatisticView: View {
-    @Binding  var selectedFilter: StatisticFilter
-    @Binding var avgWeight: String
-    @Binding var avgSteps: String
-    @Binding var avgCalories: String
-    @Binding var goalWeight: String
-    @Binding var goalSteps: String
-    @Binding var goalCalories: String
+    @Binding var selectedFilter: StatisticFilter
+    @Binding var avgData: StatisticData
+    @Binding var goals: Goals
     
     var onFilterTapped: () -> Void
     
@@ -45,24 +41,24 @@ struct AverageStatisticView: View {
         HStack(spacing: 0) {
             AverageStatisticBoxView(
                 title: Statistic.weight.title,
-                value: avgWeight,
-                goalValue: goalWeight
+                value: avgData.weight,
+                goalValue: goals.weightGoal
             )
             
             Spacer()
             
             AverageStatisticBoxView(
                 title: Statistic.steps.title,
-                value: avgSteps,
-                goalValue: goalSteps
+                value: avgData.steps,
+                goalValue: goals.stepsGoal
             )
             
             Spacer()
             
             AverageStatisticBoxView(
                 title: Statistic.calories.title,
-                value: avgCalories,
-                goalValue: goalCalories
+                value: avgData.calories,
+                goalValue: goals.caloriesGoal
             )
             
         }

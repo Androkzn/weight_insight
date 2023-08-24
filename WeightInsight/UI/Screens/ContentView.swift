@@ -8,34 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var mainViewModel = MainView.ViewModel()
-    @StateObject private var settingsViewModel = SettingsView.ViewModel()
-    @StateObject private var statisticsViewModel = StatisticsView.ViewModel()
+    @StateObject private var dataStore = DataStore()
 
     var body: some View {
         TabView {
             MainView()
-                .environmentObject(mainViewModel)
-                .environmentObject(settingsViewModel)
-                .environmentObject(statisticsViewModel)
+                .environmentObject(MainView.ViewModel(dataStore: dataStore))
                 .tabItem {
                     Image(systemName: "house")
                     Text("Main")
                 }
       
             StatisticsView()
-                .environmentObject(statisticsViewModel)
+                .environmentObject(StatisticsView.ViewModel(dataStore: dataStore))
                 .tabItem {
                     Image(systemName: "chart.bar")
                     Text("Statistics")
                 }
             SettingsView()
-                .environmentObject(settingsViewModel)
+                .environmentObject(SettingsView.ViewModel(dataStore: dataStore))
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
-        }.accentColor(.blue.opacity(0.6))
+        }.onAppear {
+            // Fetch and populate data
+            dataStore.update()
+        }
+        .accentColor(.blue.opacity(0.6))
+        .preferredColorScheme(.light)
     }
 }
 

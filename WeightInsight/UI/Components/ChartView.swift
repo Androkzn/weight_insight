@@ -127,7 +127,7 @@ struct ChartView: View {
             .chartLegend(.visible)
             .chartLegend(position: .automatic, alignment: .center, spacing: 10)
             .opacity(isEditingTodayStatistic ? 0 : 1)
-            .animation(SwiftUI.Animation.default, value: 0.5)
+            .animation(SwiftUI.Animation.default, value: 0.1)
             .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
             // Show placeholder if there is no data
             if seriesData.isEmpty {

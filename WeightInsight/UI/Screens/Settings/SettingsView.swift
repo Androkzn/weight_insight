@@ -12,11 +12,8 @@ import Combine
 
 struct SettingsView: View {
     @EnvironmentObject var viewModel: ViewModel
-    @State private var weightGoal: String = ""
-    @State private var stepsGoal: String = ""
-    @State private var caloriesGoal: String = ""
-    @State private var myFitnessPal: String = ""
     
+    @State private var myFitnessPal: String = ""
     @State private var showWebView: Bool = false
     @State private var authorizationCode: String? = nil
         
@@ -27,21 +24,21 @@ struct SettingsView: View {
                 HStack {
                     Text("Weight:")
                         .padding(10)
-                    CustomTextField(text: $weightGoal, placeholder: "Enter weight", keyboardType: .decimalPad, onDone: { value in
+                    CustomTextField(text: $viewModel.dataStore.goals.weightGoal, placeholder: "Enter weight", keyboardType: .decimalPad, onDone: { value in
                         viewModel.saveSettingValue(value, for: .weight)
                     })
                 }
                 HStack {
                     Text("Steps:")
                         .padding(10)
-                    CustomTextField(text: $stepsGoal, placeholder: "Enter steps", keyboardType: .numberPad, onDone: { value in
+                    CustomTextField(text: $viewModel.dataStore.goals.stepsGoal, placeholder: "Enter steps", keyboardType: .numberPad, onDone: { value in
                         viewModel.saveSettingValue(value, for: .steps)
                     })
                 }
                 HStack {
                     Text("Calories:")
                         .padding(10)
-                    CustomTextField(text: $caloriesGoal, placeholder: "Enter calories", keyboardType: .numberPad, onDone: { value in
+                    CustomTextField(text: $viewModel.dataStore.goals.caloriesGoal, placeholder: "Enter calories", keyboardType: .numberPad, onDone: { value in
                         viewModel.saveSettingValue(value, for: .calories)
                     })
                 }
@@ -70,13 +67,6 @@ struct SettingsView: View {
                     .disabled(true)
                 }
             }
-            .onAppear() {
-                // Load saved settings
-                weightGoal = viewModel.loadSettingValue(for: .weight, hideZeroValue: true)
-                stepsGoal = viewModel.loadSettingValue(for: .steps, hideZeroValue: true)
-                caloriesGoal = viewModel.loadSettingValue(for: .calories, hideZeroValue: true)
-                myFitnessPal = viewModel.loadSettingValue(for: .myFitnessPal, hideZeroValue: true)
-            }
         }
     }
 }
@@ -84,7 +74,6 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .environmentObject(SettingsView.ViewModel())
     }
 }
 #endif

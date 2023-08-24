@@ -10,10 +10,10 @@ import Combine
 
 extension StatisticsView {
     class ViewModel: ObservableObject {
-        @Published var statisticData: [StatisticDataObject]
+        @Published var dataStore: DataStore
         
-        init() {
-            statisticData = RealmService.shared.getAllStatistic()
+        init(dataStore: DataStore) {
+            self.dataStore = dataStore
         }
         
         func editStatisticData(data: StatisticData) {
@@ -33,7 +33,7 @@ extension StatisticsView {
             let currentYear = calendar.component(.year, from: currentDate)
             let currentMonth = calendar.component(.month, from: currentDate)
             
-            let groupedKeys = Array(groupedByMonth().keys)
+            let groupedKeys = Array(dataStore.statisticDataGrouped.keys)
             
             return groupedKeys.sorted { key1, key2 in
                 guard let date1 = dateFormatter.date(from: key1),
@@ -74,16 +74,5 @@ extension StatisticsView {
                 return month1 > month2
             }
         }
-        
-        func groupedByMonth() -> [String: [StatisticDataObject]] {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMMM yyyy"
-            
-            
-            return Dictionary(grouping: statisticData, by: { entry in
-                return dateFormatter.string(from: entry.date)
-            })
-        }
-        
     }
 }

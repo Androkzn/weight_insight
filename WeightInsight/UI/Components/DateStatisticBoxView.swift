@@ -23,14 +23,14 @@ struct  DateStatisticBoxView: View {
 
     var body: some View {
         let isDisabled = selectedStatisticType != nil && selectedStatisticType != statisticType
-
+        let formatter = statisticType == .weight ? NumberFormatter.decimalFormatter : NumberFormatter.intFormatter
         
         VStack(spacing: 0) {
             Text(statisticType.title)
                 .font(.headline)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
 
-            TextField("", value: $value, formatter: NumberFormatter.decimalFormatter)
+            TextField("", value: $value, formatter: formatter)
                 .keyboardType(.decimalPad)
                 .background(Color.clear)
                 .cornerRadius(10)

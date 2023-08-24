@@ -21,8 +21,8 @@ extension StatisticDataObject {
             let newData = StatisticDataObject()
             newData.id = currentDate.formattedString()
             newData.weight = Double.random(in: 75...85)  // Random weight between 79 and 85
-            newData.steps = Int.random(in: 5000...20000) // Random steps between 5000 and 15000
-            newData.calories = Int(Double.random(in: 1200...2500))  // Random calories between 1200 and 2000
+            newData.steps = Double.random(in: 5000...20000) // Random steps between 5000 and 15000
+            newData.calories = Double.random(in: 1200...2500)  // Random calories between 1200 and 2000
             newData.date = currentDate
             
             // Add only once per installation

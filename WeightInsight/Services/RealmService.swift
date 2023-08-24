@@ -8,12 +8,14 @@
 import Foundation
 import RealmSwift
 import Realm
+import Combine
 
 class RealmService {
     static let shared = RealmService()
     //let databaseQueue = DispatchQueue(label: "database.serial", qos: .background)
     let databaseQueue = DispatchQueue.main
     var onRealmConfigured: (() -> Void)?
+    var realmUpdated: (() -> Void)?
     
     // Мain realm object
     private static var realm: Realm {
@@ -48,7 +50,7 @@ class RealmService {
         var config = Realm.Configuration(
             // Set the new schema version. This must be greater than the previously used
             // version (if you've never set a schema version before, the version is 0).
-            schemaVersion: 1,
+            schemaVersion: 2,
             
             // Set the block which will be called automatically when opening a Realm with
             // a schema version lower than the one set above
@@ -129,13 +131,14 @@ class RealmService {
     // realm write function that catches global errors to prevent an app crashing
     public static func write(writeClosure: @escaping () -> Void) {
         return RealmService.shared.databaseQueue.async {
-                do {
-                    try realm.safeWrite {
-                        writeClosure()
-                    }
-                } catch {
-                     
+            do {
+                try realm.safeWrite {
+                    writeClosure()
                 }
+                RealmService.shared.realmUpdated?()
+            } catch {
+                 
+            }
         }
     }
     
@@ -154,11 +157,11 @@ class RealmService {
     func saveStatistic(type: Statistic, value: Double, date: Date = Date()) {
         
         if let existingData = RealmService.shared.getStatisticForDate(date:date) {
-            try? RealmService.realm.write {
+            RealmService.write {
                 switch type {
                 case .weight: existingData.weight = value
-                case .steps: existingData.steps = Int(value)
-                case .calories: existingData.calories = Int(value)
+                case .steps: existingData.steps = value
+                case .calories: existingData.calories = value
                 }
             }
         } else {
@@ -166,10 +169,10 @@ class RealmService {
             newData.id = date.formattedString()
             switch type {
             case .weight: newData.weight = value
-            case .steps: newData.steps = Int(value)
-            case .calories: newData.calories = Int(value)
+            case .steps: newData.steps = value
+            case .calories: newData.calories = value
             }
-            try? RealmService.realm.write {
+            RealmService.write {
                 RealmService.realm.add(newData)
             }
         }
@@ -180,19 +183,19 @@ class RealmService {
         
         let id = date.formattedString()
         if let existingData = RealmService.shared.getObjectById(id, StatisticDataObject.self) {
-            try? RealmService.realm.write {
+            RealmService.write {
                 existingData.weight = Double(data.weight) ?? 0
-                existingData.steps = Int(data.steps) ?? 0
-                existingData.calories = Int(data.calories) ?? 0
+                existingData.steps = Double(data.steps.replacingOccurrences(of: ",", with: "")) ?? 0
+                existingData.calories = Double(data.calories.replacingOccurrences(of: ",", with: "")) ?? 0
             }
         } else {
             let newData = StatisticDataObject()
             newData.id = id
             newData.weight = Double(data.weight) ?? 0
-            newData.steps = Int(data.steps) ?? 0
-            newData.calories = Int(data.calories) ?? 0
+            newData.steps = Double(data.steps.replacingOccurrences(of: ",", with: "")) ?? 0
+            newData.calories = Double(data.calories.replacingOccurrences(of: ",", with: "")) ?? 0
             
-            try? RealmService.realm.write {
+            RealmService.write {
                 RealmService.realm.add(newData)
             }
         }
@@ -200,49 +203,13 @@ class RealmService {
     
     func clearStatisticData(id: String) {
         if let updatedData = RealmService.shared.getObjectById(id, StatisticDataObject.self) {
-            try? RealmService.realm.write {
+            RealmService.write {
                 updatedData.calories = 0
                 updatedData.steps = 0
                 updatedData.weight = 0
             }
         }
     }
-    
-    func getAverageStatistic(filter: StatisticFilter) -> StatisticData {
-        let allData = RealmService.shared.getAllStatistic()
-        var filteredData: [StatisticDataObject] = []
-        
-        switch filter {
-        case .thisWeek:
-            filteredData = allData.filter { $0.date.isInThisWeek }
-        case .previousWeek:
-            filteredData = allData.filter { $0.date.isInPreviousWeek }
-        case .thisMonth:
-            filteredData = allData.filter { $0.date.isInThisMonth }
-        case .lastMonth:
-            filteredData = allData.filter { $0.date.isInLastMonth }
-        case .all:
-            filteredData = allData
-        }
-        
-        // Compute averages for each type separately
-        let totalWeight = filteredData.reduce(0.0) { $0 + ($1.weight > 0 ? $1.weight : 0) }
-        let totalSteps = filteredData.reduce(0) { $0 + ($1.steps > 0 ? $1.steps : 0) }
-        let totalCalories = filteredData.reduce(0) { $0 + ($1.calories > 0 ? $1.calories : 0) }
-        
-        let nonZeroWeightCount = filteredData.filter { $0.weight > 0 }.count
-        let nonZeroStepsCount = filteredData.filter { $0.steps > 0 }.count
-        let nonZeroCaloriesCount = filteredData.filter { $0.calories > 0 }.count
-        
-        var averageWeight = nonZeroWeightCount > 0 ? totalWeight / Double(nonZeroWeightCount) : 0
-        averageWeight = (averageWeight * 100).rounded() / 100  // Format to 2 decimal places
-        
-        let averageSteps = nonZeroStepsCount > 0 ? totalSteps / nonZeroStepsCount : 0
-        let averageCalories = nonZeroCaloriesCount > 0 ? totalCalories / nonZeroCaloriesCount : 0
-        
-        return StatisticData(weight: String(averageWeight), steps: String(averageSteps), calories: String(averageCalories))
-    }
-
     
     func getStatistic(filter: StatisticFilter) -> [StatisticDataObject] {
         let allData = Array(RealmService.realm.objects(StatisticDataObject.self))
@@ -259,5 +226,15 @@ class RealmService {
         case .all:
             return allData
         }
+    }
+    
+    func getStatisticGrouped() -> [String: [StatisticDataObject]] {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM yyyy"
+        
+        
+        return Dictionary(grouping: RealmService.shared.getAllStatistic(), by: { entry in
+            return dateFormatter.string(from: entry.date)
+        })
     }
 }

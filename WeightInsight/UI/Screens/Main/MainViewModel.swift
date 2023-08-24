@@ -12,21 +12,30 @@ import WidgetKit
 
 extension MainView {
     class ViewModel: ObservableObject {
-        func getStatisticFor(filter: StatisticFilter) -> StatisticData {
-            return RealmService.shared.getAverageStatistic(filter: filter)
+        @Published var dataStore: DataStore
+        @Published var selectedDate: Date = Date()
+        
+        init(dataStore: DataStore) {
+            self.dataStore = dataStore
         }
         
-        func getStatisticForDate(date: Date) -> StatisticData {
-            if let statisticObject  = RealmService.shared.getStatisticForDate(date: date) {
-                let statisticData = StatisticData(
-                    weight: String(statisticObject.weight),
-                    steps: String(statisticObject.steps),
-                    calories: String(statisticObject.calories)
-                    )
-                return statisticData
+        var averageStatistic: StatisticData {
+            return dataStore.averageStatistic
+        }
+        
+        var goals: Goals {
+            return dataStore.goals
+        }
+        
+        var selectedFilter: StatisticFilter {
+            return dataStore.selectedFilter
+        }
+        
+        var getStatisticForDate: StatisticDataObject {
+            if let statisticObject  = RealmService.shared.getStatisticForDate(date: selectedDate) {
+                return statisticObject
             }
-            
-            return StatisticData(weight: "0",steps: "0",calories: "0")
+            return StatisticDataObject()
         }
         
         func saveStatisticData(statistic: Statistic, value: Double, date: Date = Date()) {
@@ -41,26 +50,25 @@ extension MainView {
             return RealmService.shared.getStatistic(filter: filter)
         }
         
-        func saveSharedData(filter: StatisticFilter)  {
-            let todayStat = getStatisticForDate(date: Date())
-            let avgStat = getStatisticFor(filter: filter)
-            
+        func saveSharedData()  {
+            let todayStat = getStatisticForDate
+
             // Populate with new data
             // Today stat
             var sharedData = SharedData.defaultInstance()
-            sharedData.todayWeight = Double(todayStat.weight) ?? 0
-            sharedData.todaySteps = Double(todayStat.steps) ?? 0
-            sharedData.todayCalories = Double(todayStat.calories) ?? 0
+            sharedData.todayWeight = Double(todayStat.weight)
+            sharedData.todaySteps = Double(todayStat.steps)
+            sharedData.todayCalories = Double(todayStat.calories) 
             // Average stat
-            sharedData.avgWeight = Double(avgStat.weight) ?? 0
-            sharedData.avgSteps = Double(avgStat.steps) ?? 0
-            sharedData.avgCalories = Double(avgStat.calories) ?? 0
+            sharedData.avgWeight = Double(averageStatistic.weight) ?? 0
+            sharedData.avgSteps = Double(averageStatistic.steps) ?? 0
+            sharedData.avgCalories = Double(averageStatistic.calories) ?? 0
             // Target stat
             sharedData.targetWeight = Double(loadSettingValue(for: .weight)) ?? 0
             sharedData.targetSteps = Double(loadSettingValue(for: .steps)) ?? 0
             sharedData.targetCalories = Double(loadSettingValue(for: .calories)) ?? 0
             // Period
-            sharedData.selectedPeriod = filter.title
+            sharedData.selectedPeriod = dataStore.selectedFilter.title
             
             // Save data
             sharedData.save()

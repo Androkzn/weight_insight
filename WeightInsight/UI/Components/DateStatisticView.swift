@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct DateStatisticView: View {
-    @Binding var selectedWeight: Double
-    @Binding var selectedSteps: Double
-    @Binding var selectedCalories: Double
+    @Binding var selectedStatistic: StatisticDataObject
     @Binding var isEditingTodayStatistic: Bool
     @Binding var selectedDate: Date
     @Binding var selectedStatisticType: Statistic?
@@ -40,7 +38,7 @@ struct DateStatisticView: View {
         // Statistic for selected date
         HStack(spacing: 10) {
             DateStatisticBoxView(
-                value: $selectedWeight,
+                value: $selectedStatistic.weight,
                 isEditingTodayStatistic: $isEditingTodayStatistic,
                 selectedDate: $selectedDate,
                 selectedStatisticType: $selectedStatisticType,
@@ -48,7 +46,7 @@ struct DateStatisticView: View {
             )
             
             DateStatisticBoxView(
-                value: $selectedSteps,
+                value: $selectedStatistic.steps,
                 isEditingTodayStatistic: $isEditingTodayStatistic,
                 selectedDate: $selectedDate,
                 selectedStatisticType: $selectedStatisticType,
@@ -56,12 +54,12 @@ struct DateStatisticView: View {
             )
             
             DateStatisticBoxView(
-                value: $selectedCalories,
+                value: $selectedStatistic.calories,
                 isEditingTodayStatistic: $isEditingTodayStatistic,
                 selectedDate: $selectedDate,
                 selectedStatisticType: $selectedStatisticType,
                 statisticType: .calories
-            )  
+            )
         }
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
     }

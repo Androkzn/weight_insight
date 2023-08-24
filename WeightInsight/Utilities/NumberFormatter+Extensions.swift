@@ -11,7 +11,14 @@ extension NumberFormatter {
     static let decimalFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 2 // Adjust as needed
+        formatter.maximumFractionDigits = 2 
+        return formatter
+    }()
+    
+    static let intFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 0
         return formatter
     }()
 }
