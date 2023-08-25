@@ -10,18 +10,30 @@ import Combine
 
 extension StatisticsView {
     class ViewModel: ObservableObject {
-        @Published var dataStore: DataStore
+        private let dataService: DataService
         
-        init(dataStore: DataStore) {
-            self.dataStore = dataStore
+        @Published var statisticDataGrouped: [String: [StatisticDataObject]] = [:]
+        @Published var editMode: EditMode = .inactive
+        @Published var showEditPopup: Bool = false
+        @Published var showDeletePopup: Bool = false
+        @Published var editingEntry: StatisticData = StatisticData(weight: "",steps: "", calories: "")
+        @Published var statisticDataSaved: Bool = false
+        
+        init(dataService: DataService) {
+            self.dataService = dataService
+            
+            getGroupedStatisticData()
+            statisticDataSaved = false
         }
         
         func editStatisticData(data: StatisticData) {
-            RealmService.shared.saveStatisticData(data: data)
+            statisticDataSaved = true
+            dataService.saveStatisticData(data: data)
         }
         
         func clearStatisticData(id: String) {
-            RealmService.shared.clearStatisticData(id: id)
+            statisticDataSaved = true
+            dataService.clearStatisticData(id: id)
         }
         
         func sortedKeys() -> [String] {
@@ -33,7 +45,7 @@ extension StatisticsView {
             let currentYear = calendar.component(.year, from: currentDate)
             let currentMonth = calendar.component(.month, from: currentDate)
             
-            let groupedKeys = Array(dataStore.statisticDataGrouped.keys)
+            let groupedKeys = Array(statisticDataGrouped.keys)
             
             return groupedKeys.sorted { key1, key2 in
                 guard let date1 = dateFormatter.date(from: key1),
@@ -73,6 +85,15 @@ extension StatisticsView {
                 
                 return month1 > month2
             }
+        }
+        
+        func getGroupedStatisticData()   {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMMM yyyy"
+            
+            statisticDataGrouped =  Dictionary(grouping: dataService.getAllStatistic(), by: { entry in
+                return dateFormatter.string(from: entry.date)
+            })
         }
     }
 }

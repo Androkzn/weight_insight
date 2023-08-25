@@ -12,46 +12,73 @@ import WidgetKit
 
 extension MainView {
     class ViewModel: ObservableObject {
-        @Published var dataStore: DataStore
-        @Published var selectedDate: Date = Date()
+        private let dataService: DataService
         
-        init(dataStore: DataStore) {
-            self.dataStore = dataStore
-        }
+        @Published var statisticDataGrouped: [String: [StatisticDataObject]] = [:]
+        @Published var statisticDataFiltered: [StatisticDataObject] = []
+        @Published var selectedChartStatistic: [Statistic] = [.weight]
+        @Published var selectedStatisticType: Statistic?
+        @Published var selectedStatistic: StatisticDataObject = StatisticDataObject()
+        @Published var averageStatistic: StatisticData = StatisticData(weight: "0", steps: "0", calories: "0")
         
-        var averageStatistic: StatisticData {
-            return dataStore.averageStatistic
-        }
-        
-        var goals: Goals {
-            return dataStore.goals
-        }
-        
-        var selectedFilter: StatisticFilter {
-            return dataStore.selectedFilter
-        }
-        
-        var getStatisticForDate: StatisticDataObject {
-            if let statisticObject  = RealmService.shared.getStatisticForDate(date: selectedDate) {
-                return statisticObject
+        @Published var selectedDate: Date = Date() {
+            didSet {
+                getStatisticForDate()
+                saveSharedData()
             }
-            return StatisticDataObject()
+        }
+        
+        @Published var selectedFilter: StatisticFilter = .thisWeek{
+            didSet {
+                getStatisticDataFiltered()
+                getAverageStatistic()
+                saveSharedData()
+            }
+        }
+        
+        @Published var isEditingTodayStatistic: Bool = false {
+            didSet {
+                getStatisticDataFiltered()
+                getAverageStatistic()
+            }
+        }
+        
+        @Published var statisticDataSaved: Bool = false  {
+            didSet {
+                getStatisticDataFiltered()
+                getAverageStatistic()
+            }
+        }
+         
+        init(dataService: DataService) {
+            self.dataService = dataService
+            
+            // Get statistic
+            getStatisticDataFiltered()
+            getAverageStatistic()
+            getStatisticForDate()
+            
+            // Update shared data statistic
+            saveSharedData()
+        }
+        
+        func getStatisticForDate()  {
+            if let statisticObject  = dataService.getStatisticForDate(date: selectedDate) {
+                selectedStatistic =  statisticObject
+            }
+
         }
         
         func saveStatisticData(statistic: Statistic, value: Double, date: Date = Date()) {
-            RealmService.shared.saveStatistic(type: statistic, value: value, date: date)
+            dataService.saveStatistic(type: statistic, value: value, date: date)
         }
         
         func loadSettingValue(for settingType: SettingsType) -> String {
             UserDefaults.standard.string(forKey: settingType.rawValue) ?? "0"
         }
         
-        func getStatisticObjects(filter: StatisticFilter) -> [StatisticDataObject] {
-            return RealmService.shared.getStatistic(filter: filter)
-        }
-        
         func saveSharedData()  {
-            let todayStat = getStatisticForDate
+            let todayStat = selectedStatistic
 
             // Populate with new data
             // Today stat
@@ -68,13 +95,66 @@ extension MainView {
             sharedData.targetSteps = Double(loadSettingValue(for: .steps)) ?? 0
             sharedData.targetCalories = Double(loadSettingValue(for: .calories)) ?? 0
             // Period
-            sharedData.selectedPeriod = dataStore.selectedFilter.title
+            sharedData.selectedPeriod = selectedFilter.title
             
             // Save data
             sharedData.save()
             
             // Refresh widget
             WidgetCenter.shared.reloadAllTimelines()
+        }
+        
+        func getAverageStatistic() {
+            let allData = dataService.getAllStatistic()
+            let filter = selectedFilter
+            var filteredData: [StatisticDataObject] = []
+            
+            switch filter {
+            case .thisWeek:
+                filteredData = allData.filter { $0.date.isInThisWeek }
+            case .previousWeek:
+                filteredData = allData.filter { $0.date.isInPreviousWeek }
+            case .thisMonth:
+                filteredData = allData.filter { $0.date.isInThisMonth }
+            case .lastMonth:
+                filteredData = allData.filter { $0.date.isInLastMonth }
+            case .all:
+                filteredData = allData
+            }
+            
+            // Compute averages for each type separately
+            let totalWeight = filteredData.reduce(0.0) { $0 + ($1.weight > 0 ? $1.weight : 0) }
+            let totalSteps = filteredData.reduce(0) { $0 + ($1.steps > 0 ? $1.steps : 0) }
+            let totalCalories = filteredData.reduce(0) { $0 + ($1.calories > 0 ? $1.calories : 0) }
+            
+            let nonZeroWeightCount = filteredData.filter { $0.weight > 0 }.count
+            let nonZeroStepsCount = filteredData.filter { $0.steps > 0 }.count
+            let nonZeroCaloriesCount = filteredData.filter { $0.calories > 0 }.count
+            
+            var averageWeight = nonZeroWeightCount > 0 ? totalWeight / Double(nonZeroWeightCount) : 0
+            averageWeight = (averageWeight * 100).rounded() / 100  // Format to 2 decimal places
+            
+            let averageSteps = nonZeroStepsCount > 0 ? Int(totalSteps) / nonZeroStepsCount : 0
+            let averageCalories = nonZeroCaloriesCount > 0 ? Int(totalCalories) / nonZeroCaloriesCount : 0
+            
+            averageStatistic = StatisticData(weight: String(averageWeight), steps: String(averageSteps), calories: String(averageCalories))
+        }
+    
+        func getStatisticDataFiltered()  {
+            let allData = Array(dataService.getAllStatistic())
+            
+            switch selectedFilter {
+            case .thisWeek:
+                statisticDataFiltered =  allData.filter { $0.date.isInThisWeek }
+            case .previousWeek:
+                statisticDataFiltered = allData.filter { $0.date.isInPreviousWeek }
+            case .thisMonth:
+                statisticDataFiltered = allData.filter { $0.date.isInThisMonth }
+            case .lastMonth:
+                statisticDataFiltered =   allData.filter { $0.date.isInLastMonth }
+            case .all:
+                statisticDataFiltered = allData
+            }
         }
     }
 }

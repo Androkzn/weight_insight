@@ -11,9 +11,7 @@ struct AverageStatisticView: View {
     @Binding var selectedFilter: StatisticFilter
     @Binding var avgData: StatisticData
     @Binding var goals: Goals
-    
-    var onFilterTapped: () -> Void
-    
+ 
     var body: some View {
         // Filter box view
         HStack() {
@@ -27,8 +25,6 @@ struct AverageStatisticView: View {
                 ForEach(StatisticFilter.allCases, id: \.self) {
                     Text($0.title)
                 }
-            }.onChange(of: selectedFilter) { selectedFilter in
-                onFilterTapped()
             }
             .pickerStyle(.menu)
             .tint(.black)

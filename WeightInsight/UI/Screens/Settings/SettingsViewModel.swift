@@ -8,24 +8,36 @@
 import SwiftUI
 import Combine
  
-
 extension SettingsView {
     class ViewModel: ObservableObject {
-        @Published var dataStore: DataStore
+         
         
-        init(dataStore: DataStore) {
-            self.dataStore = dataStore
+        @Published var goals: Goals = Goals(weightGoal: "", stepsGoal: "", caloriesGoal: "")
+        @Published var myFitnessPal: String = ""
+        @Published var showWebView: Bool = false
+        @Published var authorizationCode: String? = nil
+        
+        init() {
+            getGoals()
         }
-        
+    
         func saveSettingValue(_ value: String, for settingType: SettingsType) {
             UserDefaults.standard.setValue(value, forKey: settingType.rawValue)
             
             switch settingType {
-            case .weight: self.dataStore.goals.weightGoal = value
-            case .steps: self.dataStore.goals.stepsGoal = value
-            case .calories: self.dataStore.goals.caloriesGoal = value
+            case .weight: goals.weightGoal = value
+            case .steps: goals.stepsGoal = value
+            case .calories: goals.caloriesGoal = value
             default: break
             }
+        }
+        
+        func getGoals()  {
+            var goalsUpdated: Goals = goals
+            goalsUpdated.weightGoal = UserDefaults.standard.string(forKey: SettingsType.weight.rawValue) ?? ""
+            goalsUpdated.stepsGoal = UserDefaults.standard.string(forKey: SettingsType.steps.rawValue) ?? ""
+            goalsUpdated.caloriesGoal = UserDefaults.standard.string(forKey: SettingsType.calories.rawValue) ?? ""
+            goals =  goalsUpdated
         }
 
         func connectMyFitnessPal() {

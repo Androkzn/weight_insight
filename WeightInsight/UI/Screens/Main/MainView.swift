@@ -11,59 +11,37 @@ import RealmSwift
 
 struct MainView: View {
     @EnvironmentObject var viewModel: ViewModel
-    
-    @State private var selectedChartStatistic: [Statistic] = [.weight]
-    @State private var selectedWeight: Double = 0
-    @State private var selectedSteps: Double = 0
-    @State private var selectedCalories: Double = 0
-    @State private var isEditingTodayStatistic: Bool = false
-    @State private var selectedStatisticType: Statistic?  
-    @State private var selectedStatistic: StatisticDataObject = StatisticDataObject()
+    @EnvironmentObject var settingsViewModel: SettingsView.ViewModel
     
     var body: some View {
         VStack {
             //Average Statistic View 
             AverageStatisticView(
-                selectedFilter: $viewModel.dataStore.selectedFilter,
-                avgData: $viewModel.dataStore.averageStatistic,
-                goals: $viewModel.dataStore.goals
-            ) {
-                viewModel.dataStore.updateStatisticForFilter()
-                viewModel.saveSharedData()
-            } 
+                selectedFilter: $viewModel.selectedFilter,
+                avgData: $viewModel.averageStatistic,
+                goals: $settingsViewModel.goals
+            )
             
             // Multi Statistic Chart View
             ChartView(
-                selectedChartStatistic: $selectedChartStatistic,
-                statisticData: $viewModel.dataStore.statisticDataFiltered,
-                isEditingTodayStatistic: $isEditingTodayStatistic
+                selectedChartStatistic: $viewModel.selectedChartStatistic,
+                statisticData: $viewModel.statisticDataFiltered,
+                isEditingTodayStatistic: $viewModel.isEditingTodayStatistic
             )
             // Selection of statistic type for displaying on the chart
             StatisticChartSelectionView(
-                selectedChartStatistic: $selectedChartStatistic
+                selectedChartStatistic: $viewModel.selectedChartStatistic
             )
             
             // Specific date statistic view
             DateStatisticView(
-                selectedStatistic: $selectedStatistic,
-                isEditingTodayStatistic: $isEditingTodayStatistic,
-                selectedDate: viewModel.selectedDate,
-                selectedStatisticType: $selectedStatisticType
-            ) { selectedDate in
-                // Date selected action
-                viewModel.selectedDate = selectedDate
-                selectedStatistic = viewModel.getStatisticForDate
-                viewModel.saveSharedData()
-            }
-        }.onAppear {
-            // Fill with saved statistic data
-            selectedStatistic = viewModel.getStatisticForDate
-            // Update shared data statistic
-            viewModel.saveSharedData()
+                selectedStatistic: $viewModel.selectedStatistic,
+                isEditingTodayStatistic: $viewModel.isEditingTodayStatistic,
+                selectedDate: $viewModel.selectedDate,
+                selectedStatisticType: $viewModel.selectedStatisticType
+            )
         }
     }
-    
-    
 }
  
 #if DEBUG

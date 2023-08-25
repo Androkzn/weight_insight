@@ -10,43 +10,19 @@ import RealmSwift
 import Realm
 import Combine
 
-class RealmService {
-    static let shared = RealmService()
-    //let databaseQueue = DispatchQueue(label: "database.serial", qos: .background)
-    let databaseQueue = DispatchQueue.main
+class RealmService: DataService {
+    private let databaseQueue = DispatchQueue.main
+    private var realm: Realm?
     var onRealmConfigured: (() -> Void)?
     var realmUpdated: (() -> Void)?
-    
-    // Мain realm object
-    private static var realm: Realm {
-        get {
-            // Checks if realm has been initialized
-            // if it hasn't initialize it.
-            if _realm == nil {
-                self.setupDatabase()
-                return _realm!
-            }
-            return _realm!
-        }
-        set {
-            _realm = newValue
-        }
+
+    init() {
+       setupDatabase()
     }
     
-    private static var _realm: Realm? {
-        didSet {
-            // Ensures that realm is set
-            let callBack = RealmService.shared.onRealmConfigured
-            RealmService.shared.onRealmConfigured = nil
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
-                callBack?()
-            }
-        }
-    }
-    
-    class func setupDatabase() {
-        dispatchPrecondition(condition: .onQueue(shared.databaseQueue))
-        
+    private func setupDatabase() {
+        dispatchPrecondition(condition: .onQueue(databaseQueue))
+            
         var config = Realm.Configuration(
             // Set the new schema version. This must be greater than the previously used
             // version (if you've never set a schema version before, the version is 0).
@@ -70,7 +46,7 @@ class RealmService {
             Realm.Configuration.defaultConfiguration = config
             
             // create default realm reference
-            try RealmService.configure(configuration: config)
+            try configure(configuration: config)
             
             // Settings additional attributes for DB File to avoid crashes in background
             if let realmPath: NSString = config.fileURL?.path as NSString?,
@@ -94,70 +70,79 @@ class RealmService {
         }
     }
     
-    class func configure(configuration: Realm.Configuration) throws {
-        let realmConfigured = try Realm(configuration: configuration, queue:  RealmService.shared.databaseQueue)
-        realm = realmConfigured
-        print(Realm.Configuration.defaultConfiguration.fileURL!)
-    }
-    
-    class func isDBAvailable() -> Bool {
-        return _realm != nil
-    }
-    
+    private func configure(configuration: Realm.Configuration) throws {
+          let realmConfigured = try Realm(configuration: configuration, queue: databaseQueue)
+          realm = realmConfigured
+          print(Realm.Configuration.defaultConfiguration.fileURL!)
+      }
+ 
     // Get entities
     func getObjects<Element: Object>(_ type: Element.Type, filter: NSPredicate? = nil) async -> Results<Element>? {
-        let objects = (filter == nil) ? RealmService.realm.objects(type) : RealmService.realm.objects(type).filter(filter ?? NSPredicate(format: ""))
-        return objects
-    }
+         if let realm = realm {
+             let objects = (filter == nil) ? realm.objects(type) : realm.objects(type).filter(filter ?? NSPredicate(format: ""))
+             return objects
+         }
+         return nil
+     }
     
     // Get entity by ID
     func getObjectById<Element: Object>(_ id: String, _ type: Element.Type) -> Element? {
-        return RealmService.realm.object(ofType: type, forPrimaryKey: id)
+        if let realm = realm {
+            return realm.object(ofType: type, forPrimaryKey: id)
+        }
+        return nil
     }
     
-   // Save entity
-   func saveObject(entity: Object) {
-       RealmService.write {
-           RealmService.realm.add(entity, update: .modified)
+    // Save entity
+    func saveObject(entity: Object) {
+        write {
+            self.realm?.add(entity, update: .modified)
         }
     }
+    
     // Save entities
     func saveObjects(entities: [Object]) {
-        RealmService.write {
-            RealmService.realm.add(entities, update: .modified)
+        write {
+            self.realm?.add(entities, update: .modified)
         }
     }
     
     // realm write function that catches global errors to prevent an app crashing
-    public static func write(writeClosure: @escaping () -> Void) {
-        return RealmService.shared.databaseQueue.async {
+    private func write(writeClosure: @escaping () -> Void) {
+        guard let realm = realm else {
+            return
+        }
+        databaseQueue.async {
             do {
                 try realm.safeWrite {
                     writeClosure()
                 }
-                RealmService.shared.realmUpdated?()
+                self.realmUpdated?()
             } catch {
-                 
+                // Handle error...
             }
         }
     }
     
     // Specific methods for Statistic
     func getAllStatistic() -> [StatisticDataObject] {
-        return Array(RealmService.realm.objects(StatisticDataObject.self).sorted(by: { $0.date > $1.date}))
+        guard let realm = realm else {
+            return []
+        }
+        
+        return Array(realm.objects(StatisticDataObject.self).sorted(byKeyPath: "date", ascending: false))
     }
     
     func getStatisticForDate(date: Date) -> StatisticDataObject? {
         let currentDate = date.formattedString()
-        let realm = RealmService.realm
-        let result = realm.objects(StatisticDataObject.self).filter("id = %@", currentDate).first
+        let result = realm?.objects(StatisticDataObject.self).filter("id = %@", currentDate).first
        return result
     }
     
     func saveStatistic(type: Statistic, value: Double, date: Date = Date()) {
         
-        if let existingData = RealmService.shared.getStatisticForDate(date:date) {
-            RealmService.write {
+        if let existingData = getStatisticForDate(date:date) {
+            write {
                 switch type {
                 case .weight: existingData.weight = value
                 case .steps: existingData.steps = value
@@ -172,8 +157,8 @@ class RealmService {
             case .steps: newData.steps = value
             case .calories: newData.calories = value
             }
-            RealmService.write {
-                RealmService.realm.add(newData)
+            write {
+                self.realm?.add(newData)
             }
         }
     }
@@ -182,8 +167,8 @@ class RealmService {
         guard let date = data.date else { return }
         
         let id = date.formattedString()
-        if let existingData = RealmService.shared.getObjectById(id, StatisticDataObject.self) {
-            RealmService.write {
+        if let existingData = getObjectById(id, StatisticDataObject.self) {
+            write {
                 existingData.weight = Double(data.weight) ?? 0
                 existingData.steps = Double(data.steps.replacingOccurrences(of: ",", with: "")) ?? 0
                 existingData.calories = Double(data.calories.replacingOccurrences(of: ",", with: "")) ?? 0
@@ -195,15 +180,15 @@ class RealmService {
             newData.steps = Double(data.steps.replacingOccurrences(of: ",", with: "")) ?? 0
             newData.calories = Double(data.calories.replacingOccurrences(of: ",", with: "")) ?? 0
             
-            RealmService.write {
-                RealmService.realm.add(newData)
+            write {
+                self.realm?.add(newData)
             }
         }
     }
     
     func clearStatisticData(id: String) {
-        if let updatedData = RealmService.shared.getObjectById(id, StatisticDataObject.self) {
-            RealmService.write {
+        if let updatedData = getObjectById(id, StatisticDataObject.self) {
+            write {
                 updatedData.calories = 0
                 updatedData.steps = 0
                 updatedData.weight = 0
@@ -211,30 +196,28 @@ class RealmService {
         }
     }
     
-    func getStatistic(filter: StatisticFilter) -> [StatisticDataObject] {
-        let allData = Array(RealmService.realm.objects(StatisticDataObject.self))
+    func createMockedDataStatistic() {
+        let startDate =  Date.date(from: "2023-01-01")
+        let endDate =  Date()
+        var currentDate = startDate
         
-        switch filter {
-        case .thisWeek:
-            return allData.filter { $0.date.isInThisWeek }
-        case .previousWeek:
-            return allData.filter { $0.date.isInPreviousWeek }
-        case .thisMonth:
-            return allData.filter { $0.date.isInThisMonth }
-        case .lastMonth:
-            return  allData.filter { $0.date.isInLastMonth }
-        case .all:
-            return allData
+        while currentDate <= endDate {
+            let newData = StatisticDataObject()
+            newData.id = currentDate.formattedString()
+            newData.weight = Double.random(in: 75...85)  // Random weight between 79 and 85
+            newData.steps = Double.random(in: 5000...20000) // Random steps between 5000 and 15000
+            newData.calories = Double.random(in: 1200...2500)  // Random calories between 1200 and 2000
+            newData.date = currentDate
+            
+            // Add only once per installation
+            guard  getObjectById(newData.id, StatisticDataObject.self) == nil else {
+                return
+            }
+            
+            saveObject(entity: newData)
+            
+            // Move to the next day
+            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
         }
-    }
-    
-    func getStatisticGrouped() -> [String: [StatisticDataObject]] {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM yyyy"
-        
-        
-        return Dictionary(grouping: RealmService.shared.getAllStatistic(), by: { entry in
-            return dateFormatter.string(from: entry.date)
-        })
     }
 }

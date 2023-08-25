@@ -12,11 +12,6 @@ import Combine
 
 struct SettingsView: View {
     @EnvironmentObject var viewModel: ViewModel
-    
-    @State private var myFitnessPal: String = ""
-    @State private var showWebView: Bool = false
-    @State private var authorizationCode: String? = nil
-        
 
     var body: some View {
         Form {
@@ -24,21 +19,21 @@ struct SettingsView: View {
                 HStack {
                     Text("Weight:")
                         .padding(10)
-                    CustomTextField(text: $viewModel.dataStore.goals.weightGoal, placeholder: "Enter weight", keyboardType: .decimalPad, onDone: { value in
+                    CustomTextField(text: $viewModel.goals.weightGoal, placeholder: "Enter weight", keyboardType: .decimalPad, onDone: { value in
                         viewModel.saveSettingValue(value, for: .weight)
                     })
                 }
                 HStack {
                     Text("Steps:")
                         .padding(10)
-                    CustomTextField(text: $viewModel.dataStore.goals.stepsGoal, placeholder: "Enter steps", keyboardType: .numberPad, onDone: { value in
+                    CustomTextField(text: $viewModel.goals.stepsGoal, placeholder: "Enter steps", keyboardType: .numberPad, onDone: { value in
                         viewModel.saveSettingValue(value, for: .steps)
                     })
                 }
                 HStack {
                     Text("Calories:")
                         .padding(10)
-                    CustomTextField(text: $viewModel.dataStore.goals.caloriesGoal, placeholder: "Enter calories", keyboardType: .numberPad, onDone: { value in
+                    CustomTextField(text: $viewModel.goals.caloriesGoal, placeholder: "Enter calories", keyboardType: .numberPad, onDone: { value in
                         viewModel.saveSettingValue(value, for: .calories)
                     })
                 }
@@ -46,21 +41,21 @@ struct SettingsView: View {
                     Text("MyFitnessPal:")
                         .padding(10)
                     Button(action: {
-                        self.showWebView = true
+                        self.viewModel.showWebView = true
                     }) {
                         Text("Connect")
                             .padding()
                             .foregroundColor(.white)
                             .background(Color.green)
                     }
-                    .sheet(isPresented: $showWebView) {
+                    .sheet(isPresented: $viewModel.showWebView) {
 //                        WebView(requestURL: URL(string: "https://www.myfitnesspal.com/food/diary/atekhtelev")!) { code in
 //                           self.authorizationCode = code
 //                           self.showWebView = false
 //                        }
                         WebView(requestURL: URL(string: "http://api.myfitnesspal.com/v2/oauth2/auth?client_id=atekhtelev&response_type=code&scope=diary+measurements+private-exercises+subscriptions&redirect_uri=http://weightinsight.com/settings")!) { code in
-                           self.authorizationCode = code
-                           self.showWebView = false
+                            viewModel.authorizationCode = code
+                            viewModel.showWebView = false
                         }
                     }
                     .cornerRadius(10)

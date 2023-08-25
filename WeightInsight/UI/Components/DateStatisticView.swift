@@ -10,10 +10,8 @@ import SwiftUI
 struct DateStatisticView: View {
     @Binding var selectedStatistic: StatisticDataObject
     @Binding var isEditingTodayStatistic: Bool
-    @State var selectedDate = Date()
+    @Binding var selectedDate: Date 
     @Binding var selectedStatisticType: Statistic?
-
-    var onDateSelected: (Date) -> Void
     
     var body: some View {
         // Date picker
@@ -25,9 +23,6 @@ struct DateStatisticView: View {
             Spacer()
             
             DatePicker("", selection: $selectedDate,  in: ...Date(), displayedComponents: .date)
-                .onChange(of: selectedDate) { newDate in
-                    onDateSelected(newDate)
-                }
                 .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
             
         }
@@ -62,10 +57,6 @@ struct DateStatisticView: View {
             )
         }
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-    }
-    
-    private func updateAllStatistic() {
-       
     }
 }
 

@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "F2132BBB-48A0-482F-9B0C-F09A1A49B7A9",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WeightInsight.xcodeproj",
+        "identifier" : "C87F7B582A9831F500E14391",
+        "name" : "WeightInsightTests"
+      }
+    }
+  ],
+  "version" : 1
+}

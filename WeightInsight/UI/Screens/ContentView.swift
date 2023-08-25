@@ -8,32 +8,45 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var dataStore = DataStore()
+    @StateObject private var mainViewModel: MainView.ViewModel
+    @StateObject private var statisticViewModel: StatisticsView.ViewModel
+    @StateObject private var settingsViewModel = SettingsView.ViewModel()
 
+    init() {
+        let realmService = RealmService()
+        _mainViewModel = StateObject(wrappedValue: MainView.ViewModel(dataService: realmService))
+        _statisticViewModel = StateObject(wrappedValue: StatisticsView.ViewModel(dataService: realmService))
+       
+        #if DEBUG
+            realmService.createMockedDataStatistic()
+        #endif
+    }
+    
     var body: some View {
         TabView {
             MainView()
-                .environmentObject(MainView.ViewModel(dataStore: dataStore))
+                .environmentObject(mainViewModel)
+                .environmentObject(statisticViewModel)
+                .environmentObject(settingsViewModel)
                 .tabItem {
                     Image(systemName: "house")
                     Text("Main")
                 }
       
             StatisticsView()
-                .environmentObject(StatisticsView.ViewModel(dataStore: dataStore))
+                .environmentObject(statisticViewModel)
+                .environmentObject(mainViewModel)
                 .tabItem {
                     Image(systemName: "chart.bar")
                     Text("Statistics")
                 }
             SettingsView()
-                .environmentObject(SettingsView.ViewModel(dataStore: dataStore))
+                .environmentObject(settingsViewModel)
+                .environmentObject(mainViewModel)
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
-        }.onAppear {
-            // Fetch and populate data
-            dataStore.update()
         }
         .accentColor(.blue.opacity(0.6))
         .preferredColorScheme(.light)

@@ -18,4 +18,13 @@ class StatisticDataObject: Object, Identifiable {
     override static func primaryKey() -> String? {
         return "id"
     }
+    
+    convenience init(id: String, weight: Double, steps: Double, calories: Double, date: Date) {
+        self.init()
+        self.id = id
+        self.weight = weight
+        self.steps = steps
+        self.calories = calories
+        self.date = date
+    }
 }

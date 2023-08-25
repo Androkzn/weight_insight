@@ -10,20 +10,15 @@ import Combine
 
 struct StatisticsView: View {
     @EnvironmentObject var viewModel: ViewModel
-
-    @State private var editMode: EditMode = .inactive
-    @State private var showEditPopup: Bool = false
-    @State private var showDeletePopup: Bool = false
-    @State private var editingEntry: StatisticData = StatisticData(weight: "",steps: "", calories: "")
+    @EnvironmentObject var mainViewModel: MainView.ViewModel
     
- 
     var body: some View {
         let data =  viewModel.sortedKeys()
         NavigationView {
             List {
                 ForEach(data, id: \.self) { monthYear in
                     Section(header: Text(monthYear).font(.headline).padding()) {
-                        ForEach(viewModel.dataStore.statisticDataGrouped[monthYear]!, id: \.date) { entry in
+                        ForEach(viewModel.statisticDataGrouped[monthYear]!, id: \.date) { entry in
                             HStack {
                                 // Date
                                 Text(entry.date.formattedString(format: "dd MMM yyyy"))
@@ -39,13 +34,13 @@ struct StatisticsView: View {
                             }
                             .swipeActions(edge: .trailing) {
                                 Button(action: {
-                                    editingEntry = StatisticData (
+                                    viewModel.editingEntry = StatisticData (
                                         weight:   entry.weight.decimalFormatter,
                                         steps: entry.steps.intFormatter,
                                         calories: entry.calories.intFormatter,
                                         date: entry.date
                                     )
-                                    showEditPopup = true
+                                    viewModel.showEditPopup = true
                                 }) {
                                     Label("Edit", systemImage: "pencil")
                                         .foregroundColor(.white)
@@ -55,13 +50,13 @@ struct StatisticsView: View {
                                 }
                                 .tint(.orange)
                                 Button(action: {
-                                    editingEntry = StatisticData (
+                                    viewModel.editingEntry = StatisticData (
                                         weight: entry.weight.decimalFormatter,
                                         steps:  entry.steps.intFormatter,
                                         calories:  entry.calories.intFormatter,
                                         date: entry.date
                                     )
-                                    showDeletePopup = true
+                                    viewModel.showDeletePopup = true
                                 }) {
                                     Label("Clear", systemImage: "trash")
                                         .foregroundColor(.white)
@@ -77,23 +72,25 @@ struct StatisticsView: View {
                  
             }
             .padding(10)
-            .environment(\.editMode, $editMode)
+            .environment(\.editMode, $viewModel.editMode)
             .overlay(
                 Group {
-                    if showEditPopup {
-                        EditStatisticPopupView(entry: $editingEntry, showEditPopup: $showEditPopup) { statisticData in
+                    if viewModel.showEditPopup {
+                        EditStatisticPopupView(entry: $viewModel.editingEntry, showEditPopup: $viewModel.showEditPopup) { statisticData in
                             // Save action for the popup
                             viewModel.editStatisticData(data: statisticData)
-                            showEditPopup = false
+                            viewModel.showEditPopup = false
+                            mainViewModel.statisticDataSaved = true
                         }
-                    } else if showDeletePopup, let id = editingEntry.date?.formattedString() {
+                    } else if viewModel.showDeletePopup, let id = viewModel.editingEntry.date?.formattedString() {
                         ClearStatisticPopupView(entryId: id) { entryId in
                             // On Delete Action
                             viewModel.clearStatisticData(id: entryId)
-                            showDeletePopup = false
+                            viewModel.showDeletePopup = false
+                            mainViewModel.statisticDataSaved = true
                         } onCancel: {
                             // On Cancel Action
-                            showDeletePopup = false
+                            viewModel.showDeletePopup = false
                         }
                     }
                 }
