@@ -47,18 +47,17 @@ extension MainView {
             didSet {
                 getStatisticDataFiltered()
                 getAverageStatistic()
+                getStatisticForDate()
+                saveSharedData()
             }
         }
          
         init(dataService: DataService) {
             self.dataService = dataService
             
-            // Get statistic
             getStatisticDataFiltered()
             getAverageStatistic()
             getStatisticForDate()
-            
-            // Update shared data statistic
             saveSharedData()
         }
         
@@ -71,6 +70,8 @@ extension MainView {
         
         func saveStatisticData(statistic: Statistic, value: Double, date: Date = Date()) {
             dataService.saveStatistic(type: statistic, value: value, date: date)
+            // Update shared data statistic
+            saveSharedData()
         }
         
         func loadSettingValue(for settingType: SettingsType) -> String {

@@ -243,7 +243,6 @@
 				C84F22752A89407300DA46A8 /* WeightInsight */,
 				C87B2F8A2A9449F000EEF61E /* UnitTests */,
 				C88AE0472A91B4700083C781 /* WeightInsightWidget */,
-				C87F7B5A2A9831F500E14391 /* WeightInsightTests */,
 				C84F22742A89407300DA46A8 /* Products */,
 				0390E6D7157B5F4321F3D00A /* Pods */,
 				4B5942B872C822AC955385E7 /* Frameworks */,
@@ -276,6 +275,7 @@
 		C87B2F8A2A9449F000EEF61E /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				C87F7B5A2A9831F500E14391 /* WeightInsightTests */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";

@@ -33,7 +33,7 @@ struct LegendItem: View {
                 .fill(color)
                 .frame(width: 12, height: 12)
             Text(text)
-                .font(.system(size: 11))
+                .font(.system(size: 13))
         }
     }
 }

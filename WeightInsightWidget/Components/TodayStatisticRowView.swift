@@ -29,7 +29,9 @@ struct TodayStatisticRowView: View {
                 )
             Text(value)
                 .bold()
+                .font(.system(size: 16))
             Text(units)
+                .font(.system(size: 16))
             Spacer()
         }
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))

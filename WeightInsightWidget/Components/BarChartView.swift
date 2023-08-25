@@ -37,7 +37,7 @@ struct BarChartView: View {
                     
                     Text(String(format: data.value == 0 ? "%.0f" : format, data.value))
                         .foregroundColor(.black)
-                        .font(.system(size: 10))
+                        .font(.system(size: 13))
                         .bold()
                         .padding(.leading, 10)
                         .frame(maxWidth: .infinity, alignment: .leading)

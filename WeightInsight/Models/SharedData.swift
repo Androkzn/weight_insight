@@ -47,3 +47,21 @@ extension SharedData {
         }
     }
 }
+
+#if DEBUG
+extension SharedData {
+    static var mockedWidgetData: SharedData = {
+        return SharedData(todayWeight: 80.0,
+                          todaySteps: 12500.0,
+                          todayCalories: 1950.0,
+                          avgWeight: 81.55,
+                          avgSteps: 10520.0,
+                          avgCalories: 1745.0,
+                          targetWeight: 79.0,
+                          targetSteps: 10000.0,
+                          targetCalories: 1850.0,
+                          selectedPeriod: "thisWeek")
+    }()
+}
+
+#endif
