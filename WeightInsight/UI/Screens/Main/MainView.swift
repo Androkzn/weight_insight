@@ -49,7 +49,7 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
        MainView()
-            .environmentObject(StatisticsView.ViewModel(dataService: RealmService()))
+            .environmentObject(StatisticsView.ViewModel(dataService: RealmService(),mainViewModel:  MainView.ViewModel(dataService: RealmService())))
             .environmentObject(SettingsView.ViewModel())
             .environmentObject(MainView.ViewModel(dataService: RealmService()))
     }

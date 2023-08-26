@@ -10,10 +10,9 @@ import Combine
 
 extension StatisticsView {
     class ViewModel: ObservableObject {
-        @EnvironmentObject var mainViewModel: MainView.ViewModel
-        
         private let dataService: DataServiceProtocol
         private var cancellables = Set<AnyCancellable>()
+        private var mainViewModel: MainView.ViewModel
         
         @Published var statisticDataGrouped: [String: [StatisticDataObject]] = [:]
         @Published var editMode: EditMode = .inactive
@@ -22,8 +21,10 @@ extension StatisticsView {
         @Published var editingEntry: StatisticData = StatisticData(weight: "",steps: "", calories: "")
         @Published var statisticDataSaved: Bool = false
         
-        init(dataService: DataServiceProtocol) {
+        init(dataService: DataServiceProtocol, mainViewModel: MainView.ViewModel) {
             self.dataService = dataService
+            self.mainViewModel = mainViewModel
+            
             getGroupedStatisticData()
             statisticDataSaved = false
             getGroupedStatisticData()
@@ -35,6 +36,7 @@ extension StatisticsView {
                 .sink { [weak self] _ in
                     self?.statisticDataSaved = true
                     self?.getGroupedStatisticData()
+                    self?.mainViewModel.statisticDataSaved = true
                 }
                 .store(in: &cancellables)
         }
@@ -45,6 +47,7 @@ extension StatisticsView {
                 .sink { [weak self] _ in
                     self?.statisticDataSaved = true
                     self?.getGroupedStatisticData()
+                    self?.mainViewModel.statisticDataSaved = true
                 }
                 .store(in: &cancellables)
         }

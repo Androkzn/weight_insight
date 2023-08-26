@@ -11,13 +11,17 @@ import Combine
 @main
 struct WeightInsightApp: App {
     let dependencyFactory = DependencyFactory()
-    
+
     var body: some Scene {
+        let mainViewModel = dependencyFactory.createMainViewModel()
+        let statisticViewModel = dependencyFactory.createStatisticViewModel(mainViewModel: mainViewModel)
+        let settingsViewModel = dependencyFactory.createSettingsViewModel()
+        
         WindowGroup {
             SplashScreenView()
-                .environmentObject(dependencyFactory.createMainViewModel())
-                .environmentObject(dependencyFactory.createStatisticViewModel())
-                .environmentObject(dependencyFactory.createSettingsViewModel())
+                .environmentObject(mainViewModel)
+                .environmentObject(statisticViewModel)
+                .environmentObject(settingsViewModel)
         }
     }
 }

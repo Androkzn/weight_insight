@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DateStatisticView: View {
-    @Binding var selectedStatistic: StatisticDataObject
+    @Binding var selectedStatistic: StatisticData
     @Binding var isEditingTodayStatistic: Bool
     @Binding var selectedDate: Date 
     @Binding var selectedStatisticType: Statistic?
@@ -34,25 +34,22 @@ struct DateStatisticView: View {
         HStack(spacing: 10) {
             DateStatisticBoxView(
                 value: $selectedStatistic.weight,
-                valueString: selectedStatistic.weight.decimalFormatter,
                 isEditingTodayStatistic: $isEditingTodayStatistic,
                 selectedDate: $selectedDate,
                 selectedStatisticType: $selectedStatisticType,
                 statisticType: .weight
             )
-            
+
             DateStatisticBoxView(
                 value: $selectedStatistic.steps,
-                valueString: selectedStatistic.steps.intFormatter,
                 isEditingTodayStatistic: $isEditingTodayStatistic,
                 selectedDate: $selectedDate,
                 selectedStatisticType: $selectedStatisticType,
                 statisticType: .steps
             )
-            
+
             DateStatisticBoxView(
                 value: $selectedStatistic.calories,
-                valueString: selectedStatistic.calories.intFormatter,
                 isEditingTodayStatistic: $isEditingTodayStatistic,
                 selectedDate: $selectedDate,
                 selectedStatisticType: $selectedStatisticType,

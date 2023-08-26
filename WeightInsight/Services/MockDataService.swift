@@ -8,8 +8,6 @@ import Foundation
 import Combine
  
 class MockDataService: DataServiceProtocol {
- 
-    
     private let dataSubject = PassthroughSubject<Void, Never>()
     
     var mockStatisticData: [StatisticDataObject] = []
@@ -64,7 +62,8 @@ class MockDataService: DataServiceProtocol {
            return data.first
     }
     
-    func saveStatistic(type: Statistic, value: Double, date: Date) {
+    func saveStatistic(type: Statistic, value: Double, date: Date)  -> AnyPublisher<Void, Never> {
+        return Future<Void, Never> { [weak self] promise in
             let id = UUID().uuidString
             let statisticData = StatisticDataObject(id: id, weight: 0, steps: 0, calories: 0, date: date)
             
@@ -74,8 +73,10 @@ class MockDataService: DataServiceProtocol {
             case .calories: statisticData.calories = value
             }
             
-            mockStatisticData.append(statisticData)
-        }
+            self?.mockStatisticData.append(statisticData)
+            promise(.success(()))
+        }.eraseToAnyPublisher()
+    }
 
     func saveStatisticData(data: StatisticData) {
         guard let date = data.date else { return }
@@ -93,8 +94,7 @@ class MockDataService: DataServiceProtocol {
             
             self?.mockStatisticData.append(statisticData)
             promise(.success(()))
-        }
-        .eraseToAnyPublisher()
+        }.eraseToAnyPublisher()
     }
     
     

@@ -11,8 +11,7 @@ import Combine
 struct  DateStatisticBoxView: View {
     @EnvironmentObject var viewModel: MainView.ViewModel
     
-    @Binding var value: Double
-    @State var valueString: String
+    @Binding var value: String
     @Binding var isEditingTodayStatistic: Bool
     @Binding var selectedDate: Date
     @Binding var selectedStatisticType: Statistic?
@@ -28,7 +27,7 @@ struct  DateStatisticBoxView: View {
                 .font(.headline)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
             
-            TextField(statisticType.placeholder, text: $valueString)
+            TextField(statisticType.placeholder, text: $value)
                 .keyboardType(.decimalPad)
                 .background(Color.clear)
                 .cornerRadius(10)
@@ -42,21 +41,23 @@ struct  DateStatisticBoxView: View {
                         isEditingTodayStatistic = true
                         selectedStatisticType = statisticType
                     }
+                    self.value = isEditing ? value.withoutThousandsSeparator : value.withThousandsSeparator
                 }
-                .onReceive(Just(valueString)) { value in
+                .onChange(of: value) { newValue in
+                    // Replace 0 with empty string in the displayed value
+                    self.value = ["0", "0.0"].contains(newValue) ? "" : newValue
+                }
+                .onAppear {
                     // Do not show "," if text field is editing
                     let newValue = isEditing ? value.withoutThousandsSeparator : value.withThousandsSeparator
                     // Replace 0 with empty string in the displayed value
-                    valueString = newValue == "0" ? "" : newValue
-                    
+                    self.value = ["0", "0.0"].contains(newValue) ? "" : newValue
                 }
                 .disabled(isDisabled)
             Button(action: {
                 // Save new data to Realm when the Save button pressed
                 if isEditing {
-                    let value = Double(valueString) ?? 0
                     viewModel.saveStatisticData(statistic: statisticType, value: value, date: selectedDate)
-                    self.value = value
                 }
                 
                 isEditing.toggle()
@@ -71,7 +72,7 @@ struct  DateStatisticBoxView: View {
                     selectedStatisticType = nil
                 }
             }) {
-                Image(systemName: isEditing ? "checkmark" : (value == 0 ? "plus" : "pencil"))
+                Image(systemName: isEditing ? "checkmark" : (value == "0" || value == "" ? "plus" : "pencil"))
                     .foregroundColor(.white)
                     .padding(15)
                     .background(isEditing ? Color.green : Color.blue.opacity(0.6))

@@ -25,7 +25,6 @@ struct ContentView: View {
       
             StatisticsView()
                 .environmentObject(statisticViewModel)
-                .environmentObject(mainViewModel)
                 .tabItem {
                     Image(systemName: "chart.bar")
                     Text("Statistics")

@@ -27,4 +27,6 @@ class StatisticDataObject: Object, Identifiable {
         self.calories = calories
         self.date = date
     }
+    
+    
 }

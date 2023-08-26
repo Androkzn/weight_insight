@@ -13,13 +13,15 @@ import WidgetKit
 extension MainView {
     class ViewModel: ObservableObject {
         private let dataService: DataServiceProtocol
+        private var cancellables = Set<AnyCancellable>()
         
         @Published var statisticDataGrouped: [String: [StatisticDataObject]] = [:]
         @Published var statisticDataFiltered: [StatisticDataObject] = []
         @Published var selectedChartStatistic: [Statistic] = [.weight]
         @Published var selectedStatisticType: Statistic?
-        @Published var selectedStatistic: StatisticDataObject = StatisticDataObject()
+        @Published var selectedStatistic: StatisticData = StatisticData.defaultInstance()
         @Published var averageStatistic: StatisticData = StatisticData.defaultInstance()
+        @Published var isEditingTodayStatistic: Bool = false
         
         @Published var selectedDate: Date = Date() {
             didSet {
@@ -33,13 +35,6 @@ extension MainView {
                 getStatisticDataFiltered()
                 getAverageStatistic()
                 saveSharedData()
-            }
-        }
-        
-        @Published var isEditingTodayStatistic: Bool = false {
-            didSet {
-                getStatisticDataFiltered()
-                getAverageStatistic()
             }
         }
         
@@ -63,18 +58,27 @@ extension MainView {
         
         func getStatisticForDate()  {
             if let statisticObject  = dataService.getStatisticForDate(date: selectedDate) {
-                selectedStatistic =  statisticObject
+                
+                selectedStatistic =  StatisticData.fromObject(statisticObject)
             } else {
                 // if do not have statistic data for the selected date
                 // we need to create an empty statistic object
-                selectedStatistic = dataService.saveNewStatisticData(data: StatisticData.defaultInstance())
+                let newStatisticObject = dataService.saveNewStatisticData(data: StatisticData.defaultInstance())
+                selectedStatistic = StatisticData.fromObject(newStatisticObject)
             }
         }
         
-        func saveStatisticData(statistic: Statistic, value: Double, date: Date = Date()) {
-            dataService.saveStatistic(type: statistic, value: value, date: date)
-            // Update shared data statistic
-            saveSharedData()
+        func saveStatisticData(statistic: Statistic, value: String, date: Date = Date()) {
+            let doubleValue = Double(value) ?? 0
+            dataService.saveStatistic(type: statistic, value: doubleValue, date: date)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.getStatisticDataFiltered()
+                    self?.getAverageStatistic()
+                    // Update shared data statistic
+                    self?.saveSharedData()
+                }
+                .store(in: &cancellables)
         }
         
         func loadSettingValue(for settingType: SettingsType) -> String {
@@ -87,9 +91,9 @@ extension MainView {
             // Populate with new data
             // Today stat
             var sharedData = SharedData.defaultInstance()
-            sharedData.todayWeight = Double(todayStat.weight)
-            sharedData.todaySteps = Double(todayStat.steps)
-            sharedData.todayCalories = Double(todayStat.calories)
+            sharedData.todayWeight = Double(todayStat.weight) ?? 0
+            sharedData.todaySteps = Double(todayStat.steps) ?? 0
+            sharedData.todayCalories = Double(todayStat.calories) ?? 0
             // Average stat
             sharedData.avgWeight = Double(averageStatistic.weight) ?? 0
             sharedData.avgSteps = Double(averageStatistic.steps) ?? 0

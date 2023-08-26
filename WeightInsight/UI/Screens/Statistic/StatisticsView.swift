@@ -10,8 +10,7 @@ import Combine
 
 struct StatisticsView: View {
     @EnvironmentObject var viewModel: ViewModel
-    @EnvironmentObject var mainViewModel: MainView.ViewModel
-    
+ 
     var body: some View {
         let data =  viewModel.sortedKeys()
         NavigationView {
@@ -82,14 +81,12 @@ struct StatisticsView: View {
                             // Save action for the popup
                             viewModel.editStatisticData(data: statisticData)
                             viewModel.showEditPopup = false
-                            mainViewModel.statisticDataSaved = true
                         }
                     } else if viewModel.showDeletePopup, let id = viewModel.editingEntry.date?.formattedString() {
                         ClearStatisticPopupView(entryId: id) { entryId in
                             // On Delete Action
                             viewModel.clearStatisticData(id: entryId)
                             viewModel.showDeletePopup = false
-                            mainViewModel.statisticDataSaved = true
                         } onCancel: {
                             // On Cancel Action
                             viewModel.showDeletePopup = false
@@ -141,8 +138,7 @@ struct StatisticsView: View {
 struct StatisticsView_Previews: PreviewProvider {
     static var previews: some View {
         StatisticsView()
-            .environmentObject(StatisticsView.ViewModel(dataService: RealmService()))
-            .environmentObject(MainView.ViewModel(dataService: RealmService()))
+            .environmentObject(StatisticsView.ViewModel(dataService: RealmService(), mainViewModel: MainView.ViewModel(dataService: RealmService())))
     }
 }
 #endif

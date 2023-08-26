@@ -17,16 +17,17 @@ class DependencyFactory: Factory {
             dataService.createMockedDataStatistic()
         #endif
     }
-     
+
     func createMainViewModel() -> MainView.ViewModel {
-          return MainView.ViewModel(dataService: dataService)
-      }
-      
-    func createStatisticViewModel() -> StatisticsView.ViewModel {
-      return StatisticsView.ViewModel(dataService: dataService)
+        return MainView.ViewModel(dataService: dataService)
     }
-    
+
+    func createStatisticViewModel(mainViewModel: MainView.ViewModel) -> StatisticsView.ViewModel {
+        return StatisticsView.ViewModel(dataService: dataService, mainViewModel: mainViewModel)
+    }
+
     func createSettingsViewModel() -> SettingsView.ViewModel {
-      return SettingsView.ViewModel()
+        return SettingsView.ViewModel()
     }
 }
+

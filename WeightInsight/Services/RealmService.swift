@@ -140,27 +140,31 @@ class RealmService: DataServiceProtocol {
        return result
     }
     
-    func saveStatistic(type: Statistic, value: Double, date: Date = Date()) {
-        if let existingData = getStatisticForDate(date:date) {
-            write {
+    func saveStatistic(type: Statistic, value: Double, date: Date = Date()) -> AnyPublisher<Void, Never> {
+        return Future<Void, Never> { [weak self] promise in
+            if let existingData = self?.getStatisticForDate(date:date) {
+                self?.write {
+                    switch type {
+                    case .weight: existingData.weight = value
+                    case .steps: existingData.steps = value
+                    case .calories: existingData.calories = value
+                    }
+                    promise(.success(()))
+                }
+            } else {
+                let newData = StatisticDataObject()
+                newData.id = date.formattedString()
                 switch type {
-                case .weight: existingData.weight = value
-                case .steps: existingData.steps = value
-                case .calories: existingData.calories = value
+                case .weight: newData.weight = value
+                case .steps: newData.steps = value
+                case .calories: newData.calories = value
+                }
+                self?.write {
+                    self?.realm?.add(newData)
+                    promise(.success(()))
                 }
             }
-        } else {
-            let newData = StatisticDataObject()
-            newData.id = date.formattedString()
-            switch type {
-            case .weight: newData.weight = value
-            case .steps: newData.steps = value
-            case .calories: newData.calories = value
-            }
-            write {
-                self.realm?.add(newData)
-            }
-        }
+        }.eraseToAnyPublisher()
     }
     
     func saveStatisticData(data: StatisticData) -> AnyPublisher<Void, Never> {

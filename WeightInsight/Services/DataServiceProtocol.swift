@@ -11,7 +11,7 @@ import Combine
 protocol DataServiceProtocol {
     func getStatisticForDate(date: Date) -> StatisticDataObject?
     func getAllStatistic() -> [StatisticDataObject]
-    func saveStatistic(type: Statistic, value: Double, date: Date)
+    func saveStatistic(type: Statistic, value: Double, date: Date) -> AnyPublisher<Void, Never>
     func saveStatisticData(data: StatisticData) -> AnyPublisher<Void, Never>
     func saveNewStatisticData(data: StatisticData) -> StatisticDataObject
     func clearStatisticData(id: String) -> AnyPublisher<Void, Never>

@@ -17,6 +17,10 @@ struct StatisticData  {
         return StatisticData (weight: "0", steps: "0", calories: "0")
     }
     
+    static func fromObject(_ object: StatisticDataObject) -> StatisticData {
+        return  StatisticData (weight: String(object.weight), steps: String(object.steps), calories: String(object.calories), date: object.date)
+    }
+    
     mutating func sanitizeData() {
         weight = weight.withoutThousandsSeparator
         steps = steps.withoutThousandsSeparator
