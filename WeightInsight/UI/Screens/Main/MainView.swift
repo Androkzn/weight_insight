@@ -28,6 +28,7 @@ struct MainView: View {
                 statisticData: $viewModel.statisticDataFiltered,
                 isEditingTodayStatistic: $viewModel.isEditingTodayStatistic
             )
+            
             // Selection of statistic type for displaying on the chart
             StatisticChartSelectionView(
                 selectedChartStatistic: $viewModel.selectedChartStatistic
@@ -48,6 +49,9 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
        MainView()
+            .environmentObject(StatisticsView.ViewModel(dataService: RealmService()))
+            .environmentObject(SettingsView.ViewModel())
+            .environmentObject(MainView.ViewModel(dataService: RealmService()))
     }
 }
 #endif

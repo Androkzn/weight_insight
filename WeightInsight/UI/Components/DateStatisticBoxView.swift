@@ -9,28 +9,26 @@ import SwiftUI
 import Combine
 
 struct  DateStatisticBoxView: View {
-    @EnvironmentObject var viewModel:   MainView.ViewModel
+    @EnvironmentObject var viewModel: MainView.ViewModel
+    
     @Binding var value: Double
+    @State var valueString: String
     @Binding var isEditingTodayStatistic: Bool
     @Binding var selectedDate: Date
     @Binding var selectedStatisticType: Statistic?
-    
     @State private var isEditing: Bool = false
-    
     @FocusState private var isTextFieldFocused: Bool
     
     var statisticType: Statistic
-
+    
     var body: some View {
         let isDisabled = selectedStatisticType != nil && selectedStatisticType != statisticType
-        let formatter = statisticType == .weight ? NumberFormatter.decimalFormatter : NumberFormatter.intFormatter
-        
         VStack(spacing: 0) {
             Text(statisticType.title)
                 .font(.headline)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
-
-            TextField("", value: $value, formatter: formatter)
+            
+            TextField(statisticType.placeholder, text: $valueString)
                 .keyboardType(.decimalPad)
                 .background(Color.clear)
                 .cornerRadius(10)
@@ -45,13 +43,22 @@ struct  DateStatisticBoxView: View {
                         selectedStatisticType = statisticType
                     }
                 }
+                .onReceive(Just(valueString)) { value in
+                    // Do not show "," if text field is editing
+                    let newValue = isEditing ? value.withoutThousandsSeparator : value.withThousandsSeparator
+                    // Replace 0 with empty string in the displayed value
+                    valueString = newValue == "0" ? "" : newValue
+                    
+                }
                 .disabled(isDisabled)
             Button(action: {
                 // Save new data to Realm when the Save button pressed
                 if isEditing {
+                    let value = Double(valueString) ?? 0
                     viewModel.saveStatisticData(statistic: statisticType, value: value, date: selectedDate)
+                    self.value = value
                 }
-
+                
                 isEditing.toggle()
                 
                 isEditingTodayStatistic = isEditing
@@ -71,7 +78,7 @@ struct  DateStatisticBoxView: View {
                     .clipShape(Circle())  // This makes the button round
             }
             .disabled(isDisabled)
-             
+            
             // This disables the button if any box is editing and the current box is not.
         }
         //.frame(width: 80, height: 120)

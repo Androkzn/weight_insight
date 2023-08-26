@@ -21,4 +21,11 @@ extension NumberFormatter {
         formatter.maximumFractionDigits = 0
         return formatter
     }()
+    
+    static let editingFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = ""
+        return formatter
+    }()
 }

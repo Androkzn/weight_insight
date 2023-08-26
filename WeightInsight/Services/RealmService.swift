@@ -10,7 +10,8 @@ import RealmSwift
 import Realm
 import Combine
 
-class RealmService: DataService {
+class RealmService: DataServiceProtocol {
+    private let dataSubject = PassthroughSubject<Void, Never>()
     private let databaseQueue = DispatchQueue.main
     private var realm: Realm?
     var onRealmConfigured: (() -> Void)?
@@ -140,7 +141,6 @@ class RealmService: DataService {
     }
     
     func saveStatistic(type: Statistic, value: Double, date: Date = Date()) {
-        
         if let existingData = getStatisticForDate(date:date) {
             write {
                 switch type {
@@ -163,37 +163,55 @@ class RealmService: DataService {
         }
     }
     
-    func saveStatisticData(data: StatisticData) {
-        guard let date = data.date else { return }
-        
-        let id = date.formattedString()
-        if let existingData = getObjectById(id, StatisticDataObject.self) {
-            write {
-                existingData.weight = Double(data.weight) ?? 0
-                existingData.steps = Double(data.steps.replacingOccurrences(of: ",", with: "")) ?? 0
-                existingData.calories = Double(data.calories.replacingOccurrences(of: ",", with: "")) ?? 0
+    func saveStatisticData(data: StatisticData) -> AnyPublisher<Void, Never> {
+            return Future<Void, Never> { [weak self] promise in
+                guard let date = data.date else { return }
+                let id = date.formattedString()
+                if let existingData = self?.getObjectById(id, StatisticDataObject.self) {
+                    self?.write {
+                        existingData.weight = Double(data.weight) ?? 0
+                        existingData.steps = Double(data.steps) ?? 0
+                        existingData.calories = Double(data.calories) ?? 0
+                        promise(.success(()))
+                    }
+                } else {
+                    _ = self?.saveNewStatisticData(data: data)
+                    promise(.success(()))
+                }
             }
-        } else {
-            let newData = StatisticDataObject()
-            newData.id = id
-            newData.weight = Double(data.weight) ?? 0
-            newData.steps = Double(data.steps.replacingOccurrences(of: ",", with: "")) ?? 0
-            newData.calories = Double(data.calories.replacingOccurrences(of: ",", with: "")) ?? 0
-            
-            write {
-                self.realm?.add(newData)
-            }
+            .eraseToAnyPublisher()
         }
+    
+ 
+    
+    func saveNewStatisticData(data: StatisticData) -> StatisticDataObject {
+        let date = data.date ?? Date()
+        let id = date.formattedString()
+        let newData = StatisticDataObject()
+        newData.id = id
+        newData.weight = Double(data.weight) ?? 0
+        newData.steps = Double(data.steps.replacingOccurrences(of: ",", with: "")) ?? 0
+        newData.calories = Double(data.calories.replacingOccurrences(of: ",", with: "")) ?? 0
+        
+        write {
+            self.realm?.add(newData)
+        }
+        return newData
     }
     
-    func clearStatisticData(id: String) {
-        if let updatedData = getObjectById(id, StatisticDataObject.self) {
-            write {
-                updatedData.calories = 0
-                updatedData.steps = 0
-                updatedData.weight = 0
+    func clearStatisticData(id: String) -> AnyPublisher<Void, Never> {
+        return Future<Void, Never> { [weak self] promise in
+            if let updatedData = self?.getObjectById(id, StatisticDataObject.self) {
+                self?.write {
+                    updatedData.calories = 0
+                    updatedData.steps = 0
+                    updatedData.weight = 0
+                    promise(.success(()))
+                }
             }
+            promise(.success(()))
         }
+        .eraseToAnyPublisher()
     }
     
     func createMockedDataStatistic() {

@@ -28,20 +28,21 @@ struct EditStatisticPopupView: View {
             Text("Edit \(entry.date?.formattedString(format: "dd MMMM yyyy") ?? "")")
                 .font(.headline)
                 .bold()
-            TextFieldWithImage(title: "Weight", placeholder: "Enter weight", text: $entry.weight, systemImageName: "scalemass", keyboardType: .decimalPad)
+            TextFieldWithImage(text: $entry.weight, title: Statistic.weight.title, placeholder:  Statistic.weight.placeholder, systemImageName:  Statistic.weight.image, keyboardType: .decimalPad)
                 .onTapGesture {
                     clearTextFieldIfNeeded($entry.weight)
                 }
-            TextFieldWithImage(title: "Steps", placeholder: "Enter steps", text: $entry.steps, systemImageName: "figure.walk", keyboardType: .numberPad)
+            TextFieldWithImage(text: $entry.steps, title:  Statistic.steps.title, placeholder: Statistic.steps.placeholder, systemImageName: Statistic.steps.image, keyboardType: .numberPad)
                 .onTapGesture {
                     clearTextFieldIfNeeded($entry.steps)
                 }
-            TextFieldWithImage(title: "Calories", placeholder: "Enter calories", text: $entry.calories, systemImageName: "flame", keyboardType: .numberPad)
+            TextFieldWithImage(text: $entry.calories, title: Statistic.calories.title, placeholder: Statistic.calories.placeholder, systemImageName: Statistic.calories.image, keyboardType: .numberPad)
                 .onTapGesture {
                     clearTextFieldIfNeeded($entry.calories)
                 }
             HStack {
                 Button("Save") {
+                    entry.sanitizeData()
                     saveAction(entry)
                 }
                 .buttonStyle(MyButtonStyle(isEnabled: isFormValid, color: .green))
@@ -62,9 +63,12 @@ struct EditStatisticPopupView: View {
 }
 
 struct TextFieldWithImage: View {
+    @Binding var text: String
+    @State private var isEditing: Bool = false
+    @FocusState private var isTextFieldFocused: Bool
+    
     let title: String
     let placeholder: String
-    @Binding var text: String
     let systemImageName: String
     let keyboardType: UIKeyboardType
     
@@ -81,6 +85,12 @@ struct TextFieldWithImage: View {
                 .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                 .multilineTextAlignment(.center)
                 .keyboardType(keyboardType)
+                .focused($isTextFieldFocused)
+                .onChange(of: isTextFieldFocused) { focused in
+                    // Do not show "," if text field is editing
+                    isEditing = focused
+                    text = isEditing ? text.withoutThousandsSeparator : text.withThousandsSeparator
+                }
         }
     }
     

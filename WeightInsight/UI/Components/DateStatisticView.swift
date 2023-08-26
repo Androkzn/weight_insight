@@ -34,6 +34,7 @@ struct DateStatisticView: View {
         HStack(spacing: 10) {
             DateStatisticBoxView(
                 value: $selectedStatistic.weight,
+                valueString: selectedStatistic.weight.decimalFormatter,
                 isEditingTodayStatistic: $isEditingTodayStatistic,
                 selectedDate: $selectedDate,
                 selectedStatisticType: $selectedStatisticType,
@@ -42,6 +43,7 @@ struct DateStatisticView: View {
             
             DateStatisticBoxView(
                 value: $selectedStatistic.steps,
+                valueString: selectedStatistic.steps.intFormatter,
                 isEditingTodayStatistic: $isEditingTodayStatistic,
                 selectedDate: $selectedDate,
                 selectedStatisticType: $selectedStatisticType,
@@ -50,13 +52,14 @@ struct DateStatisticView: View {
             
             DateStatisticBoxView(
                 value: $selectedStatistic.calories,
+                valueString: selectedStatistic.calories.intFormatter,
                 isEditingTodayStatistic: $isEditingTodayStatistic,
                 selectedDate: $selectedDate,
                 selectedStatisticType: $selectedStatisticType,
                 statisticType: .calories
             )
         }
-        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     }
 }
 

@@ -45,16 +45,3 @@ extension SettingsView {
         }
     }
 }
-
-enum SettingsType: String, CaseIterable{
-    case weight
-    case steps
-    case calories
-    case myFitnessPal
-}
-
-struct Goals {
-    var weightGoal: String
-    var stepsGoal: String
-    var caloriesGoal: String
-}

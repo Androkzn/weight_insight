@@ -5,8 +5,13 @@
 //  Created by Andrei Tekhtelev on 2023-08-24.
 //
 import Foundation
+import Combine
  
-class MockDataService: DataService {
+class MockDataService: DataServiceProtocol {
+ 
+    
+    private let dataSubject = PassthroughSubject<Void, Never>()
+    
     var mockStatisticData: [StatisticDataObject] = []
     
     func getAllStatistic() -> [StatisticDataObject] {
@@ -72,17 +77,41 @@ class MockDataService: DataService {
             mockStatisticData.append(statisticData)
         }
 
-        func saveStatisticData(data: StatisticData) {
+    func saveStatisticData(data: StatisticData) {
+        guard let date = data.date else { return }
+        let id = UUID().uuidString
+        let statisticData = StatisticDataObject(id: id, weight: Double(data.weight) ?? 0, steps: Double(data.steps.replacingOccurrences(of: ",", with: "")) ?? 0, calories: Double(data.calories.replacingOccurrences(of: ",", with: "")) ?? 0, date: date)
+        
+        mockStatisticData.append(statisticData)
+    }
+    
+    func saveStatisticData(data: StatisticData) -> AnyPublisher<Void, Never> {
+        return Future<Void, Never> { [weak self] promise in
             guard let date = data.date else { return }
             let id = UUID().uuidString
             let statisticData = StatisticDataObject(id: id, weight: Double(data.weight) ?? 0, steps: Double(data.steps.replacingOccurrences(of: ",", with: "")) ?? 0, calories: Double(data.calories.replacingOccurrences(of: ",", with: "")) ?? 0, date: date)
             
-            mockStatisticData.append(statisticData)
+            self?.mockStatisticData.append(statisticData)
+            promise(.success(()))
         }
-
-        func clearStatisticData(id: String) {
-            mockStatisticData.removeAll { $0.id == id }
-        }
+        .eraseToAnyPublisher()
+    }
     
-     
+    
+
+    func clearStatisticData(id: String) -> AnyPublisher<Void, Never> {
+        return Future<Void, Never> { [weak self] promise in
+            self?.mockStatisticData.removeAll { $0.id == id }
+            promise(.success(()))
+        }
+        .eraseToAnyPublisher()
+    }
+
+    func createMockedDataStatistic() {
+        
+    }
+    
+    func saveNewStatisticData(data: StatisticData) -> StatisticDataObject {
+        return StatisticDataObject()
+    }
 }

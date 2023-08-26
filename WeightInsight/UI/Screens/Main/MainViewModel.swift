@@ -12,14 +12,14 @@ import WidgetKit
 
 extension MainView {
     class ViewModel: ObservableObject {
-        private let dataService: DataService
+        private let dataService: DataServiceProtocol
         
         @Published var statisticDataGrouped: [String: [StatisticDataObject]] = [:]
         @Published var statisticDataFiltered: [StatisticDataObject] = []
         @Published var selectedChartStatistic: [Statistic] = [.weight]
         @Published var selectedStatisticType: Statistic?
         @Published var selectedStatistic: StatisticDataObject = StatisticDataObject()
-        @Published var averageStatistic: StatisticData = StatisticData(weight: "0", steps: "0", calories: "0")
+        @Published var averageStatistic: StatisticData = StatisticData.defaultInstance()
         
         @Published var selectedDate: Date = Date() {
             didSet {
@@ -52,7 +52,7 @@ extension MainView {
             }
         }
          
-        init(dataService: DataService) {
+        init(dataService: DataServiceProtocol) {
             self.dataService = dataService
             
             getStatisticDataFiltered()
@@ -64,8 +64,11 @@ extension MainView {
         func getStatisticForDate()  {
             if let statisticObject  = dataService.getStatisticForDate(date: selectedDate) {
                 selectedStatistic =  statisticObject
+            } else {
+                // if do not have statistic data for the selected date
+                // we need to create an empty statistic object
+                selectedStatistic = dataService.saveNewStatisticData(data: StatisticData.defaultInstance())
             }
-
         }
         
         func saveStatisticData(statistic: Statistic, value: Double, date: Date = Date()) {
@@ -156,64 +159,6 @@ extension MainView {
             case .all:
                 statisticDataFiltered = allData
             }
-        }
-    }
-}
-
-struct StatisticData  {
-    var weight: String = ""
-    var steps: String = ""
-    var calories: String = ""
-    var date: Date? = nil
-}
-
-enum Statistic: String, CaseIterable{
-    case weight
-    case steps
-    case calories
-    
-    var title: String {
-        switch self {
-        case .weight:
-            return "Weight"
-        case .steps:
-            return "Steps"
-        case .calories:
-            return "Calories"
-        }
-    }
-    
-    var buttonTitle: String {
-        switch self {
-        case .weight:
-            return "Add weight"
-        case .steps:
-            return "Add steps"
-        case .calories:
-            return "Import calories"
-        }
-    }
-}
-
-enum StatisticFilter: String, CaseIterable {
-    case thisWeek
-    case previousWeek
-    case thisMonth
-    case lastMonth
-    case all
-    
-    var title: String {
-        switch self {
-        case .thisWeek:
-            return "This Week"
-        case .previousWeek:
-            return "Previous Week"
-        case .thisMonth:
-            return "This Month"
-        case .lastMonth:
-            return "Previous Month"
-        case .all:
-            return "All available"
         }
     }
 }

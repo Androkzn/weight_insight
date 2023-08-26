@@ -24,6 +24,8 @@ struct StatisticsView: View {
                                 Text(entry.date.formattedString(format: "dd MMM yyyy"))
                                     .font(.headline)
                                     .bold()
+                                // Show missing data if needed
+                                missingDataView(data: entry)
                                 Spacer()
                                 VStack {
                                     statisticEntryRow(imageName: "scalemass", color: Color.blue, value: entry.weight.decimalFormatter)
@@ -96,7 +98,31 @@ struct StatisticsView: View {
                 }
             )
         } .onAppear() {
-            
+            // Update data 
+            viewModel.getGroupedStatisticData()
+        }
+    }
+    
+    func missingDataView(data: StatisticDataObject) -> some View {
+        Group {
+            if data.weight == 0 || data.steps == 0 || data.calories == 0 {
+                VStack(alignment: .center) {
+                    Image("missing_data")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40)
+                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
+                    Text("Missing data")
+                        .font(.system(size: 12))
+                        .multilineTextAlignment(.center)
+                }
+                .padding(5)
+                .frame(width: 60)
+                .background(Color.orange.opacity(0.5))
+                .cornerRadius(8)
+            } else {
+                EmptyView()
+            }
         }
     }
     
@@ -115,6 +141,8 @@ struct StatisticsView: View {
 struct StatisticsView_Previews: PreviewProvider {
     static var previews: some View {
         StatisticsView()
+            .environmentObject(StatisticsView.ViewModel(dataService: RealmService()))
+            .environmentObject(MainView.ViewModel(dataService: RealmService()))
     }
 }
 #endif

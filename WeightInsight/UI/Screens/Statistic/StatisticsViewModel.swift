@@ -10,7 +10,10 @@ import Combine
 
 extension StatisticsView {
     class ViewModel: ObservableObject {
-        private let dataService: DataService
+        @EnvironmentObject var mainViewModel: MainView.ViewModel
+        
+        private let dataService: DataServiceProtocol
+        private var cancellables = Set<AnyCancellable>()
         
         @Published var statisticDataGrouped: [String: [StatisticDataObject]] = [:]
         @Published var editMode: EditMode = .inactive
@@ -19,21 +22,31 @@ extension StatisticsView {
         @Published var editingEntry: StatisticData = StatisticData(weight: "",steps: "", calories: "")
         @Published var statisticDataSaved: Bool = false
         
-        init(dataService: DataService) {
+        init(dataService: DataServiceProtocol) {
             self.dataService = dataService
-            
             getGroupedStatisticData()
             statisticDataSaved = false
+            getGroupedStatisticData()
         }
         
         func editStatisticData(data: StatisticData) {
-            statisticDataSaved = true
             dataService.saveStatisticData(data: data)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.statisticDataSaved = true
+                    self?.getGroupedStatisticData()
+                }
+                .store(in: &cancellables)
         }
         
         func clearStatisticData(id: String) {
-            statisticDataSaved = true
             dataService.clearStatisticData(id: id)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] _ in
+                    self?.statisticDataSaved = true
+                    self?.getGroupedStatisticData()
+                }
+                .store(in: &cancellables)
         }
         
         func sortedKeys() -> [String] {
@@ -91,9 +104,10 @@ extension StatisticsView {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMMM yyyy"
             
-            statisticDataGrouped =  Dictionary(grouping: dataService.getAllStatistic(), by: { entry in
+            let data = Dictionary(grouping: dataService.getAllStatistic(), by: { entry in
                 return dateFormatter.string(from: entry.date)
             })
+            statisticDataGrouped =  data
         }
     }
 }
