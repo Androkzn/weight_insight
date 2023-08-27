@@ -26,6 +26,7 @@ struct AverageStatisticView: View {
                     Text($0.title)
                 }
             }
+            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
             .pickerStyle(.menu)
             .tint(.black)
         }

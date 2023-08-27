@@ -128,6 +128,7 @@ struct StatisticsView: View {
             Image(systemName: imageName)
                 .foregroundColor(color)
             Text(value)
+                .foregroundColor(["0", "0.0"].contains(value) ?  .red : .black)
         }
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
     }

@@ -28,29 +28,30 @@ struct CustomFilterPopupView: View {
             .background(Color.orange.opacity(0.5))
             
             VStack(alignment: .center) {
-                HStack(alignment: .center){
-                    Spacer(minLength: 10)
-                    VStack {
-                        Text("From:")
-                        Spacer(minLength: 5)
-                        DatePicker("", selection: $selectedStartDate,  in: ...Date(), displayedComponents: .date)
-                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
-                    }
-                    Spacer(minLength: 5)
-                    VStack {
-                        Text("To:")
-                        Spacer(minLength: 5)
-                        DatePicker("", selection: $selectedEndDate,  in: ...Date(), displayedComponents: .date)
-                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
-                    }
-                    Spacer(minLength: 10)
+                HStack(alignment: .center) {
+                    Text("From:")
+                        .bold()
+                    Spacer()
+                    DatePicker("", selection: $selectedStartDate,  in: ...Date(), displayedComponents: .date
+                    )
+                    .frame(width: 110)
                 }
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 30))
+                HStack(alignment: .center) {
+                    Text("To:")
+                        .bold()
+                    Spacer()
+                    DatePicker("", selection: $selectedEndDate,  in: selectedStartDate...Date(), displayedComponents: .date
+                    )
+                    .frame(width: 110)
+                }
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 30))
                 HStack {
                     Button("Select") {
                         showCustomFilterPopup = false
                         onSelect()
                     }
-                    .frame(width: 70, height: 20)
+                    .frame(width: 110, height: 20)
                     .padding(10)
                     .foregroundColor(.white)
                     .background(Color.green.opacity(0.5))
@@ -59,7 +60,7 @@ struct CustomFilterPopupView: View {
                         showCustomFilterPopup = false
                         onCancel()
                     }
-                    .frame(width: 70, height: 20)
+                    .frame(width: 110, height: 20)
                     .padding(10)
                     .foregroundColor(.white)
                     .background(Color.blue.opacity(0.5))
@@ -72,7 +73,7 @@ struct CustomFilterPopupView: View {
         }
         .background(Color.white)
         .cornerRadius(10)
-        .shadow(radius: 10)
+        .shadow(radius: 15)
         .frame(width: 300, height: 200)
     }
 
