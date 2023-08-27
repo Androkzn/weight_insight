@@ -72,7 +72,7 @@ enum StatisticFilter: String, CaseIterable {
     case previousWeek
     case thisMonth
     case lastMonth
-    case all
+    case custom
     
     var title: String {
         switch self {
@@ -84,8 +84,8 @@ enum StatisticFilter: String, CaseIterable {
             return "This Month"
         case .lastMonth:
             return "Previous Month"
-        case .all:
-            return "All available"
+        case .custom:
+            return "Custom"
         }
     }
 }

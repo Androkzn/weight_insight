@@ -14,7 +14,7 @@ extension MainView {
     class ViewModel: ObservableObject {
         private let dataService: DataServiceProtocol
         private var cancellables = Set<AnyCancellable>()
-        
+        @Published var previousFiler: StatisticFilter = .thisWeek
         @Published var statisticDataGrouped: [String: [StatisticDataObject]] = [:]
         @Published var statisticDataFiltered: [StatisticDataObject] = []
         @Published var selectedChartStatistic: [Statistic] = [.weight]
@@ -22,6 +22,9 @@ extension MainView {
         @Published var selectedStatistic: StatisticData = StatisticData.defaultInstance()
         @Published var averageStatistic: StatisticData = StatisticData.defaultInstance()
         @Published var isEditingTodayStatistic: Bool = false
+        @Published var showCustomFilterPopup: Bool = false
+        @Published var selectedStartDate: Date = Date()
+        @Published var selectedEndDate: Date = Date()
         
         @Published var selectedDate: Date = Date() {
             didSet {
@@ -35,6 +38,12 @@ extension MainView {
                 getStatisticDataFiltered()
                 getAverageStatistic()
                 saveSharedData()
+                
+                if selectedFilter == .custom {
+                    showCustomFilterPopup = true
+                } else {
+                    previousFiler = selectedFilter
+                }
             }
         }
         
@@ -126,29 +135,31 @@ extension MainView {
                 filteredData = allData.filter { $0.date.isInThisMonth }
             case .lastMonth:
                 filteredData = allData.filter { $0.date.isInLastMonth }
-            case .all:
-                filteredData = allData
+            case .custom: return
             }
             
+            averageStatistic = computeAverageStatistic(data: filteredData)
+        }
+        
+        func computeAverageStatistic(data: [StatisticDataObject]) -> StatisticData {
             // Compute averages for each type separately
-            let totalWeight = filteredData.reduce(0.0) { $0 + ($1.weight > 0 ? $1.weight : 0) }
-            let totalSteps = filteredData.reduce(0) { $0 + ($1.steps > 0 ? $1.steps : 0) }
-            let totalCalories = filteredData.reduce(0) { $0 + ($1.calories > 0 ? $1.calories : 0) }
+            let totalWeight = data.reduce(0.0) { $0 + ($1.weight > 0 ? $1.weight : 0) }
+            let totalSteps = data.reduce(0) { $0 + ($1.steps > 0 ? $1.steps : 0) }
+            let totalCalories = data.reduce(0) { $0 + ($1.calories > 0 ? $1.calories : 0) }
             
-            let nonZeroWeightCount = filteredData.filter { $0.weight > 0 }.count
-            let nonZeroStepsCount = filteredData.filter { $0.steps > 0 }.count
-            let nonZeroCaloriesCount = filteredData.filter { $0.calories > 0 }.count
+            let nonZeroWeightCount = data.filter { $0.weight > 0 }.count
+            let nonZeroStepsCount = data.filter { $0.steps > 0 }.count
+            let nonZeroCaloriesCount = data.filter { $0.calories > 0 }.count
             
             var averageWeight = nonZeroWeightCount > 0 ? totalWeight / Double(nonZeroWeightCount) : 0
             averageWeight = (averageWeight * 100).rounded() / 100  // Format to 2 decimal places
             
             let averageSteps = nonZeroStepsCount > 0 ? Int(totalSteps) / nonZeroStepsCount : 0
             let averageCalories = nonZeroCaloriesCount > 0 ? Int(totalCalories) / nonZeroCaloriesCount : 0
-            
-            averageStatistic = StatisticData(weight: String(averageWeight), steps: String(averageSteps), calories: String(averageCalories))
+            return StatisticData(weight: String(averageWeight), steps: String(averageSteps), calories: String(averageCalories))
         }
     
-        func getStatisticDataFiltered()  {
+        func getStatisticDataFiltered() {
             let allData = Array(dataService.getAllStatistic())
             
             switch selectedFilter {
@@ -159,9 +170,17 @@ extension MainView {
             case .thisMonth:
                 statisticDataFiltered = allData.filter { $0.date.isInThisMonth }
             case .lastMonth:
-                statisticDataFiltered =   allData.filter { $0.date.isInLastMonth }
-            case .all:
-                statisticDataFiltered = allData
+                statisticDataFiltered = allData.filter { $0.date.isInLastMonth }
+            case .custom: break
+            }
+        }
+        
+        func customFilterSelected() {
+            let allData = Array(dataService.getAllStatistic())
+            let data = allData.filter { $0.date.isBetween(selectedStartDate, and: selectedEndDate)}
+            if  data.count > 0 {
+                statisticDataFiltered = data
+                averageStatistic = computeAverageStatistic(data: data)
             }
         }
     }

@@ -41,7 +41,18 @@ struct MainView: View {
                 selectedDate: $viewModel.selectedDate,
                 selectedStatisticType: $viewModel.selectedStatisticType
             )
-        }
+        }.overlay(
+            Group {
+                if viewModel.showCustomFilterPopup {
+                    CustomFilterPopupView(selectedStartDate: $viewModel.selectedStartDate, selectedEndDate: $viewModel.selectedEndDate,  showCustomFilterPopup: $viewModel.showCustomFilterPopup) {
+                        viewModel.customFilterSelected()
+                    } onCancel: {
+                        viewModel.selectedFilter = viewModel.previousFiler
+                        viewModel.getStatisticDataFiltered()
+                    }
+                }
+            }
+        )
     }
 }
  

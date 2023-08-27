@@ -49,6 +49,10 @@ extension Date {
         let calendar = Calendar.current
         return calendar.component(.day, from: self) == 1
     }
+    
+    func isBetween(_ startDate: Date, and endDate: Date) -> Bool {
+       return self >= startDate && self <= endDate
+    }
 }
  
 

@@ -43,6 +43,7 @@
 		C87F7B732A99755300E14391 /* StatisticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F7B722A99755300E14391 /* StatisticData.swift */; };
 		C87F7B752A9975C100E14391 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F7B742A9975C100E14391 /* Goals.swift */; };
 		C87F7B772A9A733200E14391 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F7B762A9A733200E14391 /* String+Extensions.swift */; };
+		C87F7B792A9AB0DF00E14391 /* CustomFilterPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87F7B782A9AB0DF00E14391 /* CustomFilterPopupView.swift */; };
 		C88AE0442A91B4700083C781 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C88AE0432A91B4700083C781 /* WidgetKit.framework */; };
 		C88AE0462A91B4700083C781 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C88AE0452A91B4700083C781 /* SwiftUI.framework */; };
 		C88AE0492A91B4700083C781 /* WeightInsightWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88AE0482A91B4700083C781 /* WeightInsightWidgetBundle.swift */; };
@@ -66,7 +67,6 @@
 		C8FFA99F2A8A65B900745035 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA99E2A8A65B900745035 /* StatisticsView.swift */; };
 		C8FFA9A12A8A65C300745035 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A02A8A65C300745035 /* SettingsView.swift */; };
 		C8FFA9A32A8A77D200745035 /* DateStatisticBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A22A8A77D200745035 /* DateStatisticBoxView.swift */; };
-		C8FFA9A52A8A77EB00745035 /* DoubleWheelPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A42A8A77EB00745035 /* DoubleWheelPickerView.swift */; };
 		C8FFA9A92A8A781A00745035 /* AverageStatisticBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9A82A8A781A00745035 /* AverageStatisticBoxView.swift */; };
 		C8FFA9AB2A8A795100745035 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9AA2A8A795100745035 /* MainViewModel.swift */; };
 		C8FFA9AD2A8A796000745035 /* StatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FFA9AC2A8A796000745035 /* StatisticsViewModel.swift */; };
@@ -153,6 +153,7 @@
 		C87F7B722A99755300E14391 /* StatisticData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticData.swift; sourceTree = "<group>"; };
 		C87F7B742A9975C100E14391 /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goals.swift; sourceTree = "<group>"; };
 		C87F7B762A9A733200E14391 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		C87F7B782A9AB0DF00E14391 /* CustomFilterPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFilterPopupView.swift; sourceTree = "<group>"; };
 		C88AE0422A91B4700083C781 /* WeightInsightWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WeightInsightWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88AE0432A91B4700083C781 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		C88AE0452A91B4700083C781 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -178,7 +179,6 @@
 		C8FFA99E2A8A65B900745035 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		C8FFA9A02A8A65C300745035 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C8FFA9A22A8A77D200745035 /* DateStatisticBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateStatisticBoxView.swift; sourceTree = "<group>"; };
-		C8FFA9A42A8A77EB00745035 /* DoubleWheelPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleWheelPickerView.swift; sourceTree = "<group>"; };
 		C8FFA9A82A8A781A00745035 /* AverageStatisticBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageStatisticBoxView.swift; sourceTree = "<group>"; };
 		C8FFA9AA2A8A795100745035 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		C8FFA9AC2A8A796000745035 /* StatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewModel.swift; sourceTree = "<group>"; };
@@ -404,13 +404,13 @@
 			children = (
 				C87B2F882A9448A200EEF61E /* ErrorView.swift */,
 				C8FFA9A22A8A77D200745035 /* DateStatisticBoxView.swift */,
-				C8FFA9A42A8A77EB00745035 /* DoubleWheelPickerView.swift */,
 				C8FFA9A82A8A781A00745035 /* AverageStatisticBoxView.swift */,
 				C8FFA9B02A8ABAFD00745035 /* KeyboardToolBar.swift */,
 				C8FFA9B62A8ABB9800745035 /* CustomTextField.swift */,
 				C87F79212A8AE2A100E1B105 /* WebView.swift */,
 				C87F7B472A95379B00E14391 /* AverageStatisticView.swift */,
 				C87F79232A8B429200E1B105 /* EditStatisticPopupView.swift */,
+				C87F7B782A9AB0DF00E14391 /* CustomFilterPopupView.swift */,
 				C8B2970A2A8DA2C3007893D0 /* ChartView.swift */,
 				C88AE0602A9287DA0083C781 /* ClearStatisticPopupView.swift */,
 				C87F7B492A95387900E14391 /* StatisticChartSelectionView.swift */,
@@ -659,12 +659,12 @@
 				C8BE339B2A8C7BA60047A9FD /* WeightInsightApp.swift in Sources */,
 				C87B2F892A9448A300EEF61E /* ErrorView.swift in Sources */,
 				C87B2F872A9443BF00EEF61E /* Realm+Extension.swift in Sources */,
+				C87F7B792A9AB0DF00E14391 /* CustomFilterPopupView.swift in Sources */,
 				C8FFA9B72A8ABB9800745035 /* CustomTextField.swift in Sources */,
 				C8B2970B2A8DA2C3007893D0 /* ChartView.swift in Sources */,
 				C8FFA99D2A8A65AC00745035 /* MainView.swift in Sources */,
 				C8FFA9B12A8ABAFD00745035 /* KeyboardToolBar.swift in Sources */,
 				C851FB8B2A92DF54006444B3 /* SharedData.swift in Sources */,
-				C8FFA9A52A8A77EB00745035 /* DoubleWheelPickerView.swift in Sources */,
 				C8BE339D2A8C7DA80047A9FD /* Color+Extensions.swift in Sources */,
 				C87F7B712A99753500E14391 /* Enums.swift in Sources */,
 				C88AE0532A91B4710083C781 /* WeightInsightWidget.intentdefinition in Sources */,

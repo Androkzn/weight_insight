@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 import Charts
 
- 
 struct ChartView: View {
     @Binding var selectedChartStatistic: [Statistic]
     @Binding var statisticData: [StatisticDataObject]
@@ -77,11 +76,17 @@ struct ChartView: View {
                         AxisTick(stroke: StrokeStyle(lineWidth: 0))
                         AxisValueLabel {
                             if statisticData.count <= 7 {
-                                Text(date, format: .dateTime.day(.defaultDigits).month(.abbreviated)
-                                )
-                                .multilineTextAlignment(.center)
-                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                                .frame(width: (UIScreen.main.bounds.width / CGFloat(statisticData.count)))
+                                VStack {
+                                    Text("\(date, format: .dateTime.day(.defaultDigits))")
+                                        .multilineTextAlignment(.center)
+                                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                        .frame(width: (UIScreen.main.bounds.width / CGFloat(statisticData.count)))
+                                    
+                                    Text("\(date, format: .dateTime.month(.abbreviated))")
+                                        .multilineTextAlignment(.center)
+                                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                        .frame(width: (UIScreen.main.bounds.width / CGFloat(statisticData.count)))
+                                }
                             } else if statisticData.count > 15 && statisticData.count <= 31 {
                                 if statisticData.count <= 31 && Calendar.current.component(.day, from: date) == 1 ||
                                     Calendar.current.component(.day, from: date) == statisticData.count ||
@@ -127,7 +132,7 @@ struct ChartView: View {
             .chartLegend(.visible)
             .chartLegend(position: .automatic, alignment: .center, spacing: 10)
             .opacity(isEditingTodayStatistic ? 0 : 1)
-            .animation(SwiftUI.Animation.default, value: 0.5)
+            .animation(SwiftUI.Animation.default, value: 3)
             .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
             // Show placeholder if there is no data
             if seriesData.isEmpty {
