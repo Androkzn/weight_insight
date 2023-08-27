@@ -95,8 +95,8 @@ extension MainView {
         }
         
         func saveSharedData()  {
-            let todayStat = selectedStatistic
-
+            var todayStat = selectedStatistic
+            todayStat.sanitizeData()
             // Populate with new data
             // Today stat
             var sharedData = SharedData.defaultInstance()
