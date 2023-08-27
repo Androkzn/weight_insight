@@ -16,6 +16,7 @@ extension SettingsView {
         @Published var myFitnessPal: String = ""
         @Published var showWebView: Bool = false
         @Published var authorizationCode: String? = nil
+        @Published var units: Units = .metric
         
         init() {
             getGoals()

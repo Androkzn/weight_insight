@@ -15,7 +15,11 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Your Goals").font(.system(size: 17))) {
+            Section(header: Text("Your Goals")
+                .font(.system(size: 17))
+                .bold()
+                .foregroundColor(.blue)
+            ) {
                 HStack {
                     Text("Weight:")
                     Spacer()
@@ -42,10 +46,14 @@ struct SettingsView: View {
                     .frame(width: 100)
                 }
             }
-            .padding(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .frame(height: 40)
         
-            Section(header: Text("Connected apps").font(.system(size: 17))) {
+            Section(header: Text("Connected apps")
+                .font(.system(size: 17))
+                .bold()
+                .foregroundColor(.blue)
+            ) {
                 HStack {
                     Text("MyFitnessPal:")
                     Spacer()
@@ -70,7 +78,7 @@ struct SettingsView: View {
                     .cornerRadius(10)
                     .disabled(true)
                 }
-                .padding(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 .frame(height: 40)
                 HStack() {
                     Text("Fat Secret:")
@@ -97,9 +105,31 @@ struct SettingsView: View {
                     .disabled(true)
                 }
             }
-            .padding(EdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0))
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .frame(height: 40)
+            Section(header: Text("Settings")
+                .font(.system(size: 17))
+                .bold()
+                .foregroundColor(.blue)
+            ) {
+                HStack() {
+                    Text("Units:")
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 00))
+                    Spacer()
+                    Picker("", selection:  $viewModel.units) {
+                        ForEach(Units.allCases, id: \.self) {
+                            Text($0.rawValue)
+                        }
+                    }
+                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                    .pickerStyle(.menu)
+                    .tint(.black)
+                }
+            }
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .frame(height: 40)
         }
+        
     }
 }
 #if DEBUG

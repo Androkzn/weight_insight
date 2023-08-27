@@ -96,3 +96,9 @@ enum SettingsType: String, CaseIterable{
     case calories
     case myFitnessPal
 }
+
+
+enum Units: String, CaseIterable{
+    case metric = "kg"
+    case imperial = "pound"
+}
