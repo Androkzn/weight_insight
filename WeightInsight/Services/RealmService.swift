@@ -16,6 +16,8 @@ class RealmService: DataServiceProtocol {
     private var realm: Realm?
     var onRealmConfigured: (() -> Void)?
     var realmUpdated: (() -> Void)?
+    
+    var statistic: [StatisticDataObject] = []
 
     init() {
        setupDatabase()

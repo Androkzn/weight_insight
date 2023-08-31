@@ -21,26 +21,26 @@ struct SettingsView: View {
                 .foregroundColor(.blue)
             ) {
                 HStack {
-                    Text("Weight:")
+                    Text("\(Statistic.weight.title):")
                     Spacer()
-                    CustomTextField(text: $viewModel.goals.weightGoal, placeholder: "Enter weight", keyboardType: .decimalPad, onDone: { value in
+                    CustomTextField(text: $viewModel.goals.weightGoal, placeholder: Statistic.weight.placeholder, keyboardType: .decimalPad, onDone: { value in
                         viewModel.saveSettingValue(value, for: .weight)
                     })
                     .frame(width: 100)
                 }
                  
                 HStack {
-                    Text("Steps:")
+                    Text("\(Statistic.steps.title):")
                     Spacer()
-                    CustomTextField(text: $viewModel.goals.stepsGoal, placeholder: "Enter steps", keyboardType: .numberPad, onDone: { value in
+                    CustomTextField(text: $viewModel.goals.stepsGoal, placeholder: Statistic.steps.placeholder, keyboardType: .numberPad, onDone: { value in
                         viewModel.saveSettingValue(value, for: .steps)
                     })
                     .frame(width: 100)
                 } 
                 HStack {
-                    Text("Calories:")
+                    Text("\(Statistic.calories.title):")
                     Spacer()
-                    CustomTextField(text: $viewModel.goals.caloriesGoal, placeholder: "Enter calories", keyboardType: .numberPad, onDone: { value in
+                    CustomTextField(text: $viewModel.goals.caloriesGoal, placeholder: Statistic.calories.placeholder, keyboardType: .numberPad, onDone: { value in
                         viewModel.saveSettingValue(value, for: .calories)
                     })
                     .frame(width: 100)
@@ -129,7 +129,6 @@ struct SettingsView: View {
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .frame(height: 40)
         }
-        
     }
 }
 #if DEBUG

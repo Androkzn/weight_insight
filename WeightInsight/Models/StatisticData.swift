@@ -13,8 +13,8 @@ struct StatisticData  {
     var calories: String = ""
     var date: Date? = nil
     
-    static func defaultInstance() -> StatisticData {
-        return StatisticData (weight: "0", steps: "0", calories: "0")
+    static func defaultInstance(date: Date = Date()) -> StatisticData {
+        return StatisticData (weight: "0", steps: "0", calories: "0", date: date)
     }
     
     static func fromObject(_ object: StatisticDataObject) -> StatisticData {

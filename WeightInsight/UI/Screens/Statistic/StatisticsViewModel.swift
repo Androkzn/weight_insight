@@ -20,6 +20,7 @@ extension StatisticsView {
         @Published var showDeletePopup: Bool = false
         @Published var editingEntry: StatisticData = StatisticData(weight: "",steps: "", calories: "")
         @Published var statisticDataSaved: Bool = false
+        @Published var isRefreshing = false
         
         init(dataService: DataServiceProtocol, mainViewModel: MainView.ViewModel) {
             self.dataService = dataService

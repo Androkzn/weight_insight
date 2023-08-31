@@ -19,11 +19,16 @@ class DependencyFactory: Factory {
     }
 
     func createMainViewModel() -> MainView.ViewModel {
-        return MainView.ViewModel(dataService: dataService)
+        return MainView.ViewModel(
+            dataService: dataService
+        )
     }
 
     func createStatisticViewModel(mainViewModel: MainView.ViewModel) -> StatisticsView.ViewModel {
-        return StatisticsView.ViewModel(dataService: dataService, mainViewModel: mainViewModel)
+        return StatisticsView.ViewModel(
+            dataService: dataService,
+            mainViewModel: mainViewModel
+        )
     }
 
     func createSettingsViewModel() -> SettingsView.ViewModel {

@@ -95,6 +95,8 @@ enum SettingsType: String, CaseIterable{
     case steps
     case calories
     case myFitnessPal
+    case fatSecret
+    case units
 }
 
 

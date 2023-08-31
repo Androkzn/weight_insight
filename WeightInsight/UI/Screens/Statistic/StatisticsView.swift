@@ -24,12 +24,12 @@ struct StatisticsView: View {
                                     .font(.headline)
                                     .bold()
                                 // Show missing data if needed
-                                missingDataView(data: entry)
+                                MissingDataView(data: entry)
                                 Spacer()
                                 VStack {
-                                    statisticEntryRow(imageName: "scalemass", color: Color.blue, value: entry.weight.decimalFormatter)
-                                    statisticEntryRow(imageName: "figure.walk", color: Color.green, value:  entry.steps.intFormatter  )
-                                    statisticEntryRow(imageName: "flame", color: Color.orange, value:  entry.calories.intFormatter )
+                                    StatisticCell(imageName: "scalemass", color: Color.blue, value: entry.weight.decimalFormatter)
+                                    StatisticCell(imageName: "figure.walk", color: Color.green, value:  entry.steps.intFormatter  )
+                                    StatisticCell(imageName: "flame", color: Color.orange, value:  entry.calories.intFormatter )
                                 }
                                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
                             }
@@ -98,39 +98,6 @@ struct StatisticsView: View {
             // Update data 
             viewModel.getGroupedStatisticData()
         }
-    }
-    
-    func missingDataView(data: StatisticDataObject) -> some View {
-        Group {
-            if data.weight == 0 || data.steps == 0 || data.calories == 0 {
-                VStack(alignment: .center) {
-                    Image("missing_data")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40)
-                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
-                    Text("Missing data")
-                        .font(.system(size: 12))
-                        .multilineTextAlignment(.center)
-                }
-                .padding(5)
-                .frame(width: 60)
-                .background(Color.orange.opacity(0.5))
-                .cornerRadius(8)
-            } else {
-                EmptyView()
-            }
-        }
-    }
-    
-    func statisticEntryRow(imageName: String, color: Color, value: String) -> some View {
-        return HStack {
-            Image(systemName: imageName)
-                .foregroundColor(color)
-            Text(value)
-                .foregroundColor(["0", "0.0"].contains(value) ?  .red : .black)
-        }
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
     }
 }
 

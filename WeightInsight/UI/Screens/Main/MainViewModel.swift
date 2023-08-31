@@ -14,8 +14,9 @@ extension MainView {
     class ViewModel: ObservableObject {
         private let dataService: DataServiceProtocol
         private var cancellables = Set<AnyCancellable>()
+        
         @Published var previousFiler: StatisticFilter = .thisWeek
-        @Published var statisticDataGrouped: [String: [StatisticDataObject]] = [:]
+        //@Published var statisticDataGrouped: [String: [StatisticDataObject]] = [:]
         @Published var statisticDataFiltered: [StatisticDataObject] = []
         @Published var selectedChartStatistic: [Statistic] = [.weight]
         @Published var selectedStatisticType: Statistic?
@@ -72,7 +73,7 @@ extension MainView {
             } else {
                 // if do not have statistic data for the selected date
                 // we need to create an empty statistic object
-                let newStatisticObject = dataService.saveNewStatisticData(data: StatisticData.defaultInstance())
+                let newStatisticObject = dataService.saveNewStatisticData(data: StatisticData.defaultInstance(date: selectedDate))
                 selectedStatistic = StatisticData.fromObject(newStatisticObject)
             }
         }

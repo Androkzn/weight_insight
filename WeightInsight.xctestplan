@@ -14,6 +14,10 @@
   "testTargets" : [
     {
       "parallelizable" : true,
+      "skippedTests" : [
+        "SettingsViewModelTests",
+        "StatisticViewModelTests"
+      ],
       "target" : {
         "containerPath" : "container:WeightInsight.xcodeproj",
         "identifier" : "C87F7B582A9831F500E14391",

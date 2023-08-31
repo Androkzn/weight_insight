@@ -25,13 +25,5 @@ struct Provider: TimelineProvider {
 }
 
 func fetchSharedData() -> SharedData {
-    guard let sharedContainerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.weight_insight")?.appendingPathComponent("data.json") else { return SharedData.defaultInstance() }
-    
-    if let data = try? Data(contentsOf: sharedContainerURL) {
-        let decoder = JSONDecoder()
-        if let decodedData = try? decoder.decode(SharedData.self, from: data) {
-            return decodedData
-        }
-    }
-    return SharedData.defaultInstance()
+    return SharedData.get()
 }

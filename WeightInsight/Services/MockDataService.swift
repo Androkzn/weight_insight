@@ -10,45 +10,44 @@ import Combine
 class MockDataService: DataServiceProtocol {
     private let dataSubject = PassthroughSubject<Void, Never>()
     
-    var mockStatisticData: [StatisticDataObject] = []
+    var mockStatisticData: [StatisticDataObject]
     
-    func getAllStatistic() -> [StatisticDataObject] {
+    init() {
+        self.mockStatisticData = []
+        self.mockStatisticData = createStatistic()
+    }
+    
+    func createStatistic() -> [StatisticDataObject] {
         let currentDate = Date()
         let calendar = Calendar.current
         
-        let thisWeek = generateData(for: calendar.dateInterval(of: .weekOfYear, for: currentDate)!)
-        let lastWeek = generateData(for: calendar.dateInterval(of: .weekOfYear, for: currentDate.addingTimeInterval(-7 * 24 * 60 * 60))!)
-        let thisMonth = generateData(for: calendar.dateInterval(of: .month, for: currentDate)!)
-        let lastMonth = generateData(for: calendar.dateInterval(of: .month, for: currentDate.addingTimeInterval(-30 * 24 * 60 * 60))!)
+        let thisWeekWeight = 70.0
+        let thisWeekSteps = 5000.0
+        let thisWeekCalories = 1000.0
+        let thisWeekData = generateData(for: calendar.dateInterval(of: .weekOfYear, for: currentDate)!, weight: thisWeekWeight, steps: thisWeekSteps, calories: thisWeekCalories)
         
-        return thisWeek + lastWeek + thisMonth + lastMonth
+        let previousWeekWeight = 80.0
+        let previousWeekSteps = 15000.0
+        let previousWeekCalories = 2000.0
+        let previousWeekData = generateData(for: calendar.dateInterval(of: .weekOfYear, for: currentDate.addingTimeInterval(-7 * 24 * 60 * 60))!, weight: previousWeekWeight, steps: previousWeekSteps, calories: previousWeekCalories)
+        
+        let allData = thisWeekData + previousWeekData
+        return allData
     }
     
-    func generateData(for dateInterval: DateInterval) -> [StatisticDataObject] {
+    func getAllStatistic() -> [StatisticDataObject] {
+         return mockStatisticData
+    }
+
+    func generateData(for dateInterval: DateInterval, weight: Double, steps: Double, calories: Double) -> [StatisticDataObject] {
         let startDate = dateInterval.start
         var currentDate = startDate
         var data: [StatisticDataObject] = []
         
-        let weights: [Double] = [75.0, 80.0, 85.0]
-        let steps: [Double] = [10000.0, 15000.0, 20000.0]
-        let calories: [Double] = [1500.0, 2000.0, 2500.0]
-        
-        var weightIndex = 0
-        var stepsIndex = 0
-        var caloriesIndex = 0
-        
-        while currentDate <= dateInterval.end {
-            let id = UUID().uuidString
-            let weight = weights[weightIndex % weights.count]
-            let stepsValue = steps[stepsIndex % steps.count]
-            let caloriesValue = calories[caloriesIndex % calories.count]
-            
-            let statisticData = StatisticDataObject(id: id, weight: weight, steps: stepsValue, calories: caloriesValue, date: currentDate)
+        while currentDate < dateInterval.end {
+            let id = currentDate.formattedString()
+            let statisticData = StatisticDataObject(id: id, weight: weight, steps: steps, calories: calories, date: currentDate)
             data.append(statisticData)
-            
-            weightIndex += 1
-            stepsIndex += 1
-            caloriesIndex += 1
             
             currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
         }
@@ -56,10 +55,11 @@ class MockDataService: DataServiceProtocol {
         return data
     }
     
+    
     func getStatisticForDate(date: Date) -> StatisticDataObject? {
-           let currentDate = Calendar.current.startOfDay(for: date)
-           let data = generateData(for: DateInterval(start: currentDate, end: currentDate))
-           return data.first
+        let result = mockStatisticData.filter {$0.id ==  date.formattedString()}
+            
+        return result.first
     }
     
     func saveStatistic(type: Statistic, value: Double, date: Date)  -> AnyPublisher<Void, Never> {

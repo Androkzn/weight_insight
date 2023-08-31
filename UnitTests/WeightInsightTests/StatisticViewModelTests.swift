@@ -9,11 +9,13 @@ import XCTest
 @testable import WeightInsight
 
 final class StatisticViewModelTests: XCTestCase {
-
+    var mockDataService = MockDataService()
     var viewModel: StatisticsView.ViewModel!
+    var mainViewModel: MainView.ViewModel!
+ 
 
     override func setUpWithError() throws {
-        viewModel = StatisticsView.ViewModel()
+        viewModel = StatisticsView.ViewModel(dataService: mockDataService, mainViewModel: mainViewModel)
     }
 
     override func tearDownWithError() throws {
